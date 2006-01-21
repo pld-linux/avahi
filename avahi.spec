@@ -264,6 +264,12 @@ install %{SOURCE1} %{SOURCE2} $RPM_BUILD_ROOT/etc/rc.d/init.d
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%if 0
+%pre
+%groupadd -g x -r -f avahi
+%useradd -u x -r -d /usr/share/empty -s /bin/false -c "Avahi daemon" -g avahi avahi
+%endif
+
 %post
 /sbin/chkconfig --add %{name}-daemon
 %service %{name}-daemon restart
@@ -277,6 +283,14 @@ if [ "$1" = "0" ]; then
 	%service -q %{name}-daemon stop
 	/sbin/chkconfig --del %{name}-daemon
 fi
+
+%if 0
+%postun                                                                                         
+if [ "$1" = "0" ]; then                                                                         
+        %userremove avahi
+	%groupremove avahi
+fi
+%endif
 
 %post	libs -p /sbin/ldconfig
 %postun	libs -p /sbin/ldconfig
