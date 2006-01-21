@@ -11,6 +11,8 @@ License:	GPL v.2/LGPL
 Group:		Applications
 Source0:	http://avahi.org/download/%{name}-%{version}.tar.gz
 # Source0-md5:	12eb941043f26f82c51e99821ac52c44
+Source1:	%{name}-daemon
+Source2:	%{name}-dnsconfd
 URL:		http://avahi.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -249,28 +251,32 @@ Narzêdzia linii poleceñ korzystaj±ce z avahi-client.
 
 %install
 rm -rf $RPM_BUILD_ROOT
+install -d $RPM_BUILD_ROOT/etc/rc.d/init.d
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT \
 	pythondir=%{py_sitedir}
-	
+
+install %{SOURCE1} %{SOURCE2} $RPM_BUILD_ROOT/etc/rc.d/init.d
+
 #rm -f $RPM_BUILD_ROOT%{py_sitedir}/avahi/*.py
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-# finish init
-%if 0
 %post
-/sbin/chkconfig --add %{name}
-%service %{name} restart
+/sbin/chkconfig --add %{name}-daemon
+%service %{name}-daemon restart
+/sbin/chkconfig --add %{name}-dnsconfd
+%service %{name}-dnsconfd restart
 
 %preun
 if [ "$1" = "0" ]; then
-	%service -q %{name} stop
-	/sbin/chkconfig --del %{name}
+	%service -q %{name}-dnsconfd stop
+	/sbin/chkconfig --del %{name}-dnsconfd
+	%service -q %{name}-daemon stop
+	/sbin/chkconfig --del %{name}-daemon
 fi
-%endif
 
 %post	libs -p /sbin/ldconfig
 %postun	libs -p /sbin/ldconfig
@@ -309,11 +315,8 @@ fi
 
 %{_mandir}/man*/*
 
-# finish init
-%if 0
-%attr(754,root,root) /etc/rc.d/init.d/%{name}
-%config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/%{name}
-%endif
+%attr(754,root,root) /etc/rc.d/init.d/%{name}-daemon
+%attr(754,root,root) /etc/rc.d/init.d/%{name}-dnsconfd
 
 %files libs
 %defattr(644,root,root,755)
