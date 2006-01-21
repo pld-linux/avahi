@@ -67,12 +67,7 @@ case "$1" in
 	fi
 	;;
   force-reload)
-	# if program allows reloading without stopping
 	$0 reload
-
-	# or if it doesn't
-	$0 restart
-
 	exit $?
 	;;
   status)
