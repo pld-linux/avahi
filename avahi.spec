@@ -267,7 +267,6 @@ rm -rf $RPM_BUILD_ROOT
 %pre
 %groupadd -g 165 -r -f avahi
 %useradd -u 165 -r -d /usr/share/empty -s /bin/false -c "Avahi daemon" -g avahi avahi
-%endif
 
 %post
 /sbin/chkconfig --add %{name}-daemon
