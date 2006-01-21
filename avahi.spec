@@ -242,7 +242,6 @@ Narzêdzia linii poleceñ korzystaj±ce z avahi-client.
 %{__autoheader}
 %{__automake}
 %configure \
-	--enable-compat-howl \
 	--with-distro=none \
 	--disable-qt4 \
 	%{!?with_dotnet:--disable-mono} \
