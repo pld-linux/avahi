@@ -33,7 +33,7 @@ case "$1" in
 	# Check if the service is already running?
 	if [ ! -f /var/lock/subsys/avahi-daemon ]; then
 		msg_starting avahi-daemon
-		daemon --user avahi avahi-daemon
+		daemon avahi-daemon -D
 		RETVAL=$?
 		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/avahi-daemon
 	else
