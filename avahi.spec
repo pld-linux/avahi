@@ -13,6 +13,8 @@ Source0:	http://avahi.org/download/%{name}-%{version}.tar.gz
 # Source0-md5:	12eb941043f26f82c51e99821ac52c44
 Source1:	%{name}-daemon
 Source2:	%{name}-dnsconfd
+Source3:	%{name}.png
+Patch1:		%{name}-desktop.patch
 URL:		http://avahi.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -36,18 +38,18 @@ BuildRequires:	qt-devel
 BuildRequires:	rpmbuild(macros) >= 1.228
 Requires(post,preun):	/sbin/chkconfig
 Requires:	%{name}-libs = %{version}-%{release}
-Provides:	group(avahi)                                                                    
+Provides:	group(avahi)
 Provides:	user(avahi)
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-Avahi is an implementation the DNS Service Discovery and Multicast
-DNS specifications for Zeroconf Computing. It uses D-BUS for
-communication between user applications and a system daemon.
+Avahi is an implementation the DNS Service Discovery and Multicast DNS
+specifications for Zeroconf Computing. It uses D-BUS for communication
+between user applications and a system daemon.
 
 %description -l pl
-Avahi jest implementacj± specyfikacji DNS Service Discovery
-i Multicast DNS dla Zeroconf Computing. U¿ywa D-BUSa dla komunikacji
+Avahi jest implementacj± specyfikacji DNS Service Discovery i
+Multicast DNS dla Zeroconf Computing. U¿ywa D-BUSa dla komunikacji
 pomiêdzy programami u¿ytkownika a demonem systemowym.
 
 %package libs
@@ -102,11 +104,12 @@ Wi±zania Avahi dla bibioteki GLib.
 Summary:	Header files for Avahi GLib library bindings
 Summary(pl):	Pliki nag³ówkowe wi±zañ Avahi dla biblioteki GLib
 Group:		Development/Libraries
-Requires:	%{name}-libs = %{version}-%{release}
+Requires:	%{name}-glib = %{version}-%{release}
 Requires:	glib2-devel >= 1:2.4.0
 
 %description glib-devel
-This is the package containing the header files for Avahi-glib library.
+This is the package containing the header files for Avahi-glib
+library.
 
 %description glib-devel -l pl
 Ten pakiet zawiera pliki nag³ówkowe biblioteki Avahi-glib.
@@ -137,7 +140,7 @@ Wi±zania Avahi dla biblioteki Qt 3.
 
 %package qt3-devel
 Summary:	Header files for Avahi Qt 3 library bindings
-Summary(pl):	Pliki nag³ówkowe wi±zañ Avahi dla biblioteki Qt 3 
+Summary(pl):	Pliki nag³ówkowe wi±zañ Avahi dla biblioteki Qt 3
 Group:		Development/Libraries
 Requires:	%{name}-qt3 = %{version}-%{release}
 Requires:	qt-devel
@@ -175,7 +178,7 @@ Wi±zania Avahi dla MONO.
 Summary:	Development files for MONO Avahi bindings
 Summary(pl):	Pliki rozwojowe wi±zañ Avahi dla MONO
 Group:		Development/Libraries
-Requires:	%{name}-libs = %{version}-%{release}
+Requires:	dotnet-avahi = %{version}-%{release}
 
 %description -n dotnet-avahi-devel
 Development files for MONO Avahi bindings.
@@ -186,47 +189,47 @@ Pliki rozwojowe wi±zañ Avahi dla MONO.
 %package bookmarks
 Summary:	Miniature web server
 Summary(pl):	Miniaturowy serwer web
-Group:		Application
+Group:		Applications
 
 %description bookmarks
 A Python based miniature web server that browses for mDNS/DNS-SD
 services of type '_http._tcp' (i.e. web sites) and makes them
-available as HTML links on http://localhost:8080. 
-    
+available as HTML links on http://localhost:8080.
+
 %description bookmarks -l pl
-Napisany w Pythonie miniaturowy serwer web, pozwalaj±cy nap
-przegl±danie us³ug typu '_http._tcp' (np. stron web) i
-udostêpniaj±cy je jako linki HTML na http://localhost:8080.
+Napisany w Pythonie miniaturowy serwer web, pozwalaj±cy na
+przegl±danie us³ug typu '_http._tcp' (np. stron web) i udostêpniaj±cy
+je jako linki HTML na http://localhost:8080.
 
 %package discover
 Summary:	Avahi Zeroconf browser
 Summary(pl):	Przegl±darka Zeroconf Avahi
-Group:		Application
+Group:		Applications
 
 %description discover
-A tool for enumerating all available services on the
-local LAN (python-pygtk implementation).
+A tool for enumerating all available services on the local LAN
+(python-pygtk implementation).
 
 %description discover -l pl
-Narzêdzie wymieniaj±ce wszystkie dostêpne us³ugi w sieci
-lokalnej LAN (implementacja w python-pygtk).
+Narzêdzie wymieniaj±ce wszystkie dostêpne us³ugi w sieci lokalnej LAN
+(implementacja w python-pygtk).
 
 %package discover-standalone
 Summary:	Avahi Zeroconf browser
 Summary(pl):	Przegl±darka Zeroconf Avahi
-Group:		Application
+Group:		Applications
 
 %description discover-standalone
 GTK+ tool for enumerating all available services on the local LAN.
 
 %description discover-standalone -l pl
-Narzêdzie GTK+ wymieniaj±ce wszystkie dostêpne us³ugi w sieci
-lokalnej LAN.
+Narzêdzie GTK+ wymieniaj±ce wszystkie dostêpne us³ugi w sieci lokalnej
+LAN.
 
 %package utils
 Summary:	Avahi CLI utilities
 Summary(pl):	Narzêdzia CLI Avahi
-Group:		Application
+Group:		Applications
 
 %description utils
 Command line utilities using avahi-client.
@@ -252,13 +255,14 @@ Narzêdzia linii poleceñ korzystaj±ce z avahi-client.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT/etc/rc.d/init.d
+install -d $RPM_BUILD_ROOT{%{_pixmapsdir},/etc/rc.d/init.d}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT \
 	pythondir=%{py_sitedir}
 
 install %{SOURCE1} %{SOURCE2} $RPM_BUILD_ROOT/etc/rc.d/init.d
+install %{SOURCE3} $RPM_BUILD_ROOT%{_pixmapsdir}
 
 #rm -f $RPM_BUILD_ROOT%{py_sitedir}/avahi/*.py
 
@@ -283,8 +287,8 @@ if [ "$1" = "0" ]; then
 	/sbin/chkconfig --del %{name}-daemon
 fi
 
-%postun                                                                                         
-if [ "$1" = "0" ]; then                                                                         
+%postun
+if [ "$1" = "0" ]; then
         %userremove avahi
 	%groupremove avahi
 fi
@@ -317,7 +321,7 @@ fi
 %attr(755,root,root) %{_sbindir}/avahi-dnsconfd
 
 %dir %{_datadir}/%{name}
-%dir 
+%dir
 %dir %{_datadir}/%{name}/introspection
 %{_datadir}/%{name}/introspection/*.introspect
 %{_datadir}/%{name}/avahi-service.dtd
@@ -402,6 +406,7 @@ fi
 %{_datadir}/%{name}/interfaces/avahi-discover.glade
 %{py_sitedir}/avahi
 %{_desktopdir}/*.desktop
+%{_pixmapsdir}/avahi.png
 
 %files discover-standalone
 %defattr(644,root,root,755)
