@@ -35,9 +35,9 @@ BuildRequires:	python-pygtk-devel
 BuildRequires:	qt-devel
 BuildRequires:	rpmbuild(macros) >= 1.228
 Requires(post,preun):	/sbin/chkconfig
-Provides:       group(avahi)                                                                    
-Provides:       user(avahi)
 Requires:	%{name}-libs = %{version}-%{release}
+Provides:	group(avahi)                                                                    
+Provides:	user(avahi)
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
