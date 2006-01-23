@@ -104,6 +104,7 @@ Wi±zania Avahi dla bibioteki GLib.
 Summary:	Header files for Avahi GLib library bindings
 Summary(pl):	Pliki nag³ówkowe wi±zañ Avahi dla biblioteki GLib
 Group:		Development/Libraries
+Requires:	%{name}-devel = %{version}-%{release}
 Requires:	%{name}-glib = %{version}-%{release}
 Requires:	glib2-devel >= 1:2.4.0
 
@@ -142,6 +143,7 @@ Wi±zania Avahi dla biblioteki Qt 3.
 Summary:	Header files for Avahi Qt 3 library bindings
 Summary(pl):	Pliki nag³ówkowe wi±zañ Avahi dla biblioteki Qt 3
 Group:		Development/Libraries
+Requires:	%{name}-devel = %{version}-%{release}
 Requires:	%{name}-qt3 = %{version}-%{release}
 Requires:	qt-devel
 
