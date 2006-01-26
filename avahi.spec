@@ -5,16 +5,17 @@
 Summary:	Free mDNS/DNS-SD implementation
 Summary(pl):	Wolna implementacja mDNS/DNS-SD
 Name:		avahi
-Version:	0.6.4
-Release:	0.1
+Version:	0.6.5
+Release:	1
 License:	GPL v.2/LGPL
 Group:		Applications
 Source0:	http://avahi.org/download/%{name}-%{version}.tar.gz
-# Source0-md5:	12eb941043f26f82c51e99821ac52c44
+# Source0-md5:	1ecbc3534e3b45cf15269a3f4cfe1dca
 Source1:	%{name}-daemon
 Source2:	%{name}-dnsconfd
 Source3:	%{name}.png
-Patch1:		%{name}-desktop.patch
+Patch0:		%{name}-desktop.patch
+Patch1:		%{name}-glade.patch
 URL:		http://avahi.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -37,6 +38,7 @@ BuildRequires:	python-pygtk-devel
 BuildRequires:	qt-devel
 BuildRequires:	rpmbuild(macros) >= 1.228
 Requires(post,preun):	/sbin/chkconfig
+Requires:	dbus >= 0.60-2
 Requires:	%{name}-libs = %{version}-%{release}
 Provides:	group(avahi)
 Provides:	user(avahi)
@@ -241,6 +243,8 @@ Narzêdzia linii poleceñ korzystaj±ce z avahi-client.
 
 %prep
 %setup -q
+%patch0 -p1
+%patch1 -p1
 
 %build
 %{__libtoolize}
@@ -266,7 +270,7 @@ install -d $RPM_BUILD_ROOT{%{_pixmapsdir},/etc/rc.d/init.d}
 install %{SOURCE1} %{SOURCE2} $RPM_BUILD_ROOT/etc/rc.d/init.d
 install %{SOURCE3} $RPM_BUILD_ROOT%{_pixmapsdir}
 
-#rm -f $RPM_BUILD_ROOT%{py_sitedir}/avahi/*.py
+rm -f $RPM_BUILD_ROOT%{py_sitedir}/avahi/{__init__,SimpleGladeApp}.py
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -413,6 +417,7 @@ fi
 %files discover-standalone
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/avahi-discover-standalone
+%{_datadir}/%{name}/interfaces/avahi-discover-standalone.glade
 
 %files utils
 %defattr(644,root,root,755)
