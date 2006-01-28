@@ -183,6 +183,7 @@ Summary:	Development files for MONO Avahi bindings
 Summary(pl):	Pliki rozwojowe wi±zañ Avahi dla MONO
 Group:		Development/Libraries
 Requires:	dotnet-avahi = %{version}-%{release}
+Requires:	monodoc
 
 %description -n dotnet-avahi-devel
 Development files for MONO Avahi bindings.
@@ -366,11 +367,16 @@ fi
 %{_libdir}/libavahi-common.a
 %{_libdir}/libavahi-core.a
 
-#%files -n dotnet-avahi
-#%defattr(644,root,root,755)
+%if %{with dotnet}
+%files -n dotnet-avahi
+%defattr(644,root,root,755)
+%{_prefix}/lib/mono/gac/avahi-sharp
 
-#%files -n dotnet-avahi-devel
-#%defattr(644,root,root,755)
+%files -n dotnet-avahi-devel
+%defattr(644,root,root,755)
+%{_prefix}/lib/monodoc/sources/avahi-*
+%{_pkgconfigdir}/*.pc
+%endif
 
 %files glib
 %defattr(644,root,root,755)
