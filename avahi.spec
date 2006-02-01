@@ -91,6 +91,40 @@ Static Avahi library.
 %description static -l pl
 Statyczna biblioteka Avahi.
 
+%package compat-libdns_sd
+Summary:	Avahi Bonjour compat library
+Summary(pl):	Biblioteka Avahi zgodna z Bonjour
+Group:		Libraries
+
+%description compat-libdns_sd
+Avahi Bonjour compat library.
+
+%description compat-libdns_sd -l pl
+Biblioteka Avahi zgodna z Bonjour.
+
+%package compat-libdns_sd-devel
+Summary:	Header files for Avahi Bonjour compat library
+Summary(pl):	Pliki nag³ówkowe wi±zañ Avahi dla biblioteki zgodnej z Bonjour
+Group:		Development/Libraries
+
+%description compat-libdns_sd-devel
+Header files for Avahi Bonjour compat library.
+
+%description compat-libdns_sd-devel -l pl
+Pliki nag³ówkowe wi±zañ Avahi dla biblioteki zgodnej z Bonjour
+
+%package compat-libdns_sd-static
+Summary:	Static Avahi Bonjour compat library
+Summary(pl):	Statyczna biblioteka Avahi zgodna Bonjour
+Group:		Development/Libraries
+Requires:	%{name}-libdns_sd-devel = %{version}-%{release}
+
+%description compat-libdns_sd-static
+Static Avahi Bonjour compat library
+
+%description compat-libdns_sd-static -l pl
+Statyczna biblioteka Avahi zgodna Bonjour
+
 %package glib
 Summary:	Avahi GLib library bindings
 Summary(pl):	Wi±zania Avahi dla bibioteki GLib
@@ -254,6 +288,7 @@ Narzêdzia linii poleceñ korzystaj±ce z avahi-client.
 %{__autoheader}
 %{__automake}
 %configure \
+	--enable-compat-libdns_sd \
 	--with-distro=none \
 	--disable-qt4 \
 	%{!?with_dotnet:--disable-mono} \
@@ -302,6 +337,9 @@ fi
 
 %post	libs -p /sbin/ldconfig
 %postun	libs -p /sbin/ldconfig
+
+%post	compat-libdns_sd -p /sbin/ldconfig
+%postun	compat-libdns_sd -p /sbin/ldconfig
 
 %post	glib -p /sbin/ldconfig
 %postun	glib -p /sbin/ldconfig
@@ -366,6 +404,21 @@ fi
 %{_libdir}/libavahi-client.a
 %{_libdir}/libavahi-common.a
 %{_libdir}/libavahi-core.a
+
+%files compat-libdns_sd
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libdns_sd.so.*.*.*
+
+%files compat-libdns_sd-devel
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libdns_sd.so
+%{_libdir}/libdns_sd.la
+%{_includedir}/avahi-compat-libdns_sd
+%{_pkgconfigdir}/avahi-compat-libdns_sd.pc
+
+%files compat-libdns_sd-static
+%defattr(644,root,root,755)
+%{_libdir}/libdns_sd.a
 
 %if %{with dotnet}
 %files -n dotnet-avahi
