@@ -95,7 +95,6 @@ Statyczna biblioteka Avahi.
 Summary:	Avahi Bonjour compat library
 Summary(pl):	Biblioteka Avahi zgodna z Bonjour
 Group:		Libraries
-Requires:	%{name}-compat-libdns_sd = %{version}-%{release}
 
 %description compat-libdns_sd
 Avahi Bonjour compat library.
@@ -107,6 +106,7 @@ Biblioteka Avahi zgodna z Bonjour.
 Summary:	Header files for Avahi Bonjour compat library
 Summary(pl):	Pliki nag³ówkowe wi±zañ Avahi dla biblioteki zgodnej z Bonjour
 Group:		Development/Libraries
+Requires:	%{name}-compat-libdns_sd = %{version}-%{release}
 
 %description compat-libdns_sd-devel
 Header files for Avahi Bonjour compat library.
