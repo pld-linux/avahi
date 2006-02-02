@@ -112,19 +112,19 @@ Requires:	%{name}-compat-libdns_sd = %{version}-%{release}
 Header files for Avahi Bonjour compat library.
 
 %description compat-libdns_sd-devel -l pl
-Pliki nag³ówkowe wi±zañ Avahi dla biblioteki zgodnej z Bonjour
+Pliki nag³ówkowe wi±zañ Avahi dla biblioteki zgodnej z Bonjour.
 
 %package compat-libdns_sd-static
 Summary:	Static Avahi Bonjour compat library
-Summary(pl):	Statyczna biblioteka Avahi zgodna Bonjour
+Summary(pl):	Statyczna biblioteka Avahi zgodna z Bonjour
 Group:		Development/Libraries
 Requires:	%{name}-libdns_sd-devel = %{version}-%{release}
 
 %description compat-libdns_sd-static
-Static Avahi Bonjour compat library
+Static Avahi Bonjour compat library.
 
 %description compat-libdns_sd-static -l pl
-Statyczna biblioteka Avahi zgodna Bonjour
+Statyczna biblioteka Avahi zgodna z Bonjour.
 
 %package glib
 Summary:	Avahi GLib library bindings
