@@ -5,12 +5,12 @@
 Summary:	Free mDNS/DNS-SD implementation
 Summary(pl):	Wolna implementacja mDNS/DNS-SD
 Name:		avahi
-Version:	0.6.5
+Version:	0.6.6
 Release:	1
 License:	GPL v.2/LGPL
 Group:		Applications
 Source0:	http://avahi.org/download/%{name}-%{version}.tar.gz
-# Source0-md5:	1ecbc3534e3b45cf15269a3f4cfe1dca
+# Source0-md5:	c7fd8c4a4c3715fa7f9cc2f939ef122d
 Source1:	%{name}-daemon
 Source2:	%{name}-dnsconfd
 Source3:	%{name}.png
@@ -307,6 +307,9 @@ install -d $RPM_BUILD_ROOT{%{_pixmapsdir},/etc/rc.d/init.d}
 install %{SOURCE1} %{SOURCE2} $RPM_BUILD_ROOT/etc/rc.d/init.d
 install %{SOURCE3} $RPM_BUILD_ROOT%{_pixmapsdir}
 
+ln -sf %{_includedir}/avahi-compat-libdns_sd/dns_sd.h \
+	$RPM_BUILD_ROOT%{_includedir}/dns_sd.h
+
 rm -f $RPM_BUILD_ROOT%{py_sitedir}/avahi/{__init__,SimpleGladeApp}.py
 
 %clean
@@ -367,7 +370,6 @@ fi
 %attr(755,root,root) %{_sbindir}/avahi-dnsconfd
 
 %dir %{_datadir}/%{name}
-%dir
 %dir %{_datadir}/%{name}/introspection
 %{_datadir}/%{name}/introspection/*.introspect
 %{_datadir}/%{name}/avahi-service.dtd
@@ -415,6 +417,7 @@ fi
 %attr(755,root,root) %{_libdir}/libdns_sd.so
 %{_libdir}/libdns_sd.la
 %{_includedir}/avahi-compat-libdns_sd
+%{_includedir}/dns_sd.h
 %{_pkgconfigdir}/avahi-compat-libdns_sd.pc
 
 %files compat-libdns_sd-static
