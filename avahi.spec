@@ -5,12 +5,12 @@
 Summary:	Free mDNS/DNS-SD implementation
 Summary(pl):	Wolna implementacja mDNS/DNS-SD
 Name:		avahi
-Version:	0.6.6
+Version:	0.6.7
 Release:	1
 License:	GPL v.2/LGPL
 Group:		Applications
 Source0:	http://avahi.org/download/%{name}-%{version}.tar.gz
-# Source0-md5:	c7fd8c4a4c3715fa7f9cc2f939ef122d
+# Source0-md5:	4cfb24b5c9063180f9eee2ef30beac53
 Source1:	%{name}-daemon
 Source2:	%{name}-dnsconfd
 Source3:	%{name}.png
@@ -359,6 +359,7 @@ fi
 %dir %{_sysconfdir}/avahi/services
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/avahi/avahi-daemon.conf
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/avahi/avahi-dnsconfd.action
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/avahi/hosts
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/avahi/services/ssh.service
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/dbus-1/system.d/*
 
