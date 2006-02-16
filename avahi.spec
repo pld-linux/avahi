@@ -131,6 +131,7 @@ Summary:	Avahi Howl compat library
 Summary(pl):	Biblioteka Avahi zgodna z Howl
 Group:		Libraries
 Obsoletes:	howl-libs
+Provides:	mdns-howl-libs
 
 %description compat-howl
 Avahi Howl compat library.
@@ -144,6 +145,7 @@ Summary(pl):	Pliki nag³ówkowe wi±zañ Avahi dla biblioteki zgodnej z Howl
 Group:		Development/Libraries
 Requires:	%{name}-compat-howl = %{version}-%{release}
 Obsoletes:	howl-devel
+Provides:	mdns-howl-devel
 
 %description compat-howl-devel
 Header files for Avahi Howl compat library.
@@ -157,6 +159,7 @@ Summary(pl):	Statyczna biblioteka Avahi zgodna z Howl
 Group:		Development/Libraries
 Requires:	%{name}-howl-devel = %{version}-%{release}
 Obsoletes:	howl-static
+Provides:	mdns-howl-static
 
 %description compat-howl-static
 Static Avahi Howl compat library.
