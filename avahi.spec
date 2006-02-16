@@ -6,7 +6,7 @@ Summary:	Free mDNS/DNS-SD implementation
 Summary(pl):	Wolna implementacja mDNS/DNS-SD
 Name:		avahi
 Version:	0.6.7
-Release:	1
+Release:	2
 License:	GPL v.2/LGPL
 Group:		Applications
 Source0:	http://avahi.org/download/%{name}-%{version}.tar.gz
@@ -125,6 +125,44 @@ Static Avahi Bonjour compat library.
 
 %description compat-libdns_sd-static -l pl
 Statyczna biblioteka Avahi zgodna z Bonjour.
+
+%package compat-howl
+Summary:	Avahi Howl compat library
+Summary(pl):	Biblioteka Avahi zgodna z Howl
+Group:		Libraries
+Obsoletes:	howl-libs
+
+%description compat-howl
+Avahi Howl compat library.
+
+%description compat-howl -l pl
+Biblioteka Avahi zgodna z Howl.
+
+%package compat-howl-devel
+Summary:	Header files for Avahi Howl compat library
+Summary(pl):	Pliki nag³ówkowe wi±zañ Avahi dla biblioteki zgodnej z Howl
+Group:		Development/Libraries
+Requires:	%{name}-compat-howl = %{version}-%{release}
+Obsoletes:	howl-devel
+
+%description compat-howl-devel
+Header files for Avahi Howl compat library.
+
+%description compat-howl-devel -l pl
+Pliki nag³ówkowe wi±zañ Avahi dla biblioteki zgodnej z Howl.
+
+%package compat-howl-static
+Summary:	Static Avahi Howl compat library
+Summary(pl):	Statyczna biblioteka Avahi zgodna z Howl
+Group:		Development/Libraries
+Requires:	%{name}-howl-devel = %{version}-%{release}
+Obsoletes:	howl-static
+
+%description compat-howl-static
+Static Avahi Howl compat library.
+
+%description compat-howl-static -l pl
+Statyczna biblioteka Avahi zgodna z Howl.
 
 %package glib
 Summary:	Avahi GLib library bindings
@@ -290,6 +328,7 @@ Narzêdzia linii poleceñ korzystaj±ce z avahi-client.
 %{__automake}
 %configure \
 	--enable-compat-libdns_sd \
+	--enable-compat-howl \
 	--with-distro=none \
 	--disable-qt4 \
 	%{!?with_dotnet:--disable-mono} \
@@ -309,6 +348,9 @@ install %{SOURCE3} $RPM_BUILD_ROOT%{_pixmapsdir}
 
 ln -sf %{_includedir}/avahi-compat-libdns_sd/dns_sd.h \
 	$RPM_BUILD_ROOT%{_includedir}/dns_sd.h
+
+ln -sf %{_pkgconfigdir}/avahi-compat-howl.pc \
+	$RPM_BUILD_ROOT%{_pkgconfigdir}/howl.pc
 
 rm -f $RPM_BUILD_ROOT%{py_sitedir}/avahi/{__init__,SimpleGladeApp}.py
 
@@ -344,6 +386,9 @@ fi
 
 %post	compat-libdns_sd -p /sbin/ldconfig
 %postun	compat-libdns_sd -p /sbin/ldconfig
+
+%post	compat-howl -p /sbin/ldconfig
+%postun	compat-howl -p /sbin/ldconfig
 
 %post	glib -p /sbin/ldconfig
 %postun	glib -p /sbin/ldconfig
@@ -424,6 +469,22 @@ fi
 %files compat-libdns_sd-static
 %defattr(644,root,root,755)
 %{_libdir}/libdns_sd.a
+
+%files compat-howl
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libhowl.so.*.*.*
+
+%files compat-howl-devel
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libhowl.so
+%{_libdir}/libhowl.la
+%{_includedir}/avahi-compat-howl
+%{_pkgconfigdir}/avahi-compat-howl.pc
+%{_pkgconfigdir}/howl.pc
+
+%files compat-howl-static
+%defattr(644,root,root,755)
+%{_libdir}/libhowl.a
 
 %if %{with dotnet}
 %files -n dotnet-avahi
