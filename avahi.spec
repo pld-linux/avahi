@@ -35,7 +35,7 @@ BuildRequires:	monodoc
 %endif
 BuildRequires:	python-dbus
 BuildRequires:	python-pygtk-devel
-BuildRequires:	qt-devel
+BuildRequires:	qt-devel >= 3.0
 BuildRequires:	rpmbuild(macros) >= 1.228
 Requires(post,preun):	/sbin/chkconfig
 Requires:	dbus >= 0.60-2
@@ -130,8 +130,8 @@ Statyczna biblioteka Avahi zgodna z Bonjour.
 Summary:	Avahi Howl compat library
 Summary(pl):	Biblioteka Avahi zgodna z Howl
 Group:		Libraries
-Obsoletes:	howl-libs
 Provides:	mdns-howl-libs
+Obsoletes:	howl-libs
 
 %description compat-howl
 Avahi Howl compat library.
@@ -144,8 +144,8 @@ Summary:	Header files for Avahi Howl compat library
 Summary(pl):	Pliki nag³ówkowe wi±zañ Avahi dla biblioteki zgodnej z Howl
 Group:		Development/Libraries
 Requires:	%{name}-compat-howl = %{version}-%{release}
-Obsoletes:	howl-devel
 Provides:	mdns-howl-devel
+Obsoletes:	howl-devel
 
 %description compat-howl-devel
 Header files for Avahi Howl compat library.
@@ -158,8 +158,8 @@ Summary:	Static Avahi Howl compat library
 Summary(pl):	Statyczna biblioteka Avahi zgodna z Howl
 Group:		Development/Libraries
 Requires:	%{name}-howl-devel = %{version}-%{release}
-Obsoletes:	howl-static
 Provides:	mdns-howl-static
+Obsoletes:	howl-static
 
 %description compat-howl-static
 Static Avahi Howl compat library.
@@ -223,7 +223,7 @@ Summary(pl):	Pliki nag³ówkowe wi±zañ Avahi dla biblioteki Qt 3
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 Requires:	%{name}-qt3 = %{version}-%{release}
-Requires:	qt-devel
+Requires:	qt-devel >= 3.0
 
 %description qt3-devel
 Header files for Avahi Qt 3 library bindings.
@@ -275,12 +275,12 @@ Group:		Applications
 %description bookmarks
 A Python based miniature web server that browses for mDNS/DNS-SD
 services of type '_http._tcp' (i.e. web sites) and makes them
-available as HTML links on http://localhost:8080.
+available as HTML links on http://localhost:8080/.
 
 %description bookmarks -l pl
-Napisany w Pythonie miniaturowy serwer web, pozwalaj±cy na
-przegl±danie us³ug typu '_http._tcp' (np. stron web) i udostêpniaj±cy
-je jako linki HTML na http://localhost:8080.
+Napisany w Pythonie miniaturowy serwer WWW, pozwalaj±cy na
+przegl±danie us³ug typu '_http._tcp' (np. stron WWW) i udostêpniaj±cy
+je jako odno¶niki HTML na http://localhost:8080/.
 
 %package discover
 Summary:	Avahi Zeroconf browser
@@ -537,6 +537,8 @@ fi
 %files discover
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/avahi-discover
+# XXX: possibly missing %{_datadir}/%{name} dir, shared subdir
+%dir %{_datadir}/%{name}/interfaces
 %{_datadir}/%{name}/interfaces/avahi-discover.glade
 %{py_sitedir}/avahi
 %{_desktopdir}/*.desktop
@@ -545,6 +547,8 @@ fi
 %files discover-standalone
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/avahi-discover-standalone
+# XXX: possibly missing %{_datadir}/%{name} dir, shared subdir
+%dir %{_datadir}/%{name}/interfaces
 %{_datadir}/%{name}/interfaces/avahi-discover-standalone.glade
 
 %files utils
