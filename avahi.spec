@@ -5,12 +5,12 @@
 Summary:	Free mDNS/DNS-SD implementation
 Summary(pl):	Wolna implementacja mDNS/DNS-SD
 Name:		avahi
-Version:	0.6.7
-Release:	2
+Version:	0.6.8
+Release:	1
 License:	GPL v.2/LGPL
 Group:		Applications
 Source0:	http://avahi.org/download/%{name}-%{version}.tar.gz
-# Source0-md5:	4cfb24b5c9063180f9eee2ef30beac53
+# Source0-md5:	28ef3c1f15d03f0dc73c9289a434d37c
 Source1:	%{name}-daemon
 Source2:	%{name}-dnsconfd
 Source3:	%{name}.png
@@ -95,6 +95,8 @@ Statyczna biblioteka Avahi.
 Summary:	Avahi Bonjour compat library
 Summary(pl):	Biblioteka Avahi zgodna z Bonjour
 Group:		Libraries
+Provides:	mdns-bonjour
+Obsoletes:	mDNSResponder-libs
 
 %description compat-libdns_sd
 Avahi Bonjour compat library.
@@ -107,6 +109,8 @@ Summary:	Header files for Avahi Bonjour compat library
 Summary(pl):	Pliki nag³ówkowe wi±zañ Avahi dla biblioteki zgodnej z Bonjour
 Group:		Development/Libraries
 Requires:	%{name}-compat-libdns_sd = %{version}-%{release}
+Provides:	mdns-bonjour-devel
+Obsoletes:	mDNSResponder-devel
 
 %description compat-libdns_sd-devel
 Header files for Avahi Bonjour compat library.
@@ -119,6 +123,7 @@ Summary:	Static Avahi Bonjour compat library
 Summary(pl):	Statyczna biblioteka Avahi zgodna z Bonjour
 Group:		Development/Libraries
 Requires:	%{name}-libdns_sd-devel = %{version}-%{release}
+Provides:	mdns-bonjour-static
 
 %description compat-libdns_sd-static
 Static Avahi Bonjour compat library.
