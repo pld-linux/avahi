@@ -1,6 +1,7 @@
 #
 # Conditional build:
 %bcond_with	dotnet		# build with dotnet bindings
+%bcond_without	qt		# build with qt bindings
 #
 Summary:	Free mDNS/DNS-SD implementation
 Summary(pl):	Wolna implementacja mDNS/DNS-SD
@@ -35,7 +36,9 @@ BuildRequires:	monodoc
 %endif
 BuildRequires:	python-dbus
 BuildRequires:	python-pygtk-devel
+%if %{with qt}
 BuildRequires:	qt-devel >= 3.0
+%endif
 BuildRequires:	rpmbuild(macros) >= 1.228
 Requires(post,preun):	/sbin/chkconfig
 Requires:	dbus >= 0.60-2
@@ -339,6 +342,7 @@ Narzêdzia linii poleceñ korzystaj±ce z avahi-client.
 	--enable-compat-howl \
 	--with-distro=none \
 	--disable-qt4 \
+	%{!?with_qt:--disable-qt3} \
 	%{!?with_dotnet:--disable-mono} \
 	%{!?with_dotnet:--disable-monodoc}
 %{__make}
@@ -520,6 +524,7 @@ fi
 %defattr(644,root,root,755)
 %{_libdir}/libavahi-glib.a
 
+%if %{with qt}
 %files qt3
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libavahi-qt3.so.*.*.*
@@ -534,6 +539,7 @@ fi
 %files qt3-static
 %defattr(644,root,root,755)
 %{_libdir}/libavahi-qt3.a
+%endif
 
 %files bookmarks
 %defattr(644,root,root,755)
