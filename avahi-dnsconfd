@@ -2,7 +2,7 @@
 #
 # avahi-dnsconfd:	Starts the Avahi dns configuration daemon
 #
-# chkconfig:		345 35 66
+# chkconfig:		345 34 66
 #
 # description:	avahi-dnsconfd connects to a running avahi-daemon and runs the script \
 #		/etc/avahi/dnsconf.action for each unicast DNS server that is announced \
@@ -83,4 +83,4 @@ esac
 exit $RETVAL
 
 # This must be last line !
-# vi:syntax=sh:tw=78:ts=8:sw=4
+# vi:syntax=sh:tw=78:ts=4:sw=4
