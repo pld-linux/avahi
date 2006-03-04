@@ -44,8 +44,9 @@ case "$1" in
 	if [ -f /var/lock/subsys/avahi-daemon ]; then
 		# Stop daemons.
 		msg_stopping avahi-daemon
-		killproc avahi-daemon
+		avahi-daemon -k
 		rm -f /var/lock/subsys/avahi-daemon
+		ok
 	else
 		msg_not_running avahi-daemon
 	fi
@@ -58,7 +59,7 @@ case "$1" in
   reload)
 	if [ -f /var/lock/subsys/avahi-daemon ]; then
 		msg_reloading avahi-daemon
-		killproc avahi-daemon -HUP
+		avahi-daemon -r
 		RETVAL=$?
 	else
 		msg_not_running avahi-daemon >&2
