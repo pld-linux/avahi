@@ -1,13 +1,16 @@
+# $Revision: 1.25 $, x$Date: 2006-03-19 18:41:47 $
 #
 # Conditional build:
-%bcond_with	dotnet		# build with dotnet bindings
+%bcond_without	dotnet		# build with dotnet bindings
 %bcond_without	qt		# build with qt bindings
+#
+%include /usr/lib/rpm/macros.mono
 #
 Summary:	Free mDNS/DNS-SD implementation
 Summary(pl):	Wolna implementacja mDNS/DNS-SD
 Name:		avahi
 Version:	0.6.9
-Release:	1
+Release:	2
 License:	GPL v.2/LGPL
 Group:		Applications
 Source0:	http://avahi.org/download/%{name}-%{version}.tar.gz
