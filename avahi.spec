@@ -28,6 +28,7 @@ BuildRequires:	doxygen
 BuildRequires:	expat-devel
 BuildRequires:	gdbm-devel
 BuildRequires:	glib2-devel >= 1:2.4.0
+BuildRequires:	glitz-devel
 BuildRequires:	graphviz
 BuildRequires:	gtk+2-devel >= 2:2.4.0
 BuildRequires:	libdaemon-devel >= 0.5
