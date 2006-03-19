@@ -9,7 +9,7 @@ Summary:	Free mDNS/DNS-SD implementation
 Summary(pl):	Wolna implementacja mDNS/DNS-SD
 Name:		avahi
 Version:	0.6.9
-Release:	3
+Release:	3.1
 License:	GPL v.2/LGPL
 Group:		Applications
 Source0:	http://avahi.org/download/%{name}-%{version}.tar.gz
@@ -31,7 +31,7 @@ BuildRequires:	glib2-devel >= 1:2.4.0
 BuildRequires:	graphviz
 BuildRequires:	gtk+2-devel >= 2:2.4.0
 BuildRequires:	libdaemon-devel >= 0.5
-BuildRequires:	libglade2-devel >= 2.4.0
+BuildRequires:	libglade2-devel >= 1:2.5.1-5
 BuildRequires:	libtool
 %if %{with dotnet}
 BuildRequires:	mono-csharp
@@ -42,7 +42,9 @@ BuildRequires:	python-dbus
 BuildRequires:	python-libxml2
 BuildRequires:	python-pygtk-devel
 %if %{with qt}
+BuildRequires:	QtCore-devel
 BuildRequires:	qt-devel >= 3.0
+BuildRequires:	qt4-build
 %endif
 BuildRequires:	rpmbuild(macros) >= 1.228
 Requires(post,preun):	/sbin/chkconfig
@@ -218,43 +220,83 @@ Static Avahi GLib library.
 %description glib-static -l pl
 Statyczna biblioteka Avahi GLib.
 
-%package qt3
+%package qt
 Summary:	Avahi Qt 3 library bindings
 Summary(pl):	Wi±zania Avahi dla biblioteki Qt 3
 Group:		Libraries
 Requires:	%{name}-libs = %{version}-%{release}
+Obsoletes:	avahi-qt3
 
-%description qt3
+%description qt
 Avahi Qt 3 library bindings.
 
-%description qt3 -l pl
+%description qt -l pl
 Wi±zania Avahi dla biblioteki Qt 3.
 
-%package qt3-devel
+%package qt-devel
 Summary:	Header files for Avahi Qt 3 library bindings
 Summary(pl):	Pliki nag³ówkowe wi±zañ Avahi dla biblioteki Qt 3
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
-Requires:	%{name}-qt3 = %{version}-%{release}
+Requires:	%{name}-qt = %{version}-%{release}
 Requires:	qt-devel >= 3.0
+Obsoletes:	avahi-qt3-devel
 
-%description qt3-devel
+%description qt-devel
 Header files for Avahi Qt 3 library bindings.
 
-%description qt3-devel -l pl
+%description qt-devel -l pl
 Pliki nag³ówkowe wi±zañ Avahi dla biblioteki Qt 3.
 
-%package qt3-static
+%package qt-static
 Summary:	Static Avahi Qt 3 library
 Summary(pl):	Statyczna biblioteka Avahi Qt 3
 Group:		Development/Libraries
 Requires:	%{name}-qt3-devel = %{version}-%{release}
+Obsoletes:	avahi-qt3-static
 
-%description qt3-static
+%description qt-static
 Static Avahi Qt 3 library.
 
-%description qt3-static -l pl
+%description qt-static -l pl
 Statyczna biblioteka Avahi Qt 3.
+
+%package Qt
+Summary:	Avahi Qt 4 library bindings
+Summary(pl):	Wi±zania Avahi dla biblioteki Qt 4
+Group:		Libraries
+Requires:	%{name}-libs = %{version}-%{release}
+
+%description Qt
+Avahi Qt 4 library bindings.
+
+%description Qt -l pl
+Wi±zania Avahi dla biblioteki Qt 4.
+
+%package Qt-devel
+Summary:	Header files for Avahi Qt 3 library bindings
+Summary(pl):	Pliki nag³ówkowe wi±zañ Avahi dla biblioteki Qt 3
+Group:		Development/Libraries
+Requires:	%{name}-devel = %{version}-%{release}
+Requires:	%{name}-Qt = %{version}-%{release}
+
+%description Qt-devel
+Header files for Avahi Qt 4 library bindings.
+
+%description Qt-devel -l pl
+Pliki nag³ówkowe wi±zañ Avahi dla biblioteki Qt 4.
+
+%package Qt-static
+Summary:	Static Avahi Qt 4 library
+Summary(pl):	Statyczna biblioteka Avahi Qt 4
+Group:		Development/Libraries
+Requires:	%{name}-Qt-devel = %{version}-%{release}
+
+%description Qt-static
+Static Avahi Qt 4 library.
+
+%description Qt-static -l pl
+Statyczna biblioteka Avahi Qt 4.
 
 %package -n dotnet-avahi
 Summary:	Avahi MONO bindings
@@ -347,8 +389,7 @@ Narzêdzia linii poleceñ korzystaj±ce z avahi-client.
 	--enable-compat-libdns_sd \
 	--enable-compat-howl \
 	--with-distro=none \
-	--disable-qt4 \
-	%{!?with_qt:--disable-qt3} \
+	%{!?with_qt:--disable-qt3 --disable-qt4} \
 	%{!?with_dotnet:--disable-mono} \
 	%{!?with_dotnet:--disable-monodoc}
 %{__make}
@@ -411,8 +452,11 @@ fi
 %post	glib -p /sbin/ldconfig
 %postun	glib -p /sbin/ldconfig
 
-%post	qt3 -p /sbin/ldconfig
-%postun	qt3 -p /sbin/ldconfig
+%post	qt -p /sbin/ldconfig
+%postun	qt -p /sbin/ldconfig
+
+%post	Qt -p /sbin/ldconfig
+%postun	Qt -p /sbin/ldconfig
 
 %files
 %defattr(644,root,root,755)
@@ -531,20 +575,35 @@ fi
 %{_libdir}/libavahi-glib.a
 
 %if %{with qt}
-%files qt3
+%files qt
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libavahi-qt3.so.*.*.*
 
-%files qt3-devel
+%files qt-devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libavahi-qt3.so
 %{_libdir}/libavahi-qt3.la
 %{_includedir}/avahi-qt3
 %{_pkgconfigdir}/avahi-qt3.pc
 
-%files qt3-static
+%files qt-static
 %defattr(644,root,root,755)
 %{_libdir}/libavahi-qt3.a
+
+%files Qt
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libavahi-qt4.so.*.*.*
+
+%files Qt-devel
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libavahi-qt4.so
+%{_libdir}/libavahi-qt4.la
+%{_includedir}/avahi-qt4
+%{_pkgconfigdir}/avahi-qt4.pc
+
+%files Qt-static
+%defattr(644,root,root,755)
+%{_libdir}/libavahi-qt4.a
 %endif
 
 %files bookmarks
