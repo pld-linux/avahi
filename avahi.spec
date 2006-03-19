@@ -9,7 +9,7 @@ Summary:	Free mDNS/DNS-SD implementation
 Summary(pl):	Wolna implementacja mDNS/DNS-SD
 Name:		avahi
 Version:	0.6.9
-Release:	2
+Release:	3
 License:	GPL v.2/LGPL
 Group:		Applications
 Source0:	http://avahi.org/download/%{name}-%{version}.tar.gz
@@ -19,6 +19,7 @@ Source2:	%{name}-dnsconfd
 Source3:	%{name}.png
 Patch0:		%{name}-desktop.patch
 Patch1:		%{name}-glade.patch
+Patch2:		%{name}-destdir.patch
 URL:		http://avahi.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -127,7 +128,7 @@ Pliki nag³ówkowe wi±zañ Avahi dla biblioteki zgodnej z Bonjour.
 Summary:	Static Avahi Bonjour compat library
 Summary(pl):	Statyczna biblioteka Avahi zgodna z Bonjour
 Group:		Development/Libraries
-Requires:	%{name}-libdns_sd-devel = %{version}-%{release}
+Requires:	%{name}-compat-libdns_sd-devel = %{version}-%{release}
 Provides:	mdns-bonjour-static
 
 %description compat-libdns_sd-static
@@ -167,7 +168,7 @@ Pliki nag³ówkowe wi±zañ Avahi dla biblioteki zgodnej z Howl.
 Summary:	Static Avahi Howl compat library
 Summary(pl):	Statyczna biblioteka Avahi zgodna z Howl
 Group:		Development/Libraries
-Requires:	%{name}-howl-devel = %{version}-%{release}
+Requires:	%{name}-compat-howl-devel = %{version}-%{release}
 Provides:	mdns-howl-static
 Obsoletes:	howl-static
 
@@ -332,6 +333,7 @@ Narzêdzia linii poleceñ korzystaj±ce z avahi-client.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 %{__libtoolize}
