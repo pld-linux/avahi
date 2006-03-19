@@ -1,4 +1,3 @@
-# $Revision: 1.25 $, x$Date: 2006-03-19 18:41:47 $
 #
 # Conditional build:
 %bcond_without	dotnet		# build with dotnet bindings
