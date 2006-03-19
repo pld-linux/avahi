@@ -1,7 +1,4 @@
 #
-# TODO:
-# - after Qt(4) bindings are added, rename qt3 to qt
-#
 # Conditional build:
 %bcond_without	dotnet		# build with dotnet bindings
 %bcond_without	qt		# build with qt bindings
