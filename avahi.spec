@@ -511,7 +511,7 @@ fi
 
 %files -n dotnet-avahi-devel
 %defattr(644,root,root,755)
-%{_prefix}/lib/monodoc/sources/avahi-*
+%{_libdir}/monodoc/sources/avahi-*
 %{_pkgconfigdir}/*.pc
 %endif
 
