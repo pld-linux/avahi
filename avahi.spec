@@ -9,7 +9,7 @@ Summary:	Free mDNS/DNS-SD implementation
 Summary(pl):	Wolna implementacja mDNS/DNS-SD
 Name:		avahi
 Version:	0.6.9
-Release:	3
+Release:	2.9
 License:	GPL v.2/LGPL
 Group:		Applications
 Source0:	http://avahi.org/download/%{name}-%{version}.tar.gz
@@ -37,7 +37,9 @@ BuildRequires:	libtool
 BuildRequires:	mono
 BuildRequires:	monodoc
 %endif
+BuildRequires:	pkgconfig
 BuildRequires:	python-dbus
+BuildRequires:	python-libxml2
 BuildRequires:	python-pygtk-devel
 %if %{with qt}
 BuildRequires:	qt-devel >= 3.0
