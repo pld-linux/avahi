@@ -9,7 +9,7 @@ Summary:	Free mDNS/DNS-SD implementation
 Summary(pl):	Wolna implementacja mDNS/DNS-SD
 Name:		avahi
 Version:	0.6.9
-Release:	3.2
+Release:	4
 License:	GPL v.2/LGPL
 Group:		Applications
 Source0:	http://avahi.org/download/%{name}-%{version}.tar.gz
@@ -39,7 +39,6 @@ BuildRequires:	monodoc
 %endif
 BuildRequires:	pkgconfig
 BuildRequires:	python-dbus
-BuildRequires:	python-libxml2
 BuildRequires:	python-pygtk-devel
 %if %{with qt}
 BuildRequires:	QtCore-devel
@@ -252,7 +251,7 @@ Pliki nag³ówkowe wi±zañ Avahi dla biblioteki Qt 3.
 Summary:	Static Avahi Qt 3 library
 Summary(pl):	Statyczna biblioteka Avahi Qt 3
 Group:		Development/Libraries
-Requires:	%{name}-qt3-devel = %{version}-%{release}
+Requires:	%{name}-qt-devel = %{version}-%{release}
 Obsoletes:	avahi-qt3-static
 
 %description qt-static
