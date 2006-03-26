@@ -160,6 +160,7 @@ Summary:	Header files for Avahi Howl compat library
 Summary(pl):	Pliki nag³ówkowe wi±zañ Avahi dla biblioteki zgodnej z Howl
 Group:		Development/Libraries
 Requires:	%{name}-compat-howl = %{version}-%{release}
+Requires:	%{name}-devel = %{version}-%{release}
 Provides:	mdns-howl-devel
 Obsoletes:	howl-devel
 
