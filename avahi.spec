@@ -9,7 +9,7 @@ Summary:	Free mDNS/DNS-SD implementation
 Summary(pl):	Wolna implementacja mDNS/DNS-SD
 Name:		avahi
 Version:	0.6.9
-Release:	4
+Release:	5
 License:	GPL v.2/LGPL
 Group:		Applications
 Source0:	http://avahi.org/download/%{name}-%{version}.tar.gz
