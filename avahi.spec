@@ -79,6 +79,7 @@ Summary:	Header files for Avahi library
 Summary(pl):	Pliki nag³ówkowe biblioteki Avahi
 Group:		Development/Libraries
 Requires:	%{name}-libs = %{version}-%{release}
+Requires:	dbus-devel
 Requires:	expat-devel
 Requires:	libdaemon-devel >= 0.5
 
