@@ -119,7 +119,7 @@ Summary:	Header files for Avahi Bonjour compat library
 Summary(pl):	Pliki nag³ówkowe wi±zañ Avahi dla biblioteki zgodnej z Bonjour
 Group:		Development/Libraries
 Requires:	%{name}-compat-libdns_sd = %{version}-%{release}
-Requires:       %{name}-devel = %{version}-%{release}
+Requires:	%{name}-devel = %{version}-%{release}
 Provides:	mdns-bonjour-devel
 Obsoletes:	mDNSResponder-devel
 
