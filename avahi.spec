@@ -1,7 +1,7 @@
 #
 # Conditional build:
 %bcond_without	dotnet		# build with dotnet bindings
-%bcond_without	qt		# build with qt bindings
+%bcond_with	qt		# build with qt bindings
 #
 %include /usr/lib/rpm/macros.mono
 #
