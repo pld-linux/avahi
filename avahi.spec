@@ -343,6 +343,9 @@ je jako odno¶niki HTML na http://localhost:8080/.
 Summary:	Avahi Zeroconf browser
 Summary(pl):	Przegl±darka Zeroconf Avahi
 Group:		Applications
+Requires: avahi
+Requires: python-dbus
+Requires: python-pygtk-glade
 
 %description discover
 A tool for enumerating all available services on the local LAN
@@ -356,6 +359,9 @@ Narzêdzie wymieniaj±ce wszystkie dostêpne us³ugi w sieci lokalnej LAN
 Summary:	Avahi Zeroconf browser
 Summary(pl):	Przegl±darka Zeroconf Avahi
 Group:		Applications
+Requires: avahi
+Requires: python-dbus
+Requires: python-pygtk-glade
 
 %description discover-standalone
 GTK+ tool for enumerating all available services on the local LAN.
