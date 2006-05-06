@@ -1,6 +1,6 @@
-diff -aurN avahi-0.6.4.orig/avahi-python/avahi-discover.desktop.in avahi-0.6.4/avahi-python/avahi-discover.desktop.in
---- avahi-0.6.4.orig/avahi-python/avahi-discover.desktop.in	2005-11-15 01:21:50.000000000 +0100
-+++ avahi-0.6.4/avahi-python/avahi-discover.desktop.in	2006-01-22 19:52:51.417051000 +0100
+diff -ur avahi-0.6.10-o/avahi-python/avahi-discover.desktop.in avahi-0.6.10/avahi-python/avahi-discover.desktop.in
+--- avahi-0.6.10-o/avahi-python/avahi-discover.desktop.in	2006-03-03 12:17:29.000000000 -0700
++++ avahi-0.6.10/avahi-python/avahi-discover.desktop.in	2006-05-05 22:12:10.000000000 -0600
 @@ -2,9 +2,9 @@
  Encoding=UTF-8
  Name=Avahi Zeroconf Browser
@@ -9,8 +9,10 @@ diff -aurN avahi-0.6.4.orig/avahi-python/avahi-discover.desktop.in avahi-0.6.4/a
 +Exec=avahi-discover
  Terminal=false
  Type=Application
--Icon=gnome-nettool.png
--Categories=GNOME;Application;System;Utility
+-Icon=gnome-nettool
+-Categories=GNOME;Application;System;Utility;
 +Icon=avahi.png
 +Categories=GTK;System;Utility
  StartupNotify=false
+Only in avahi-0.6.10/avahi-python: avahi-discover.desktop.in.orig
+Only in avahi-0.6.10/avahi-python: avahi-discover.desktop.in.rej
