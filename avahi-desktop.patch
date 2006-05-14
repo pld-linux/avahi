@@ -1,0 +1,15 @@
+--- avahi-0.6.10-o/avahi-python/avahi-discover.desktop.in	2006-03-03 12:17:29.000000000 -0700
++++ avahi-0.6.10/avahi-python/avahi-discover.desktop.in	2006-05-05 22:12:10.000000000 -0600
+@@ -2,9 +2,9 @@
+ Encoding=UTF-8
+ Name=Avahi Zeroconf Browser
+ Comment=Browse for Zeroconf services available on your network
+-Exec=@bindir@/avahi-discover
++Exec=avahi-discover
+ Terminal=false
+ Type=Application
+-Icon=gnome-nettool
+-Categories=GNOME;Application;System;Utility;
++Icon=avahi.png
++Categories=GTK;System;Utility
+ StartupNotify=false
