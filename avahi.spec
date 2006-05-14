@@ -1,7 +1,8 @@
 #
 # Conditional build:
 %bcond_without	dotnet		# build with dotnet bindings
-%bcond_without	qt		# build with qt bindings
+%bcond_without	qt3		# build with qt3 bindings
+%bcond_with	qt4		# build with qt4 bindings
 #
 %include /usr/lib/rpm/macros.mono
 #
@@ -9,7 +10,7 @@ Summary:	Free mDNS/DNS-SD implementation
 Summary(pl):	Wolna implementacja mDNS/DNS-SD
 Name:		avahi
 Version:	0.6.10
-Release:	1
+Release:	2
 License:	GPL v.2/LGPL
 Group:		Applications
 Source0:	http://avahi.org/download/%{name}-%{version}.tar.gz
@@ -40,9 +41,11 @@ BuildRequires:	monodoc
 BuildRequires:	pkgconfig
 BuildRequires:	python-dbus
 BuildRequires:	python-pygtk-devel
-%if %{with qt}
-BuildRequires:	QtCore-devel
+%if %{with qt3}
 BuildRequires:	qt-devel >= 3.0
+%endif
+%if %{with qt4}
+BuildRequires:	QtCore-devel
 BuildRequires:	qt4-build
 %endif
 BuildRequires:	rpmbuild(macros) >= 1.228
@@ -397,7 +400,8 @@ Narzêdzia linii poleceñ korzystaj±ce z avahi-client.
 	--enable-compat-libdns_sd \
 	--enable-compat-howl \
 	--with-distro=none \
-	%{!?with_qt:--disable-qt3 --disable-qt4} \
+	%{!?with_qt3:--disable-qt3} \
+	%{!?with_qt4:--disable-qt4} \
 	%{!?with_dotnet:--disable-mono} \
 	%{!?with_dotnet:--disable-monodoc}
 %{__make}
@@ -582,7 +586,7 @@ fi
 %defattr(644,root,root,755)
 %{_libdir}/libavahi-glib.a
 
-%if %{with qt}
+%if %{with qt3}
 %files qt
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libavahi-qt3.so.*.*.*
@@ -597,7 +601,9 @@ fi
 %files qt-static
 %defattr(644,root,root,755)
 %{_libdir}/libavahi-qt3.a
+%endif
 
+%if %{with qt4}
 %files Qt
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libavahi-qt4.so.*.*.*
