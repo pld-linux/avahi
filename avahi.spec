@@ -15,7 +15,7 @@ Summary:	Free mDNS/DNS-SD implementation
 Summary(pl):	Wolna implementacja mDNS/DNS-SD
 Name:		avahi
 Version:	0.6.10
-Release:	2
+Release:	3
 License:	GPL v.2/LGPL
 Group:		Applications
 Source0:	http://avahi.org/download/%{name}-%{version}.tar.gz
@@ -29,13 +29,13 @@ Patch2:		%{name}-destdir.patch
 URL:		http://avahi.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	dbus-devel >= 0.34
+BuildRequires:	dbus-devel >= 0.62
 BuildRequires:	doxygen
 BuildRequires:	expat-devel
 BuildRequires:	gdbm-devel
-BuildRequires:	glib2-devel >= 1:2.4.0
+BuildRequires:	glib2-devel >= 1:2.11.4
 BuildRequires:	graphviz
-BuildRequires:	gtk+2-devel >= 2:2.4.0
+BuildRequires:	gtk+2-devel >= 2:2.9.4
 BuildRequires:	libdaemon-devel >= 0.5
 BuildRequires:	libglade2-devel >= 1:2.5.1-5
 BuildRequires:	libtool
@@ -55,7 +55,7 @@ BuildRequires:	qt4-build
 %endif
 BuildRequires:	rpmbuild(macros) >= 1.228
 Requires(post,preun):	/sbin/chkconfig
-Requires:	dbus >= 0.60-2
+Requires:	dbus >= 0.62
 Requires:	%{name}-libs = %{version}-%{release}
 Provides:	group(avahi)
 Provides:	user(avahi)
@@ -87,7 +87,7 @@ Summary:	Header files for Avahi library
 Summary(pl):	Pliki nag³ówkowe biblioteki Avahi
 Group:		Development/Libraries
 Requires:	%{name}-libs = %{version}-%{release}
-Requires:	dbus-devel
+Requires:	dbus-devel >= 0.62
 Requires:	expat-devel
 Requires:	libdaemon-devel >= 0.5
 
