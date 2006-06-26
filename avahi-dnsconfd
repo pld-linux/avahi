@@ -2,7 +2,7 @@
 #
 # avahi-dnsconfd:	Starts the Avahi dns configuration daemon
 #
-# chkconfig:		345 34 66
+# chkconfig:		345 35 65
 #
 # description:	avahi-dnsconfd connects to a running avahi-daemon and runs the script \
 #		/etc/avahi/dnsconf.action for each unicast DNS server that is announced \
