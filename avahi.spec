@@ -14,12 +14,12 @@
 Summary:	Free mDNS/DNS-SD implementation
 Summary(pl):	Wolna implementacja mDNS/DNS-SD
 Name:		avahi
-Version:	0.6.12
+Version:	0.6.13
 Release:	1
 License:	GPL v.2/LGPL
 Group:		Applications
 Source0:	http://avahi.org/download/%{name}-%{version}.tar.gz
-# Source0-md5:	dc9ab59c59fe3a5bb42a570898f56744
+# Source0-md5:	d1000689979105cc95b9ca102284aae4
 Source1:	%{name}-daemon
 Source2:	%{name}-dnsconfd
 Source3:	%{name}.png
@@ -29,13 +29,13 @@ Patch2:		%{name}-destdir.patch
 URL:		http://avahi.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	dbus-devel >= 0.91
+BuildRequires:	dbus-devel >= 0.92
 BuildRequires:	doxygen
 BuildRequires:	expat-devel
 BuildRequires:	gdbm-devel
-BuildRequires:	glib2-devel >= 1:2.12.1
+BuildRequires:	glib2-devel >= 1:2.12.2
 BuildRequires:	graphviz
-BuildRequires:	gtk+2-devel >= 2:2.10.1
+BuildRequires:	gtk+2-devel >= 2:2.10.2
 BuildRequires:	libdaemon-devel >= 0.5
 BuildRequires:	libglade2-devel >= 1:2.6.0
 BuildRequires:	libtool
@@ -45,7 +45,7 @@ BuildRequires:	monodoc
 %endif
 BuildRequires:	pkgconfig
 BuildRequires:	python-dbus >= 0.71
-BuildRequires:	python-pygtk-devel >= 2:2.9.5
+BuildRequires:	python-pygtk-devel >= 2:2.9.6
 %if %{with qt3}
 BuildRequires:	qt-devel >= 3.0
 %endif
@@ -55,7 +55,7 @@ BuildRequires:	qt4-build
 %endif
 BuildRequires:	rpmbuild(macros) >= 1.228
 Requires(post,preun):	/sbin/chkconfig
-Requires:	dbus >= 0.91
+Requires:	dbus >= 0.92
 Requires:	%{name}-libs = %{version}-%{release}
 Provides:	group(avahi)
 Provides:	user(avahi)
@@ -87,7 +87,7 @@ Summary:	Header files for Avahi library
 Summary(pl):	Pliki nag³ówkowe biblioteki Avahi
 Group:		Development/Libraries
 Requires:	%{name}-libs = %{version}-%{release}
-Requires:	dbus-devel >= 0.91
+Requires:	dbus-devel >= 0.92
 Requires:	expat-devel
 Requires:	libdaemon-devel >= 0.5
 
@@ -209,7 +209,7 @@ Summary(pl):	Pliki nag³ówkowe wi±zañ Avahi dla biblioteki GLib
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 Requires:	%{name}-glib = %{version}-%{release}
-Requires:	glib2-devel >= 1:2.12.1
+Requires:	glib2-devel >= 1:2.12.2
 
 %description glib-devel
 This is the package containing the header files for Avahi-glib
@@ -490,6 +490,7 @@ fi
 %attr(755,root,root) %{_bindir}/avahi-browse
 %attr(755,root,root) %{_bindir}/avahi-publish
 %attr(755,root,root) %{_bindir}/avahi-resolve
+%attr(755,root,root) %{_bindir}/avahi-set-host-name
 
 %attr(755,root,root) %{_sbindir}/avahi-daemon
 %attr(755,root,root) %{_sbindir}/avahi-dnsconfd
