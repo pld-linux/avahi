@@ -1,4 +1,8 @@
 #
+# TODO:
+# - autoip subpackage ?
+# - autoip start script ?
+#
 # Conditional build:
 %bcond_without	dotnet		# build without dotnet bindings
 %bcond_without	qt		# build without (any) qt bindings
@@ -14,12 +18,12 @@
 Summary:	Free mDNS/DNS-SD implementation
 Summary(pl):	Wolna implementacja mDNS/DNS-SD
 Name:		avahi
-Version:	0.6.13
+Version:	0.6.14
 Release:	1
 License:	GPL v.2/LGPL
 Group:		Applications
 Source0:	http://avahi.org/download/%{name}-%{version}.tar.gz
-# Source0-md5:	d1000689979105cc95b9ca102284aae4
+# Source0-md5:	6abad76bbc2ac0f51a8869b3a2e5c238
 Source1:	%{name}-daemon
 Source2:	%{name}-dnsconfd
 Source3:	%{name}.png
@@ -485,11 +489,9 @@ fi
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/avahi/avahi-dnsconfd.action
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/avahi/hosts
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/avahi/services/ssh.service
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/avahi/services/sftp-ssh.service
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/dbus-1/system.d/*
 
-%attr(755,root,root) %{_bindir}/avahi-browse
-%attr(755,root,root) %{_bindir}/avahi-publish
-%attr(755,root,root) %{_bindir}/avahi-resolve
 %attr(755,root,root) %{_bindir}/avahi-set-host-name
 
 %attr(755,root,root) %{_sbindir}/avahi-daemon
@@ -506,6 +508,9 @@ fi
 
 %attr(754,root,root) /etc/rc.d/init.d/%{name}-daemon
 %attr(754,root,root) /etc/rc.d/init.d/%{name}-dnsconfd
+
+%attr(755,root,root) %{_sysconfdir}/%{name}/avahi-autoipd.action
+%attr(755,root,root) %{_sbindir}/avahi-autoipd
 
 %files libs
 %defattr(644,root,root,755)
