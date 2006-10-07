@@ -48,6 +48,7 @@ BuildRequires:	mono-csharp
 BuildRequires:	monodoc
 %endif
 BuildRequires:	pkgconfig
+BuildRequires:	python >= 1:2.4
 BuildRequires:	python-dbus >= 0.71
 BuildRequires:	python-pygtk-devel >= 2:2.9.6
 %if %{with qt3}
