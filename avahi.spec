@@ -9,7 +9,7 @@
 %bcond_without	qt3		# build without qt3 bindings
 %bcond_without	qt4		# build without qt4 bindings
 #
-%if %{without qt}
+%if !%{with qt}
 %undefine	with_qt3
 %undefine	with_qt4
 %endif
