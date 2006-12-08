@@ -26,10 +26,7 @@ else
 	exit 0
 fi
 
-
-# See how we were called.
-case "$1" in
-  start)
+start() {
 	# Check if the service is already running?
 	if [ ! -f /var/lock/subsys/avahi-daemon ]; then
 		msg_starting avahi-daemon
@@ -40,8 +37,9 @@ case "$1" in
 	else
 		msg_already_running avahi-daemon
 	fi
-	;;
-  stop)
+}
+
+stop() {
 	if [ -f /var/lock/subsys/avahi-daemon ]; then
 		# Stop daemons.
 		msg_stopping avahi-daemon
@@ -51,11 +49,20 @@ case "$1" in
 	else
 		msg_not_running avahi-daemon
 	fi
+}
+
+RETVAL=0
+# See how we were called.
+case "$1" in
+  start)
+  	start
+	;;
+  stop)
+  	stop
 	;;
   restart)
-	$0 stop
-	$0 start
-	exit $?
+	stop
+	start
 	;;
   reload|force-reload)
 	if [ -f /var/lock/subsys/avahi-daemon ]; then
