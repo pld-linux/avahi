@@ -57,19 +57,15 @@ case "$1" in
 	$0 start
 	exit $?
 	;;
-  reload)
+  reload|force-reload)
 	if [ -f /var/lock/subsys/avahi-daemon ]; then
 		msg_reloading avahi-daemon
 		avahi-daemon -r
 		RETVAL=$?
 	else
-		msg_not_running avahi-daemon >&2
+		msg_not_running avahi-daemon
 		RETVAL=7
 	fi
-	;;
-  force-reload)
-	$0 reload
-	exit $?
 	;;
   status)
 	status avahi-daemon
@@ -81,6 +77,3 @@ case "$1" in
 esac
 
 exit $RETVAL
-
-# This must be last line !
-# vi:syntax=sh:tw=78:ts=8:sw=4
