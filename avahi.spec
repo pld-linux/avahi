@@ -19,7 +19,7 @@ Summary:	Free mDNS/DNS-SD implementation
 Summary(pl):	Wolna implementacja mDNS/DNS-SD
 Name:		avahi
 Version:	0.6.15
-Release:	2
+Release:	3
 License:	GPL v.2/LGPL
 Group:		Applications
 Source0:	http://lathiat.net/%{name}-%{version}.tar.gz
@@ -41,6 +41,7 @@ BuildRequires:	gdbm-devel
 BuildRequires:	glib2-devel >= 1:2.12.2
 BuildRequires:	graphviz
 BuildRequires:	gtk+2-devel >= 2:2.10.2
+BuildRequires:	libcap-devel
 BuildRequires:	libdaemon-devel >= 0.5
 BuildRequires:	libglade2-devel >= 1:2.6.0
 BuildRequires:	libtool
