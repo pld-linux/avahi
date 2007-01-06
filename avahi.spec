@@ -291,8 +291,8 @@ Avahi Qt 4 library bindings.
 Wi±zania Avahi dla biblioteki Qt 4.
 
 %package Qt-devel
-Summary:	Header files for Avahi Qt 3 library bindings
-Summary(pl):	Pliki nag³ówkowe wi±zañ Avahi dla biblioteki Qt 3
+Summary:	Header files for Avahi Qt 4 library bindings
+Summary(pl):	Pliki nag³ówkowe wi±zañ Avahi dla biblioteki Qt 4
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 Requires:	%{name}-Qt = %{version}-%{release}
