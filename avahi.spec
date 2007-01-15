@@ -18,19 +18,18 @@
 Summary:	Free mDNS/DNS-SD implementation
 Summary(pl):	Wolna implementacja mDNS/DNS-SD
 Name:		avahi
-Version:	0.6.15
-Release:	3
+Version:	0.6.16
+Release:	1
 License:	GPL v.2/LGPL
 Group:		Applications
-Source0:	http://lathiat.net/%{name}-%{version}.tar.gz
-# Source0-md5:	94dbd41336d18c47fc8213735a3fbf8e
+Source0:	http://avahi.org/download/%{name}-%{version}.tar.gz
+# Source0-md5:	3cbc460bbd55bae35f7b57443c063640
 Source1:	%{name}-daemon
 Source2:	%{name}-dnsconfd
 Source3:	%{name}.png
 Patch0:		%{name}-desktop.patch
 Patch1:		%{name}-glade.patch
 Patch2:		%{name}-destdir.patch
-Patch3:		%{name}-dbus.patch
 URL:		http://avahi.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -401,7 +400,6 @@ Narzêdzia linii poleceñ korzystaj±ce z avahi-client.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
 
 %build
 %{__libtoolize}
@@ -437,6 +435,9 @@ ln -sf %{_pkgconfigdir}/avahi-compat-howl.pc \
 	$RPM_BUILD_ROOT%{_pkgconfigdir}/howl.pc
 
 rm -f $RPM_BUILD_ROOT%{py_sitedir}/avahi/{__init__,SimpleGladeApp}.py
+
+# Stop rpm insanity
+rm  -f $RPM_BUILD_ROOT%{_mandir}/man1/{avahi-browse-domains.1,avahi-publish-address.1,avahi-publish-service.1,avahi-resolve-address.1,avahi-resolve-host-name.1}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
