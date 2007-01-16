@@ -436,8 +436,12 @@ ln -sf %{_pkgconfigdir}/avahi-compat-howl.pc \
 
 rm -f $RPM_BUILD_ROOT%{py_sitedir}/avahi/{__init__,SimpleGladeApp}.py
 
-# Stop rpm insanity
-rm  -f $RPM_BUILD_ROOT%{_mandir}/man1/{avahi-browse-domains.1,avahi-publish-address.1,avahi-publish-service.1,avahi-resolve-address.1,avahi-resolve-host-name.1}
+rm -f $RPM_BUILD_ROOT%{_mandir}/man1/avahi-{browse-domains,publish-address,publish-service,resolve-address,resolve-host-name}.1
+echo '.so avahi-browse.1' > $RPM_BUILD_ROOT%{_mandir}/man1/avahi-browse-domains.1
+echo '.so avahi-publish.1' > $RPM_BUILD_ROOT%{_mandir}/man1/avahi-publish-address.1
+echo '.so avahi-publish.1' > $RPM_BUILD_ROOT%{_mandir}/man1/avahi-publish-service.1
+echo '.so avahi-resolve.1' > $RPM_BUILD_ROOT%{_mandir}/man1/avahi-resolve-address.1
+echo '.so avahi-resolve.1' > $RPM_BUILD_ROOT%{_mandir}/man1/avahi-resolve-host-name.1
 
 %clean
 rm -rf $RPM_BUILD_ROOT
