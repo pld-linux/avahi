@@ -16,7 +16,7 @@
 %include /usr/lib/rpm/macros.mono
 #
 Summary:	Free mDNS/DNS-SD implementation
-Summary(pl.UTF-8):   Wolna implementacja mDNS/DNS-SD
+Summary(pl.UTF-8):	Wolna implementacja mDNS/DNS-SD
 Name:		avahi
 Version:	0.6.17
 Release:	1
@@ -79,7 +79,7 @@ pomiędzy programami użytkownika a demonem systemowym.
 
 %package libs
 Summary:	Avahi client, common and core libraries
-Summary(pl.UTF-8):   Biblioteki Avahi: klienta, wspólna i główna
+Summary(pl.UTF-8):	Biblioteki Avahi: klienta, wspólna i główna
 Group:		Libraries
 
 %description libs
@@ -90,7 +90,7 @@ Biblioteki Avahi: klienta, wspólna i główna.
 
 %package devel
 Summary:	Header files for Avahi library
-Summary(pl.UTF-8):   Pliki nagłówkowe biblioteki Avahi
+Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki Avahi
 Group:		Development/Libraries
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	dbus-devel >= 0.92
@@ -105,7 +105,7 @@ Ten pakiet zawiera pliki nagłówkowe biblioteki Avahi.
 
 %package static
 Summary:	Static Avahi library
-Summary(pl.UTF-8):   Statyczna biblioteka Avahi
+Summary(pl.UTF-8):	Statyczna biblioteka Avahi
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 
@@ -117,7 +117,7 @@ Statyczna biblioteka Avahi.
 
 %package compat-libdns_sd
 Summary:	Avahi Bonjour compat library
-Summary(pl.UTF-8):   Biblioteka Avahi zgodna z Bonjour
+Summary(pl.UTF-8):	Biblioteka Avahi zgodna z Bonjour
 Group:		Libraries
 Provides:	mdns-bonjour
 Obsoletes:	mDNSResponder-libs
@@ -130,7 +130,7 @@ Biblioteka Avahi zgodna z Bonjour.
 
 %package compat-libdns_sd-devel
 Summary:	Header files for Avahi Bonjour compat library
-Summary(pl.UTF-8):   Pliki nagłówkowe wiązań Avahi dla biblioteki zgodnej z Bonjour
+Summary(pl.UTF-8):	Pliki nagłówkowe wiązań Avahi dla biblioteki zgodnej z Bonjour
 Group:		Development/Libraries
 Requires:	%{name}-compat-libdns_sd = %{version}-%{release}
 Requires:	%{name}-devel = %{version}-%{release}
@@ -145,7 +145,7 @@ Pliki nagłówkowe wiązań Avahi dla biblioteki zgodnej z Bonjour.
 
 %package compat-libdns_sd-static
 Summary:	Static Avahi Bonjour compat library
-Summary(pl.UTF-8):   Statyczna biblioteka Avahi zgodna z Bonjour
+Summary(pl.UTF-8):	Statyczna biblioteka Avahi zgodna z Bonjour
 Group:		Development/Libraries
 Requires:	%{name}-compat-libdns_sd-devel = %{version}-%{release}
 Provides:	mdns-bonjour-static
@@ -158,7 +158,7 @@ Statyczna biblioteka Avahi zgodna z Bonjour.
 
 %package compat-howl
 Summary:	Avahi Howl compat library
-Summary(pl.UTF-8):   Biblioteka Avahi zgodna z Howl
+Summary(pl.UTF-8):	Biblioteka Avahi zgodna z Howl
 Group:		Libraries
 Provides:	mdns-howl-libs
 Obsoletes:	howl-libs
@@ -171,7 +171,7 @@ Biblioteka Avahi zgodna z Howl.
 
 %package compat-howl-devel
 Summary:	Header files for Avahi Howl compat library
-Summary(pl.UTF-8):   Pliki nagłówkowe wiązań Avahi dla biblioteki zgodnej z Howl
+Summary(pl.UTF-8):	Pliki nagłówkowe wiązań Avahi dla biblioteki zgodnej z Howl
 Group:		Development/Libraries
 Requires:	%{name}-compat-howl = %{version}-%{release}
 Requires:	%{name}-devel = %{version}-%{release}
@@ -186,7 +186,7 @@ Pliki nagłówkowe wiązań Avahi dla biblioteki zgodnej z Howl.
 
 %package compat-howl-static
 Summary:	Static Avahi Howl compat library
-Summary(pl.UTF-8):   Statyczna biblioteka Avahi zgodna z Howl
+Summary(pl.UTF-8):	Statyczna biblioteka Avahi zgodna z Howl
 Group:		Development/Libraries
 Requires:	%{name}-compat-howl-devel = %{version}-%{release}
 Provides:	mdns-howl-static
@@ -200,7 +200,7 @@ Statyczna biblioteka Avahi zgodna z Howl.
 
 %package glib
 Summary:	Avahi GLib library bindings
-Summary(pl.UTF-8):   Wiązania Avahi dla bibioteki GLib
+Summary(pl.UTF-8):	Wiązania Avahi dla bibioteki GLib
 Group:		Libraries
 
 %description glib
@@ -211,7 +211,7 @@ Wiązania Avahi dla bibioteki GLib.
 
 %package glib-devel
 Summary:	Header files for Avahi GLib library bindings
-Summary(pl.UTF-8):   Pliki nagłówkowe wiązań Avahi dla biblioteki GLib
+Summary(pl.UTF-8):	Pliki nagłówkowe wiązań Avahi dla biblioteki GLib
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 Requires:	%{name}-glib = %{version}-%{release}
@@ -226,7 +226,7 @@ Ten pakiet zawiera pliki nagłówkowe biblioteki Avahi-glib.
 
 %package glib-static
 Summary:	Static Avahi GLib library
-Summary(pl.UTF-8):   Statyczna biblioteka Avahi GLib
+Summary(pl.UTF-8):	Statyczna biblioteka Avahi GLib
 Group:		Development/Libraries
 Requires:	%{name}-glib-devel = %{version}-%{release}
 
@@ -238,7 +238,7 @@ Statyczna biblioteka Avahi GLib.
 
 %package qt
 Summary:	Avahi Qt 3 library bindings
-Summary(pl.UTF-8):   Wiązania Avahi dla biblioteki Qt 3
+Summary(pl.UTF-8):	Wiązania Avahi dla biblioteki Qt 3
 Group:		Libraries
 Requires:	%{name}-libs = %{version}-%{release}
 Obsoletes:	avahi-qt3
@@ -251,7 +251,7 @@ Wiązania Avahi dla biblioteki Qt 3.
 
 %package qt-devel
 Summary:	Header files for Avahi Qt 3 library bindings
-Summary(pl.UTF-8):   Pliki nagłówkowe wiązań Avahi dla biblioteki Qt 3
+Summary(pl.UTF-8):	Pliki nagłówkowe wiązań Avahi dla biblioteki Qt 3
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 Requires:	%{name}-qt = %{version}-%{release}
@@ -266,7 +266,7 @@ Pliki nagłówkowe wiązań Avahi dla biblioteki Qt 3.
 
 %package qt-static
 Summary:	Static Avahi Qt 3 library
-Summary(pl.UTF-8):   Statyczna biblioteka Avahi Qt 3
+Summary(pl.UTF-8):	Statyczna biblioteka Avahi Qt 3
 Group:		Development/Libraries
 Requires:	%{name}-qt-devel = %{version}-%{release}
 Obsoletes:	avahi-qt3-static
@@ -279,7 +279,7 @@ Statyczna biblioteka Avahi Qt 3.
 
 %package Qt
 Summary:	Avahi Qt 4 library bindings
-Summary(pl.UTF-8):   Wiązania Avahi dla biblioteki Qt 4
+Summary(pl.UTF-8):	Wiązania Avahi dla biblioteki Qt 4
 Group:		Libraries
 Requires:	%{name}-libs = %{version}-%{release}
 
@@ -291,7 +291,7 @@ Wiązania Avahi dla biblioteki Qt 4.
 
 %package Qt-devel
 Summary:	Header files for Avahi Qt 4 library bindings
-Summary(pl.UTF-8):   Pliki nagłówkowe wiązań Avahi dla biblioteki Qt 4
+Summary(pl.UTF-8):	Pliki nagłówkowe wiązań Avahi dla biblioteki Qt 4
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 Requires:	%{name}-Qt = %{version}-%{release}
@@ -304,7 +304,7 @@ Pliki nagłówkowe wiązań Avahi dla biblioteki Qt 4.
 
 %package Qt-static
 Summary:	Static Avahi Qt 4 library
-Summary(pl.UTF-8):   Statyczna biblioteka Avahi Qt 4
+Summary(pl.UTF-8):	Statyczna biblioteka Avahi Qt 4
 Group:		Development/Libraries
 Requires:	%{name}-Qt-devel = %{version}-%{release}
 
@@ -316,7 +316,7 @@ Statyczna biblioteka Avahi Qt 4.
 
 %package -n dotnet-avahi
 Summary:	Avahi MONO bindings
-Summary(pl.UTF-8):   Wiązania Avahi dla MONO
+Summary(pl.UTF-8):	Wiązania Avahi dla MONO
 Group:		Libraries
 
 %description -n dotnet-avahi
@@ -327,7 +327,7 @@ Wiązania Avahi dla MONO.
 
 %package -n dotnet-avahi-devel
 Summary:	Development files for MONO Avahi bindings
-Summary(pl.UTF-8):   Pliki rozwojowe wiązań Avahi dla MONO
+Summary(pl.UTF-8):	Pliki rozwojowe wiązań Avahi dla MONO
 Group:		Development/Libraries
 Requires:	dotnet-avahi = %{version}-%{release}
 Requires:	monodoc
@@ -340,7 +340,7 @@ Pliki rozwojowe wiązań Avahi dla MONO.
 
 %package bookmarks
 Summary:	Miniature web server
-Summary(pl.UTF-8):   Miniaturowy serwer web
+Summary(pl.UTF-8):	Miniaturowy serwer web
 Group:		Applications
 
 %description bookmarks
@@ -355,7 +355,7 @@ je jako odnośniki HTML na http://localhost:8080/.
 
 %package discover
 Summary:	Avahi Zeroconf browser
-Summary(pl.UTF-8):   Przeglądarka Zeroconf Avahi
+Summary(pl.UTF-8):	Przeglądarka Zeroconf Avahi
 Group:		Applications
 Requires:	%{name} = %{version}-%{release}
 Requires:	python-dbus >= 0.71
@@ -371,7 +371,7 @@ Narzędzie wymieniające wszystkie dostępne usługi w sieci lokalnej LAN
 
 %package discover-standalone
 Summary:	Avahi Zeroconf browser
-Summary(pl.UTF-8):   Przeglądarka Zeroconf Avahi
+Summary(pl.UTF-8):	Przeglądarka Zeroconf Avahi
 Group:		Applications
 Requires:	%{name} = %{version}-%{release}
 Requires:	python-dbus >= 0.71
@@ -386,7 +386,7 @@ LAN.
 
 %package utils
 Summary:	Avahi CLI utilities
-Summary(pl.UTF-8):   Narzędzia CLI Avahi
+Summary(pl.UTF-8):	Narzędzia CLI Avahi
 Group:		Applications
 
 %description utils
