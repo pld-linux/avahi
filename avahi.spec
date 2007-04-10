@@ -53,7 +53,7 @@ BuildRequires:	python >= 1:2.4
 BuildRequires:	python-dbus >= 0.71
 BuildRequires:	python-pygtk-devel >= 2:2.9.6
 %if %{with qt3}
-BuildRequires:	qt-devel >= 3.0
+BuildRequires:	qt-devel >= 1:3.0
 %endif
 %if %{with qt4}
 BuildRequires:	QtCore-devel
@@ -255,7 +255,7 @@ Summary(pl.UTF-8):	Pliki nagłówkowe wiązań Avahi dla biblioteki Qt 3
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 Requires:	%{name}-qt = %{version}-%{release}
-Requires:	qt-devel >= 3.0
+Requires:	qt-devel >= 1:3.0
 Obsoletes:	avahi-qt3-devel
 
 %description qt-devel
