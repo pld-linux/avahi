@@ -1,0 +1,2 @@
+- up to 0.6.15
+- fixes security bug (http://avahi.org/ticket/69) [CVE-2006-5461]
