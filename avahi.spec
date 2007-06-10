@@ -19,7 +19,7 @@ Summary:	Free mDNS/DNS-SD implementation
 Summary(pl.UTF-8):	Wolna implementacja mDNS/DNS-SD
 Name:		avahi
 Version:	0.6.17
-Release:	1
+Release:	2
 License:	GPL v.2/LGPL
 Group:		Applications
 Source0:	http://avahi.org/download/%{name}-%{version}.tar.gz
@@ -314,6 +314,19 @@ Static Avahi Qt 4 library.
 %description Qt-static -l pl.UTF-8
 Statyczna biblioteka Avahi Qt 4.
 
+%package -n python-avahi
+Summary:	Avahi Python bindings
+Summary(pl.UTF-8):	Wiązania Avahi dla Pythona
+Group:		Development/Languages/Python
+Requires:	%{name} = %{version}-%{release}
+Requires:	python-dbus >= 0.71
+
+%description -n python-avahi
+Avahi Python bindings.
+
+%description -n python-avahi -l pl.UTF-8
+Wiązania Avahi dla Pythona.
+
 %package -n dotnet-avahi
 Summary:	Avahi MONO bindings
 Summary(pl.UTF-8):	Wiązania Avahi dla MONO
@@ -358,7 +371,7 @@ Summary:	Avahi Zeroconf browser
 Summary(pl.UTF-8):	Przeglądarka Zeroconf Avahi
 Group:		Applications
 Requires:	%{name} = %{version}-%{release}
-Requires:	python-dbus >= 0.71
+Requires:	python-avahi = %{version}-%{release}
 Requires:	python-pygtk-glade >= 2:2.9.6
 
 %description discover
@@ -580,6 +593,10 @@ fi
 %defattr(644,root,root,755)
 %{_libdir}/libhowl.a
 
+%files -n python-avahi
+%defattr(644,root,root,755)
+%{py_sitedir}/avahi
+
 %if %{with dotnet}
 %files -n dotnet-avahi
 %defattr(644,root,root,755)
@@ -651,7 +668,6 @@ fi
 # XXX: possibly missing %{_datadir}/%{name} dir, shared subdir
 %dir %{_datadir}/%{name}/interfaces
 %{_datadir}/%{name}/interfaces/avahi-discover.glade
-%{py_sitedir}/avahi
 %{_desktopdir}/*.desktop
 %{_pixmapsdir}/avahi.png
 
