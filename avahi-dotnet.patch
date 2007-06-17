@@ -1,0 +1,11 @@
+--- avahi-0.6.19/avahi-ui-sharp/Makefile.am.orig	2007-04-21 20:47:16.000000000 +0200
++++ avahi-0.6.19/avahi-ui-sharp/Makefile.am	2007-06-18 00:17:18.268425090 +0200
+@@ -40,7 +40,7 @@
+ 	$(srcdir)/gencfg.sh $(top_builddir)/avahi-common/libavahi-common.la < $< > $@
+ 
+ zssh.exe: $(srcdir)/zssh.cs
+-	mcs -out:$@ $^ -r:./avahi-ui-sharp.dll -pkg:gtk-sharp-2.0 -r:Mono.Posix
++	mcs -out:$@ $^ -r:./avahi-ui-sharp.dll -r:$(top_builddir)/avahi-sharp/avahi-sharp.dll -pkg:gtk-sharp-2.0 -r:Mono.Posix
+ 
+ if HAVE_MONO
+ if HAVE_DBUS
