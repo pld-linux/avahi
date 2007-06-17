@@ -18,18 +18,19 @@
 Summary:	Free mDNS/DNS-SD implementation
 Summary(pl.UTF-8):	Wolna implementacja mDNS/DNS-SD
 Name:		avahi
-Version:	0.6.17
-Release:	2
+Version:	0.6.19
+Release:	1
 License:	GPL v.2/LGPL
 Group:		Applications
 Source0:	http://avahi.org/download/%{name}-%{version}.tar.gz
-# Source0-md5:	29ebb2181958d5721ee5fc45f035a77c
+# Source0-md5:	a06782435d1c994ecd00a66e95a5d9d4
 Source1:	%{name}-daemon
 Source2:	%{name}-dnsconfd
 Source3:	%{name}.png
 Patch0:		%{name}-desktop.patch
 Patch1:		%{name}-glade.patch
 Patch2:		%{name}-destdir.patch
+Patch3:		%{name}-dotnet.patch
 URL:		http://avahi.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -45,6 +46,7 @@ BuildRequires:	libdaemon-devel >= 0.5
 BuildRequires:	libglade2-devel >= 1:2.6.0
 BuildRequires:	libtool
 %if %{with dotnet}
+BuildRequires:	dotnet-gtk-sharp2-devel >= 2.10
 BuildRequires:	mono-csharp
 BuildRequires:	monodoc
 %endif
@@ -114,6 +116,45 @@ Static Avahi library.
 
 %description static -l pl.UTF-8
 Statyczna biblioteka Avahi.
+
+%package ui
+Summary:	Avahi UI library
+Summary(pl.UTF-8):	Biblioteka Avahi UI
+Group:		X11/Libraries
+Requires:	%{name}-libs = %{version}-%{release}
+Requires:	gtk+2 >= 2:2.10.2
+
+%description ui
+Common GTK+ UI support library for Avahi.
+
+%description ui -l pl.UTF-8
+Biblioteka wspólnego interfejsu użytkownika GTK+ dla Avahi.
+
+%package ui-devel
+Summary:	Header files for Avahi UI library
+Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki Avahi UI
+Group:		X11/Development/Libraries
+Requires:	%{name}-devel = %{version}-%{release}
+Requires:	%{name}-ui = %{version}-%{release}
+Requires:	gtk+2-devel >= 2:2.10.2
+
+%description ui-devel
+Header files for Avahi UI library.
+
+%description ui-devel -l pl.UTF-8
+Pliki nagłówkowe biblioteki Avahi UI.
+
+%package ui-static
+Summary:	Static Avahi UI library
+Summary(pl.UTF-8):	Statyczna biblioteka Avahi UI
+Group:		X11/Development/Libraries
+Requires:	%{name}-ui-devel = %{version}-%{release}
+
+%description ui-static
+Static Avahi UI library.
+
+%description ui-static -l pl.UTF-8
+Statyczna biblioteka Avahi UI.
 
 %package compat-libdns_sd
 Summary:	Avahi Bonjour compat library
@@ -318,7 +359,7 @@ Statyczna biblioteka Avahi Qt 4.
 Summary:	Avahi Python bindings
 Summary(pl.UTF-8):	Wiązania Avahi dla Pythona
 Group:		Development/Languages/Python
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name}-libs = %{version}-%{release}
 Requires:	python-dbus >= 0.71
 
 %description -n python-avahi
@@ -331,6 +372,7 @@ Wiązania Avahi dla Pythona.
 Summary:	Avahi MONO bindings
 Summary(pl.UTF-8):	Wiązania Avahi dla MONO
 Group:		Libraries
+Requires:	%{name}-libs = %{version}-%{release}
 
 %description -n dotnet-avahi
 Avahi MONO bindings.
@@ -350,6 +392,32 @@ Development files for MONO Avahi bindings.
 
 %description -n dotnet-avahi-devel -l pl.UTF-8
 Pliki rozwojowe wiązań Avahi dla MONO.
+
+%package -n dotnet-avahi-ui
+Summary:	Avahi UI MONO bindings
+Summary(pl.UTF-8):	Wiązania Avahi UI dla MONO
+Group:		X11/Libraries
+Requires:	%{name}-ui = %{version}-%{release}
+Requires:	dotnet-avahi = %{version}-%{release}
+
+%description -n dotnet-avahi-ui
+Avahi UI MONO bindings.
+
+%description -n dotnet-avahi-ui -l pl.UTF-8
+Wiązania Avahi UI dla MONO.
+
+%package -n dotnet-avahi-ui-devel
+Summary:	Development files for MONO Avahi UI bindings
+Summary(pl.UTF-8):	Pliki rozwojowe wiązań Avahi UI dla MONO
+Group:		X11/Development/Libraries
+Requires:	dotnet-avahi-ui = %{version}-%{release}
+Requires:	monodoc
+
+%description -n dotnet-avahi-ui-devel
+Development files for MONO Avahi UI bindings.
+
+%description -n dotnet-avahi-ui-devel -l pl.UTF-8
+Pliki rozwojowe wiązań Avahi UI dla MONO.
 
 %package bookmarks
 Summary:	Miniature web server
@@ -413,6 +481,7 @@ Narzędzia linii poleceń korzystające z avahi-client.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 %{__libtoolize}
@@ -485,6 +554,9 @@ fi
 
 %post	libs -p /sbin/ldconfig
 %postun	libs -p /sbin/ldconfig
+
+%post	ui -p /sbin/ldconfig
+%postun	ui -p /sbin/ldconfig
 
 %post	compat-libdns_sd -p /sbin/ldconfig
 %postun	compat-libdns_sd -p /sbin/ldconfig
@@ -561,6 +633,22 @@ fi
 %{_libdir}/libavahi-common.a
 %{_libdir}/libavahi-core.a
 
+%files ui
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/bssh
+%attr(755,root,root) %{_libdir}/libavahi-ui.so.*.*.*
+
+%files ui-devel
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libavahi-ui.so
+%{_libdir}/libavahi-ui.la
+%{_includedir}/avahi-ui
+%{_pkgconfigdir}/avahi-ui.pc
+
+%files ui-static
+%defattr(644,root,root,755)
+%{_libdir}/libavahi-ui.a
+
 %files compat-libdns_sd
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libdns_sd.so.*.*.*
@@ -604,9 +692,19 @@ fi
 
 %files -n dotnet-avahi-devel
 %defattr(644,root,root,755)
-%{_libdir}/monodoc/sources/avahi-*
+%{_libdir}/monodoc/sources/avahi-sharp-docs.*
 %{_prefix}/lib/mono/avahi-sharp
 %{_pkgconfigdir}/avahi-sharp.pc
+
+%files -n dotnet-avahi-ui
+%defattr(644,root,root,755)
+%{_prefix}/lib/mono/gac/avahi-ui-sharp
+
+%files -n dotnet-avahi-ui-devel
+%defattr(644,root,root,755)
+%{_libdir}/monodoc/sources/avahi-ui-sharp-docs.*
+%{_prefix}/lib/mono/avahi-ui-sharp
+%{_pkgconfigdir}/avahi-ui-sharp.pc
 %endif
 
 %files glib
