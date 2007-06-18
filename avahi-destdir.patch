@@ -1,6 +1,6 @@
-diff -aurN avahi-0.6.9.orig/avahi-sharp/Makefile.am avahi-0.6.9/avahi-sharp/Makefile.am
---- avahi-0.6.9.orig/avahi-sharp/Makefile.am	2006-01-17 13:23:08.000000000 +0100
-+++ avahi-0.6.9/avahi-sharp/Makefile.am	2006-03-19 20:52:34.680436936 +0100
+diff -urN avahi-0.6.19/avahi-sharp/Makefile.am avahi-0.6.19.new/avahi-sharp/Makefile.am
+--- avahi-0.6.19/avahi-sharp/Makefile.am	2006-08-22 01:31:59.000000000 +0200
++++ avahi-0.6.19.new/avahi-sharp/Makefile.am	2007-06-18 16:51:04.095104810 +0200
 @@ -75,10 +75,10 @@
  endif
  
@@ -11,6 +11,22 @@ diff -aurN avahi-0.6.9.orig/avahi-sharp/Makefile.am avahi-0.6.9/avahi-sharp/Make
  uninstall-hook: $(ASSEMBLY)
 -	$(GACUTIL) /u avahi-sharp /package avahi-sharp /gacdir $(libdir) /root $(DESTDIR)$(libdir)
 +	$(GACUTIL) /u avahi-sharp /package avahi-sharp /gacdir $(libdir) /root $(DESTDIR)$(prefix)/lib
+ 
+ endif
+ endif
+diff -urN avahi-0.6.19/avahi-ui-sharp/Makefile.am avahi-0.6.19.new/avahi-ui-sharp/Makefile.am
+--- avahi-0.6.19/avahi-ui-sharp/Makefile.am	2007-04-21 20:47:16.000000000 +0200
++++ avahi-0.6.19.new/avahi-ui-sharp/Makefile.am	2007-06-18 17:27:08.498654208 +0200
+@@ -61,10 +61,10 @@
+ endif
+ 
+ install-data-hook: $(ASSEMBLY)
+-	$(GACUTIL) /i $(ASSEMBLY) /package avahi-ui-sharp /gacdir $(libdir) /root $(DESTDIR)$(libdir)
++	$(GACUTIL) /i $(ASSEMBLY) /package avahi-ui-sharp /gacdir $(libdir) /root $(DESTDIR)$(prefix)/lib
+ 
+ uninstall-hook: $(ASSEMBLY)
+-	$(GACUTIL) /u avahi-ui-sharp /package avahi-ui-sharp /gacdir $(libdir) /root $(DESTDIR)$(libdir)
++	$(GACUTIL) /u avahi-ui-sharp /package avahi-ui-sharp /gacdir $(libdir) /root $(DESTDIR)$(prefix)/lib
  
  endif
  endif
