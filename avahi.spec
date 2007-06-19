@@ -19,7 +19,7 @@ Summary:	Free mDNS/DNS-SD implementation
 Summary(pl.UTF-8):	Wolna implementacja mDNS/DNS-SD
 Name:		avahi
 Version:	0.6.19
-Release:	2
+Release:	3
 License:	GPL v.2/LGPL
 Group:		Applications
 Source0:	http://avahi.org/download/%{name}-%{version}.tar.gz
@@ -636,7 +636,10 @@ fi
 %files ui
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/bssh
+%attr(755,root,root) %{_bindir}/bvnc
 %attr(755,root,root) %{_libdir}/libavahi-ui.so.*.*.*
+%{_desktopdir}/bssh.desktop
+%{_desktopdir}/bvnc.desktop
 
 %files ui-devel
 %defattr(644,root,root,755)
@@ -766,7 +769,7 @@ fi
 # XXX: possibly missing %{_datadir}/%{name} dir, shared subdir
 %dir %{_datadir}/%{name}/interfaces
 %{_datadir}/%{name}/interfaces/avahi-discover.glade
-%{_desktopdir}/*.desktop
+%{_desktopdir}/avahi-discover.desktop
 %{_pixmapsdir}/avahi.png
 
 %files discover-standalone
