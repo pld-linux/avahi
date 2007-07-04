@@ -18,19 +18,18 @@
 Summary:	Free mDNS/DNS-SD implementation
 Summary(pl.UTF-8):	Wolna implementacja mDNS/DNS-SD
 Name:		avahi
-Version:	0.6.19
-Release:	4
-License:	GPL v.2/LGPL
+Version:	0.6.20
+Release:	1
+License:	LGPL v2.1+
 Group:		Applications
 Source0:	http://avahi.org/download/%{name}-%{version}.tar.gz
-# Source0-md5:	a06782435d1c994ecd00a66e95a5d9d4
+# Source0-md5:	6acdff79afa2631f765f3bbbc3e25a74
 Source1:	%{name}-daemon
 Source2:	%{name}-dnsconfd
 Source3:	%{name}.png
 Patch0:		%{name}-desktop.patch
 Patch1:		%{name}-glade.patch
 Patch2:		%{name}-destdir.patch
-Patch3:		%{name}-dotnet.patch
 URL:		http://avahi.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -481,7 +480,6 @@ Narzędzia linii poleceń korzystające z avahi-client.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
 
 %build
 %{__libtoolize}
