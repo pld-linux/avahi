@@ -41,7 +41,7 @@ BuildRequires:	glib2-devel >= 1:2.12.2
 BuildRequires:	graphviz
 BuildRequires:	gtk+2-devel >= 2:2.10.2
 BuildRequires:	libcap-devel
-BuildRequires:	libdaemon-devel >= 0.5
+BuildRequires:	libdaemon-devel >= 0.11
 BuildRequires:	libglade2-devel >= 1:2.6.0
 BuildRequires:	libtool
 %if %{with dotnet}
