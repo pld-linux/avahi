@@ -62,8 +62,9 @@ BuildRequires:	qt4-build
 %endif
 BuildRequires:	rpmbuild(macros) >= 1.228
 Requires(post,preun):	/sbin/chkconfig
-Requires:	dbus >= 0.92
 Requires:	%{name}-libs = %{version}-%{release}
+Requires:	dbus >= 0.92
+Requires:	libdaemon >= 0.11
 Provides:	group(avahi)
 Provides:	user(avahi)
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -96,7 +97,6 @@ Group:		Development/Libraries
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	dbus-devel >= 0.92
 Requires:	expat-devel
-Requires:	libdaemon-devel >= 0.5
 
 %description devel
 This is the package containing the header files for Avahi library.
