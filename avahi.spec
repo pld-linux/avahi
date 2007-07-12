@@ -4,7 +4,7 @@
 # - autoip start script ?
 #
 # Conditional build:
-%bcond_without	dotnet		# build without dotnet bindings
+%bcond_with	dotnet		# build without dotnet bindings
 %bcond_without	qt		# build without (any) qt bindings
 %bcond_without	qt3		# build without qt3 bindings
 %bcond_without	qt4		# build without qt4 bindings
@@ -19,7 +19,7 @@ Summary:	Free mDNS/DNS-SD implementation
 Summary(pl.UTF-8):	Wolna implementacja mDNS/DNS-SD
 Name:		avahi
 Version:	0.6.20
-Release:	1
+Release:	2
 License:	LGPL v2.1+
 Group:		Applications
 Source0:	http://avahi.org/download/%{name}-%{version}.tar.gz
