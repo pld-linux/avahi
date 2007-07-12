@@ -19,7 +19,7 @@ Summary:	Free mDNS/DNS-SD implementation
 Summary(pl.UTF-8):	Wolna implementacja mDNS/DNS-SD
 Name:		avahi
 Version:	0.6.20
-Release:	2
+Release:	3
 License:	LGPL v2.1+
 Group:		Applications
 Source0:	http://avahi.org/download/%{name}-%{version}.tar.gz
@@ -33,13 +33,13 @@ Patch2:		%{name}-destdir.patch
 URL:		http://avahi.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	dbus-devel >= 0.92
+BuildRequires:	dbus-devel >= 0.62
 BuildRequires:	doxygen
 BuildRequires:	expat-devel
 BuildRequires:	gdbm-devel
 BuildRequires:	glib2-devel >= 1:2.12.2
 BuildRequires:	graphviz
-BuildRequires:	gtk+2-devel >= 2:2.10.2
+BuildRequires:	gtk+2-devel >= 2:2.8
 BuildRequires:	libcap-devel
 BuildRequires:	libdaemon-devel >= 0.11
 BuildRequires:	libglade2-devel >= 1:2.6.0
@@ -51,8 +51,8 @@ BuildRequires:	monodoc
 %endif
 BuildRequires:	pkgconfig
 BuildRequires:	python >= 1:2.4
-BuildRequires:	python-dbus >= 0.71
-BuildRequires:	python-pygtk-devel >= 2:2.9.6
+BuildRequires:	python-dbus >= 0.62
+BuildRequires:	python-pygtk-devel >= 2:2.8
 %if %{with qt3}
 BuildRequires:	qt-devel >= 1:3.0
 %endif
@@ -95,7 +95,7 @@ Summary:	Header files for Avahi library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki Avahi
 Group:		Development/Libraries
 Requires:	%{name}-libs = %{version}-%{release}
-Requires:	dbus-devel >= 0.92
+Requires:	dbus-devel >= 0.62
 Requires:	expat-devel
 
 %description devel
@@ -121,7 +121,7 @@ Summary:	Avahi UI library
 Summary(pl.UTF-8):	Biblioteka Avahi UI
 Group:		X11/Libraries
 Requires:	%{name}-libs = %{version}-%{release}
-Requires:	gtk+2 >= 2:2.10.2
+Requires:	gtk+2 >= 2:2.8
 
 %description ui
 Common GTK+ UI support library for Avahi.
@@ -135,7 +135,7 @@ Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki Avahi UI
 Group:		X11/Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 Requires:	%{name}-ui = %{version}-%{release}
-Requires:	gtk+2-devel >= 2:2.10.2
+Requires:	gtk+2-devel >= 2:2.8
 
 %description ui-devel
 Header files for Avahi UI library.
@@ -359,7 +359,7 @@ Summary:	Avahi Python bindings
 Summary(pl.UTF-8):	Wiązania Avahi dla Pythona
 Group:		Development/Languages/Python
 Requires:	%{name}-libs = %{version}-%{release}
-Requires:	python-dbus >= 0.71
+Requires:	python-dbus >= 0.62
 
 %description -n python-avahi
 Avahi Python bindings.
@@ -439,7 +439,7 @@ Summary(pl.UTF-8):	Przeglądarka Zeroconf Avahi
 Group:		Applications
 Requires:	%{name} = %{version}-%{release}
 Requires:	python-avahi = %{version}-%{release}
-Requires:	python-pygtk-glade >= 2:2.9.6
+Requires:	python-pygtk-glade >= 2:2.8
 
 %description discover
 A tool for enumerating all available services on the local LAN
@@ -454,8 +454,8 @@ Summary:	Avahi Zeroconf browser
 Summary(pl.UTF-8):	Przeglądarka Zeroconf Avahi
 Group:		Applications
 Requires:	%{name} = %{version}-%{release}
-Requires:	python-dbus >= 0.71
-Requires:	python-pygtk-glade >= 2:2.9.6
+Requires:	python-dbus >= 0.62
+Requires:	python-pygtk-glade >= 2:2.8
 
 %description discover-standalone
 GTK+ tool for enumerating all available services on the local LAN.
