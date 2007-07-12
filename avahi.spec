@@ -7,7 +7,7 @@
 %bcond_with	dotnet		# build without dotnet bindings
 %bcond_without	qt		# build without (any) qt bindings
 %bcond_without	qt3		# build without qt3 bindings
-%bcond_without	qt4		# build without qt4 bindings
+%bcond_with	qt4		# build without qt4 bindings
 #
 %if !%{with qt}
 %undefine	with_qt3
@@ -19,7 +19,7 @@ Summary:	Free mDNS/DNS-SD implementation
 Summary(pl.UTF-8):	Wolna implementacja mDNS/DNS-SD
 Name:		avahi
 Version:	0.6.20
-Release:	4
+Release:	5
 License:	LGPL v2.1+
 Group:		Applications
 Source0:	http://avahi.org/download/%{name}-%{version}.tar.gz
