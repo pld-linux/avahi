@@ -44,6 +44,7 @@ BuildRequires:	libcap-devel
 BuildRequires:	libdaemon-devel >= 0.11
 BuildRequires:	libglade2-devel >= 1:2.6.0
 BuildRequires:	libtool
+BuildRequires:	libselinux-devel
 %if %{with dotnet}
 BuildRequires:	dotnet-gtk-sharp2-devel >= 2.10
 BuildRequires:	mono-csharp
@@ -97,6 +98,7 @@ Group:		Development/Libraries
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	dbus-devel >= 0.92
 Requires:	expat-devel
+Requires:	libselinux-devel
 
 %description devel
 This is the package containing the header files for Avahi library.
