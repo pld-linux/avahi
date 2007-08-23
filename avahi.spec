@@ -19,7 +19,7 @@ Summary:	Free mDNS/DNS-SD implementation
 Summary(pl.UTF-8):	Wolna implementacja mDNS/DNS-SD
 Name:		avahi
 Version:	0.6.20
-Release:	6
+Release:	7
 License:	LGPL v2.1+
 Group:		Applications
 Source0:	http://avahi.org/download/%{name}-%{version}.tar.gz
@@ -44,7 +44,6 @@ BuildRequires:	libcap-devel
 BuildRequires:	libdaemon-devel >= 0.11
 BuildRequires:	libglade2-devel >= 1:2.6.0
 BuildRequires:	libtool
-BuildRequires:	libselinux-devel
 %if %{with dotnet}
 BuildRequires:	dotnet-gtk-sharp2-devel >= 2.10
 BuildRequires:	mono-csharp
@@ -98,7 +97,6 @@ Group:		Development/Libraries
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	dbus-devel >= 0.92
 Requires:	expat-devel
-Requires:	libselinux-devel
 
 %description devel
 This is the package containing the header files for Avahi library.
