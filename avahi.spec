@@ -19,7 +19,7 @@ Summary:	Free mDNS/DNS-SD implementation
 Summary(pl.UTF-8):	Wolna implementacja mDNS/DNS-SD
 Name:		avahi
 Version:	0.6.20
-Release:	5
+Release:	6
 License:	LGPL v2.1+
 Group:		Applications
 Source0:	http://avahi.org/download/%{name}-%{version}.tar.gz
@@ -63,7 +63,7 @@ BuildRequires:	qt4-build
 BuildRequires:	rpmbuild(macros) >= 1.228
 Requires(post,preun):	/sbin/chkconfig
 Requires:	%{name}-libs = %{version}-%{release}
-Requires:	dbus >= 0.92
+Requires:	dbus >= 0.62
 Requires:	libdaemon >= 0.11
 Provides:	group(avahi)
 Provides:	user(avahi)
