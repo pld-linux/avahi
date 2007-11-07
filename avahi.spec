@@ -13,7 +13,9 @@
 %undefine	with_qt3
 %undefine	with_qt4
 %endif
+%if %{with dotnet}
 %include /usr/lib/rpm/macros.mono
+%{endif}
 #
 Summary:	Free mDNS/DNS-SD implementation
 Summary(pl.UTF-8):	Wolna implementacja mDNS/DNS-SD
