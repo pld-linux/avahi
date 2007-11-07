@@ -15,7 +15,7 @@
 %endif
 %if %{with dotnet}
 %include /usr/lib/rpm/macros.mono
-%{endif}
+%endif
 #
 Summary:	Free mDNS/DNS-SD implementation
 Summary(pl.UTF-8):	Wolna implementacja mDNS/DNS-SD
