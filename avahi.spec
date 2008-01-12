@@ -18,19 +18,19 @@
 Summary:	Free mDNS/DNS-SD implementation
 Summary(pl.UTF-8):	Wolna implementacja mDNS/DNS-SD
 Name:		avahi
-Version:	0.6.21
+Version:	0.6.22
 Release:	1
 License:	LGPL v2.1+
 Group:		Applications
 Source0:	http://avahi.org/download/%{name}-%{version}.tar.gz
-# Source0-md5:	9cc68f79c50c9dd9e419990c3c9b05b9
+# Source0-md5:	c84b1a8a23126e188426728710414dc8
 Source1:	%{name}-daemon
 Source2:	%{name}-dnsconfd
 Source3:	%{name}.png
 Patch0:		%{name}-desktop.patch
 Patch1:		%{name}-glade.patch
 Patch2:		%{name}-destdir.patch
-Patch3:		%{name}-dbus.patch
+Patch3:		%{name}-mono-dir.patch
 URL:		http://avahi.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -277,6 +277,44 @@ Static Avahi GLib library.
 %description glib-static -l pl.UTF-8
 Statyczna biblioteka Avahi GLib.
 
+%package gobject
+Summary:	Avahi GObject interface
+Summary(pl.UTF-8):	Interfejs GObject do Avahi
+Group:		Libraries
+
+%description gobject
+Avahi GObject interface.
+
+%description gobject -l pl.UTF-8
+Interfejs GObject do Avahi.
+
+%package gobject-devel
+Summary:	Header files for Avahi GObject interface
+Summary(pl.UTF-8):	Pliki nagłówkowe interfejsu GObject do Avahi
+Group:		Development/Libraries
+Requires:	%{name}-devel = %{version}-%{release}
+Requires:	%{name}-gobject = %{version}-%{release}
+Requires:	glib2-devel >= 1:2.12.2
+
+%description gobject-devel
+This is the package containing the header files for Avahi GObject
+interface.
+
+%description gobject-devel -l pl.UTF-8
+Ten pakiet zawiera pliki nagłówkowe interfejsu GObject do Avahi.
+
+%package gobject-static
+Summary:	Static Avahi GObject library
+Summary(pl.UTF-8):	Statyczna biblioteka Avahi GObject
+Group:		Development/Libraries
+Requires:	%{name}-gobject-devel = %{version}-%{release}
+
+%description gobject-static
+Static Avahi GObject library.
+
+%description gobject-static -l pl.UTF-8
+Statyczna biblioteka Avahi GObject.
+
 %package qt
 Summary:	Avahi Qt 3 library bindings
 Summary(pl.UTF-8):	Wiązania Avahi dla biblioteki Qt 3
@@ -438,7 +476,6 @@ je jako odnośniki HTML na http://localhost:8080/.
 Summary:	Avahi Zeroconf browser
 Summary(pl.UTF-8):	Przeglądarka Zeroconf Avahi
 Group:		Applications
-Requires:	%{name} = %{version}-%{release}
 Requires:	python-avahi = %{version}-%{release}
 Requires:	python-pygtk-glade >= 2:2.9.6
 
@@ -454,9 +491,7 @@ Narzędzie wymieniające wszystkie dostępne usługi w sieci lokalnej LAN
 Summary:	Avahi Zeroconf browser
 Summary(pl.UTF-8):	Przeglądarka Zeroconf Avahi
 Group:		Applications
-Requires:	%{name} = %{version}-%{release}
-Requires:	python-dbus >= 0.71
-Requires:	python-pygtk-glade >= 2:2.9.6
+Requires:	%{name}-glib = %{version}-%{release}
 
 %description discover-standalone
 GTK+ tool for enumerating all available services on the local LAN.
@@ -516,7 +551,8 @@ ln -sf %{_includedir}/avahi-compat-libdns_sd/dns_sd.h \
 ln -sf %{_pkgconfigdir}/avahi-compat-howl.pc \
 	$RPM_BUILD_ROOT%{_pkgconfigdir}/howl.pc
 
-rm -f $RPM_BUILD_ROOT%{py_sitedir}/avahi/{__init__,SimpleGladeApp}.py
+rm -f $RPM_BUILD_ROOT%{py_sitedir}/avahi/{__init__,SimpleGladeApp}.py \
+	$RPM_BUILD_ROOT%{py_sitedir}/avahi_discover/*.py
 
 rm -f $RPM_BUILD_ROOT%{_mandir}/man1/{avahi-{browse-domains,publish-address,publish-service,resolve-address,resolve-host-name},bvnc}.1
 echo '.so avahi-browse.1' > $RPM_BUILD_ROOT%{_mandir}/man1/avahi-browse-domains.1
@@ -525,6 +561,8 @@ echo '.so avahi-publish.1' > $RPM_BUILD_ROOT%{_mandir}/man1/avahi-publish-servic
 echo '.so avahi-resolve.1' > $RPM_BUILD_ROOT%{_mandir}/man1/avahi-resolve-address.1
 echo '.so avahi-resolve.1' > $RPM_BUILD_ROOT%{_mandir}/man1/avahi-resolve-host-name.1
 echo '.so bssh.1' > $RPM_BUILD_ROOT%{_mandir}/man1/bvnc.1
+
+%find_lang %{name}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -568,6 +606,9 @@ fi
 %post	glib -p /sbin/ldconfig
 %postun	glib -p /sbin/ldconfig
 
+%post	gobject -p /sbin/ldconfig
+%postun	gobject -p /sbin/ldconfig
+
 %post	qt -p /sbin/ldconfig
 %postun	qt -p /sbin/ldconfig
 
@@ -592,26 +633,40 @@ fi
 %attr(755,root,root) %{_sbindir}/avahi-daemon
 %attr(755,root,root) %{_sbindir}/avahi-dnsconfd
 
-%dir %{_datadir}/%{name}
 %dir %{_datadir}/%{name}/introspection
 %{_datadir}/%{name}/introspection/*.introspect
 %{_datadir}/%{name}/avahi-service.dtd
 %{_datadir}/%{name}/service-types
-%{_datadir}/%{name}/service-types.db
+%dir %{_libdir}/%{name}
+%{_libdir}/%{name}/service-types.db
 
-%{_mandir}/man*/*
+%{_mandir}/man1/avahi-set-host-name.1*
+%{_mandir}/man5/avahi-daemon.conf.5*
+%{_mandir}/man5/avahi.hosts.5*
+%{_mandir}/man5/avahi.service.5*
+%{_mandir}/man8/avahi-daemon.8*
+%{_mandir}/man8/avahi-dnsconfd.8*
+%{_mandir}/man8/avahi-dnsconfd.action.8*
 
 %attr(754,root,root) /etc/rc.d/init.d/%{name}-daemon
 %attr(754,root,root) /etc/rc.d/init.d/%{name}-dnsconfd
 
 %attr(755,root,root) %{_sysconfdir}/%{name}/avahi-autoipd.action
 %attr(755,root,root) %{_sbindir}/avahi-autoipd
+%{_mandir}/man8/avahi-autoipd.8*
+%{_mandir}/man8/avahi-autoipd.action.8*
 
-%files libs
+%files libs -f %{name}.lang
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libavahi-client.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libavahi-client.so.3
 %attr(755,root,root) %{_libdir}/libavahi-common.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libavahi-common.so.3
 %attr(755,root,root) %{_libdir}/libavahi-core.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libavahi-core.so.5
+# common for -discover*
+%dir %{_datadir}/%{name}
+%dir %{_datadir}/%{name}/interfaces
 
 %files devel
 %defattr(644,root,root,755)
@@ -636,9 +691,13 @@ fi
 
 %files ui
 %defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/bshell
 %attr(755,root,root) %{_bindir}/bssh
 %attr(755,root,root) %{_bindir}/bvnc
 %attr(755,root,root) %{_libdir}/libavahi-ui.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libavahi-ui.so.0
+%{_mandir}/man1/bssh.1*
+%{_mandir}/man1/bvnc.1*
 %{_desktopdir}/bssh.desktop
 %{_desktopdir}/bvnc.desktop
 
@@ -656,6 +715,7 @@ fi
 %files compat-libdns_sd
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libdns_sd.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libdns_sd.so.1
 
 %files compat-libdns_sd-devel
 %defattr(644,root,root,755)
@@ -672,6 +732,7 @@ fi
 %files compat-howl
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libhowl.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libhowl.so.0
 
 %files compat-howl-devel
 %defattr(644,root,root,755)
@@ -696,8 +757,8 @@ fi
 
 %files -n dotnet-avahi-devel
 %defattr(644,root,root,755)
-%{_libdir}/monodoc/sources/avahi-sharp-docs.*
 %{_prefix}/lib/mono/avahi-sharp
+%{_libdir}/monodoc/sources/avahi-sharp-docs.*
 %{_pkgconfigdir}/avahi-sharp.pc
 
 %files -n dotnet-avahi-ui
@@ -706,14 +767,15 @@ fi
 
 %files -n dotnet-avahi-ui-devel
 %defattr(644,root,root,755)
-%{_libdir}/monodoc/sources/avahi-ui-sharp-docs.*
 %{_prefix}/lib/mono/avahi-ui-sharp
+%{_libdir}/monodoc/sources/avahi-ui-sharp-docs.*
 %{_pkgconfigdir}/avahi-ui-sharp.pc
 %endif
 
 %files glib
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libavahi-glib.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libavahi-glib.so.1
 
 %files glib-devel
 %defattr(644,root,root,755)
@@ -726,10 +788,27 @@ fi
 %defattr(644,root,root,755)
 %{_libdir}/libavahi-glib.a
 
+%files gobject
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libavahi-gobject.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libavahi-gobject.so.0
+
+%files gobject-devel
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libavahi-gobject.so
+%{_libdir}/libavahi-gobject.la
+%{_includedir}/avahi-gobject
+%{_pkgconfigdir}/avahi-gobject.pc
+
+%files gobject-static
+%defattr(644,root,root,755)
+%{_libdir}/libavahi-gobject.a
+
 %if %{with qt3}
 %files qt
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libavahi-qt3.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libavahi-qt3.so.1
 
 %files qt-devel
 %defattr(644,root,root,755)
@@ -747,6 +826,7 @@ fi
 %files Qt
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libavahi-qt4.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libavahi-qt4.so.1
 
 %files Qt-devel
 %defattr(644,root,root,755)
@@ -763,25 +843,37 @@ fi
 %files bookmarks
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/avahi-bookmarks
+%{_mandir}/man1/avahi-bookmarks.1*
 
 %files discover
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/avahi-discover
-# XXX: possibly missing %{_datadir}/%{name} dir, shared subdir
-%dir %{_datadir}/%{name}/interfaces
+%{py_sitedir}/avahi_discover
 %{_datadir}/%{name}/interfaces/avahi-discover.glade
 %{_desktopdir}/avahi-discover.desktop
 %{_pixmapsdir}/avahi.png
+%{_mandir}/man1/avahi-discover.1*
 
 %files discover-standalone
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/avahi-discover-standalone
-# XXX: possibly missing %{_datadir}/%{name} dir, shared subdir
-%dir %{_datadir}/%{name}/interfaces
 %{_datadir}/%{name}/interfaces/avahi-discover-standalone.glade
 
 %files utils
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/avahi-browse
+%attr(755,root,root) %{_bindir}/avahi-browse-domains
 %attr(755,root,root) %{_bindir}/avahi-publish
+%attr(755,root,root) %{_bindir}/avahi-publish-address
+%attr(755,root,root) %{_bindir}/avahi-publish-service
 %attr(755,root,root) %{_bindir}/avahi-resolve
+%attr(755,root,root) %{_bindir}/avahi-resolve-address
+%attr(755,root,root) %{_bindir}/avahi-resolve-host-name
+%{_mandir}/man1/avahi-browse.1*
+%{_mandir}/man1/avahi-browse-domains.1*
+%{_mandir}/man1/avahi-publish.1*
+%{_mandir}/man1/avahi-publish-address.1*
+%{_mandir}/man1/avahi-publish-service.1*
+%{_mandir}/man1/avahi-resolve.1*
+%{_mandir}/man1/avahi-resolve-address.1*
+%{_mandir}/man1/avahi-resolve-host-name.1*
