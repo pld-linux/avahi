@@ -1,0 +1,10 @@
+--- avahi-0.6.22/avahi-sharp.pc.in.orig	2005-09-25 22:34:49.000000000 +0200
++++ avahi-0.6.22/avahi-sharp.pc.in	2008-01-12 15:40:44.404579850 +0100
+@@ -1,6 +1,6 @@
+ prefix=@prefix@
+ exec_prefix=@prefix@
+-libdir=@libdir@
++libdir=@prefix@/lib
+ 
+ Name: avahi-sharp
+ Description: Mono bindings for the Avahi mDNS/DNS-SD stack
