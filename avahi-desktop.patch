@@ -1,5 +1,5 @@
---- avahi-0.6.19/avahi-python/avahi-discover.desktop.in.orig	2007-05-09 14:53:00.000000000 +0200
-+++ avahi-0.6.19/avahi-python/avahi-discover.desktop.in	2007-06-17 23:30:38.368867907 +0200
+--- avahi-0.6.22/avahi-python/avahi-discover/avahi-discover.desktop.in.orig	2007-05-09 14:53:00.000000000 +0200
++++ avahi-0.6.22/avahi-python/avahi-discover/avahi-discover.desktop.in	2007-06-17 23:30:38.368867907 +0200
 @@ -3,10 +3,10 @@
  Encoding=UTF-8
  Name=Avahi Zeroconf Browser
