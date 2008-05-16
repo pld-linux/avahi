@@ -10,10 +10,10 @@
 %bcond_without	qt4		# build without qt4 bindings
 #
 %ifnarch %{ix86} %{x8664} alpha arm hppa ia64 mips ppc s390 s390x sparc sparcv9
-%undefine with_mono
+%undefine with_dotnet
 %endif
 %ifarch i386
-%undefine with_mono
+%undefine with_dotnet
 %endif
 
 %if !%{with qt}
