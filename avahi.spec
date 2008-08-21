@@ -569,9 +569,6 @@ echo '.so avahi-resolve.1' > $RPM_BUILD_ROOT%{_mandir}/man1/avahi-resolve-addres
 echo '.so avahi-resolve.1' > $RPM_BUILD_ROOT%{_mandir}/man1/avahi-resolve-host-name.1
 echo '.so bssh.1' > $RPM_BUILD_ROOT%{_mandir}/man1/bvnc.1
 
-# error: avahi-libs-0.6.23-1: req /usr/share/locale/en_NZ/LC_MESSAGES not found
-rm -rf $RPM_BUILD_ROOT%{_datadir}/locale/en_NZ
-
 %find_lang %{name}
 
 %clean
