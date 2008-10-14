@@ -48,6 +48,7 @@ BuildRequires:	gdbm-devel
 BuildRequires:	glib2-devel >= 1:2.12.2
 BuildRequires:	graphviz
 BuildRequires:	gtk+2-devel >= 2:2.10.2
+BuildRequires:	intltool >= 0.35
 BuildRequires:	libcap-devel
 BuildRequires:	libdaemon-devel >= 0.11
 BuildRequires:	libglade2-devel >= 1:2.6.0
@@ -526,6 +527,7 @@ Narzędzia linii poleceń korzystające z avahi-client.
 %patch3 -p1
 
 %build
+%{__intltoolize}
 %{__libtoolize}
 %{__aclocal} -I common
 %{__autoconf}
