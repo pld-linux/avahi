@@ -25,12 +25,12 @@
 Summary:	Free mDNS/DNS-SD implementation
 Summary(pl.UTF-8):	Wolna implementacja mDNS/DNS-SD
 Name:		avahi
-Version:	0.6.24
-Release:	2
+Version:	0.6.25
+Release:	1
 License:	LGPL v2.1+
 Group:		Applications
 Source0:	http://avahi.org/download/%{name}-%{version}.tar.gz
-# Source0-md5:	068c1d220b07037e64caf87d4a7a0504
+# Source0-md5:	a83155a6e29e3988f07e5eea3287b21e
 Source1:	%{name}-daemon
 Source2:	%{name}-dnsconfd
 Source3:	%{name}.png
