@@ -1,7 +1,7 @@
---- avahi-0.6.24/avahi-python/avahi-discover/avahi-discover.desktop.in.in~	2008-12-12 21:46:47.000000000 +0100
-+++ avahi-0.6.24/avahi-python/avahi-discover/avahi-discover.desktop.in.in	2008-12-16 14:26:56.000000000 +0100
-@@ -3,10 +3,10 @@
- Encoding=UTF-8
+--- avahi-0.6.25/avahi-python/avahi-discover/avahi-discover.desktop.in.in~	2009-04-15 09:55:26.000000000 +0200
++++ avahi-0.6.25/avahi-python/avahi-discover/avahi-discover.desktop.in.in	2009-04-15 09:57:18.000000000 +0200
+@@ -2,10 +2,10 @@
+ Version=1.0
  _Name=Avahi Zeroconf Browser
  _Comment=Browse for Zeroconf services available on your network
 -Exec=@bindir@/avahi-discover
@@ -9,7 +9,7 @@
  Terminal=false
  Type=Application
 -Icon=network-wired
--Categories=GNOME;Application;System;
+-Categories=GNOME;System;
 +Icon=avahi
 +Categories=GTK;System;Utility;
  StartupNotify=false
