@@ -45,6 +45,7 @@ BuildRequires:	dbus-devel >= 0.92
 BuildRequires:	doxygen
 BuildRequires:	expat-devel
 BuildRequires:	gdbm-devel
+BuildRequires:	gettext-devel
 BuildRequires:	glib2-devel >= 1:2.12.2
 BuildRequires:	graphviz
 BuildRequires:	gtk+2-devel >= 2:2.10.2
@@ -69,6 +70,7 @@ BuildRequires:	qt-devel >= 1:3.0
 BuildRequires:	QtCore-devel
 BuildRequires:	qt4-build
 %endif
+BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.228
 Requires(post,preun):	/sbin/chkconfig
 Requires:	%{name}-libs = %{version}-%{release}
@@ -380,8 +382,8 @@ Wiązania Avahi dla biblioteki Qt 4.
 Summary:	Header files for Avahi Qt 4 library bindings
 Summary(pl.UTF-8):	Pliki nagłówkowe wiązań Avahi dla biblioteki Qt 4
 Group:		Development/Libraries
-Requires:	%{name}-devel = %{version}-%{release}
 Requires:	%{name}-Qt = %{version}-%{release}
+Requires:	%{name}-devel = %{version}-%{release}
 
 %description Qt-devel
 Header files for Avahi Qt 4 library bindings.
@@ -635,7 +637,7 @@ fi
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/avahi/hosts
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/avahi/services/ssh.service
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/avahi/services/sftp-ssh.service
-%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/dbus-1/system.d/*
+%config(noreplace) %verify(not md5 mtime size) /etc/dbus-1/system.d/*
 
 %attr(755,root,root) %{_bindir}/avahi-set-host-name
 
