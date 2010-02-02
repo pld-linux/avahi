@@ -8,13 +8,13 @@
 %bcond_without	qt		# build without (any) qt bindings
 %bcond_without	qt3		# build without qt3 bindings
 %bcond_with	qt4		# build without qt4 bindings
-#
-%if !%{with qt}
+
+%if %{without qt}
 %undefine	with_qt3
 %undefine	with_qt4
 %endif
-%include /usr/lib/rpm/macros.mono
-#
+
+%{?with_dotnet:%include /usr/lib/rpm/macros.mono}
 Summary:	Free mDNS/DNS-SD implementation
 Summary(pl.UTF-8):	Wolna implementacja mDNS/DNS-SD
 Name:		avahi
