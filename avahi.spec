@@ -1,4 +1,3 @@
-#
 # TODO:
 # - autoip subpackage ?
 # - autoip start script ?
@@ -8,7 +7,7 @@
 %bcond_without	qt		# build without (any) qt bindings
 %bcond_without	qt3		# build without qt3 bindings
 %bcond_without	qt4		# build without qt4 bindings
-#
+
 %ifnarch %{ix86} %{x8664} alpha arm hppa ia64 mips ppc s390 s390x sparc sparcv9
 %undefine with_dotnet
 %endif
@@ -16,17 +15,17 @@
 %undefine with_dotnet
 %endif
 
-%if !%{with qt}
+%if %{without qt}
 %undefine	with_qt3
 %undefine	with_qt4
 %endif
+
 %{?with_dotnet:%include /usr/lib/rpm/macros.mono}
-#
 Summary:	Free mDNS/DNS-SD implementation
 Summary(pl.UTF-8):	Wolna implementacja mDNS/DNS-SD
 Name:		avahi
 Version:	0.6.25
-Release:	2
+Release:	3
 License:	LGPL v2.1+
 Group:		Applications
 Source0:	http://avahi.org/download/%{name}-%{version}.tar.gz
@@ -38,6 +37,7 @@ Patch0:		%{name}-desktop.patch
 Patch1:		%{name}-glade.patch
 Patch2:		%{name}-destdir.patch
 Patch3:		%{name}-mono-dir.patch
+Patch4:		nss-mdns-package.patch
 URL:		http://avahi.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -527,6 +527,7 @@ Narzędzia linii poleceń korzystające z avahi-client.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 %{__intltoolize}
@@ -553,8 +554,8 @@ install -d $RPM_BUILD_ROOT{%{_pixmapsdir},/etc/rc.d/init.d}
 	DESTDIR=$RPM_BUILD_ROOT \
 	pythondir=%{py_sitedir}
 
-install %{SOURCE1} %{SOURCE2} $RPM_BUILD_ROOT/etc/rc.d/init.d
-install %{SOURCE3} $RPM_BUILD_ROOT%{_pixmapsdir}
+install -p %{SOURCE1} %{SOURCE2} $RPM_BUILD_ROOT/etc/rc.d/init.d
+cp -a %{SOURCE3} $RPM_BUILD_ROOT%{_pixmapsdir}
 
 ln -sf %{_includedir}/avahi-compat-libdns_sd/dns_sd.h \
 	$RPM_BUILD_ROOT%{_includedir}/dns_sd.h
