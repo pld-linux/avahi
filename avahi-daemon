@@ -28,27 +28,52 @@ fi
 
 start() {
 	# Check if the service is already running?
-	if [ ! -f /var/lock/subsys/avahi-daemon ]; then
-		msg_starting "avahi-daemon"
-		_modprobe capability
-		daemon /usr/sbin/avahi-daemon -D
-		RETVAL=$?
-		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/avahi-daemon
-	else
+	if [ -f /var/lock/subsys/avahi-daemon ]; then
 		msg_already_running "avahi-daemon"
+		return
 	fi
+
+	msg_starting "avahi-daemon"
+	_modprobe capability
+	daemon /usr/sbin/avahi-daemon -D
+	RETVAL=$?
+	[ $RETVAL -eq 0 ] && touch /var/lock/subsys/avahi-daemon
 }
 
 stop() {
-	if [ -f /var/lock/subsys/avahi-daemon ]; then
-		# Stop daemons.
-		msg_stopping "avahi-daemon"
-		avahi-daemon -k
-		rm -f /var/lock/subsys/avahi-daemon
-		ok
-	else
+	if [ ! -f /var/lock/subsys/avahi-daemon ]; then
 		msg_not_running "avahi-daemon"
+		return
 	fi
+
+	# Stop daemons.
+	msg_stopping "avahi-daemon"
+	avahi-daemon -k
+	rm -f /var/lock/subsys/avahi-daemon
+	ok
+}
+
+reload() {
+	if [ ! -f /var/lock/subsys/avahi-daemon ]; then
+		msg_not_running "avahi-daemon"
+		RETVAL=7
+		return
+	fi
+
+	msg_reloading "avahi-daemon"
+	avahi-daemon -r
+	RETVAL=$?
+}
+
+condrestart() {
+	if [ ! -f /var/lock/subsys/avahi-daemon ]; then
+		msg_not_running "avahi-daemon"
+		RETVAL=$1
+		return
+	fi
+
+	stop
+	start
 }
 
 RETVAL=0
@@ -64,22 +89,18 @@ case "$1" in
 	stop
 	start
 	;;
+  try-restart)
+	condrestart 0
+	;;
   reload|force-reload)
-	if [ -f /var/lock/subsys/avahi-daemon ]; then
-		msg_reloading "avahi-daemon"
-		avahi-daemon -r
-		RETVAL=$?
-	else
-		msg_not_running "avahi-daemon"
-		RETVAL=7
-	fi
+  	reload
 	;;
   status)
 	status avahi-daemon
 	RETVAL=$?
 	;;
   *)
-	msg_usage "$0 {start|stop|restart|reload|force-reload|status}"
+	msg_usage "$0 {start|stop|restart|try-restart|reload|force-reload|status}"
 	exit 3
 esac
 
