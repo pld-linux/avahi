@@ -19,7 +19,7 @@
 # Check that networking is up.
 if is_yes "${NETWORKING}"; then
 	if [ ! -f /var/lock/subsys/network ]; then
-		msg_network_down avahi-daemon
+		msg_network_down "avahi-daemon"
 		exit 1
 	fi
 else
@@ -29,25 +29,25 @@ fi
 start() {
 	# Check if the service is already running?
 	if [ ! -f /var/lock/subsys/avahi-daemon ]; then
-		msg_starting avahi-daemon
+		msg_starting "avahi-daemon"
 		_modprobe capability
-		daemon avahi-daemon -D
+		daemon /usr/sbin/avahi-daemon -D
 		RETVAL=$?
 		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/avahi-daemon
 	else
-		msg_already_running avahi-daemon
+		msg_already_running "avahi-daemon"
 	fi
 }
 
 stop() {
 	if [ -f /var/lock/subsys/avahi-daemon ]; then
 		# Stop daemons.
-		msg_stopping avahi-daemon
+		msg_stopping "avahi-daemon"
 		avahi-daemon -k
 		rm -f /var/lock/subsys/avahi-daemon
 		ok
 	else
-		msg_not_running avahi-daemon
+		msg_not_running "avahi-daemon"
 	fi
 }
 
@@ -66,11 +66,11 @@ case "$1" in
 	;;
   reload|force-reload)
 	if [ -f /var/lock/subsys/avahi-daemon ]; then
-		msg_reloading avahi-daemon
+		msg_reloading "avahi-daemon"
 		avahi-daemon -r
 		RETVAL=$?
 	else
-		msg_not_running avahi-daemon
+		msg_not_running "avahi-daemon"
 		RETVAL=7
 	fi
 	;;

@@ -34,7 +34,7 @@ case "$1" in
 	# Check if the service is already running?
 	if [ ! -f /var/lock/subsys/avahi-dnsconfd ]; then
 		msg_starting avahi-dnsconfd
-		daemon avahi-dnsconfd -D
+		daemon /usr/sbin/avahi-dnsconfd -D
 		RETVAL=$?
 		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/avahi-dnsconfd
 	else
