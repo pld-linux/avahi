@@ -9,6 +9,7 @@
 #		on the local LAN. This is useful for configuring unicast DNS servers in \
 #		a DHCP-like fashion with mDNS.
 #
+# $Id$
 
 
 # Source function library
@@ -20,67 +21,87 @@
 # Check that networking is up.
 if is_yes "${NETWORKING}"; then
 	if [ ! -f /var/lock/subsys/network ]; then
-		msg_network_down avahi-dnsconfd
+		msg_network_down "avahi-dnsconfd"
 		exit 1
 	fi
 else
 	exit 0
 fi
 
+start() {
+	# Check if the service is already running?
+	if [ -f /var/lock/subsys/avahi-dnsconfd ]; then
+		msg_already_running "avahi-dnsconfd"
+		return
+	fi
+
+	msg_starting "avahi-dnsconfd"
+	daemon /usr/sbin/avahi-dnsconfd -D
+	RETVAL=$?
+	[ $RETVAL -eq 0 ] && touch /var/lock/subsys/avahi-dnsconfd
+}
+
+stop() {
+	if [ ! -f /var/lock/subsys/avahi-dnsconfd ]; then
+		msg_not_running "avahi-dnsconfd"
+		return
+	fi
+
+	# Stop daemons.
+	msg_stopping "avahi-dnsconfd"
+	avahi-dnsconfd -k && ok || fail
+	rm -f /var/lock/subsys/avahi-dnsconfd
+}
+
+reload() {
+	if [ ! -f /var/lock/subsys/avahi-dnsconfd ]; then
+		msg_not_running "avahi-dnsconfd"
+		RETVAL=7
+		return
+	fi
+
+	msg_reloading "avahi-dnsconfd"
+	avahi-dnsconfd -r
+	RETVAL=$?
+}
+
+condrestart() {
+	if [ ! -f /var/lock/subsys/avahi-dnsconfd ]; then
+		msg_not_running "avahi-dnsconfd"
+		RETVAL=$1
+		return
+	fi
+
+	stop
+	start
+}
+
 
 # See how we were called.
 case "$1" in
   start)
-	# Check if the service is already running?
-	if [ ! -f /var/lock/subsys/avahi-dnsconfd ]; then
-		msg_starting avahi-dnsconfd
-		daemon /usr/sbin/avahi-dnsconfd -D
-		RETVAL=$?
-		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/avahi-dnsconfd
-	else
-		msg_already_running avahi-dnsconfd
-	fi
+  	start
 	;;
   stop)
-	if [ -f /var/lock/subsys/avahi-dnsconfd ]; then
-		# Stop daemons.
-		msg_stopping avahi-dnsconfd
-		avahi-dnsconfd -k
-		rm -f /var/lock/subsys/avahi-dnsconfd
-		ok
-	else
-		msg_not_running avahi-dnsconfd
-	fi
+  	stop
 	;;
   restart)
-	$0 stop
-	$0 start
-	exit $?
+	stop
+	start
 	;;
-  reload)
-	if [ -f /var/lock/subsys/avahi-dnsconfd ]; then
-		msg_reloading avahi-dnsconfd
-		avahi-dnsconfd -r
-		RETVAL=$?
-	else
-		msg_not_running avahi-dnsconfd >&2
-		RETVAL=7
-	fi
+  reload|force-reload)
+  	reload
 	;;
-  force-reload)
-	$0 reload
-	exit $?
+  try-restart)
+	condrestart 0
 	;;
   status)
 	status avahi-dnsconfd
 	RETVAL=$?
 	;;
   *)
-	msg_usage "$0 {start|stop|restart|reload|force-reload|status}"
+	msg_usage "$0 {start|stop|restart|reload|force-reload|try-restart|status}"
 	exit 3
 esac
 
 exit $RETVAL
-
-# This must be last line !
-# vi:syntax=sh:tw=78:ts=4:sw=4
