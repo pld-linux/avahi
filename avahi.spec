@@ -57,7 +57,7 @@ BuildRequires:	libtool
 %if %{with dotnet}
 BuildRequires:	dotnet-gtk-sharp2-devel >= 2.10
 BuildRequires:	mono-csharp
-BuildRequires:	monodoc
+BuildRequires:	monodoc >= 2.6
 %endif
 BuildRequires:	pkgconfig
 BuildRequires:	python >= 1:2.4
@@ -433,7 +433,7 @@ Summary:	Development files for MONO Avahi bindings
 Summary(pl.UTF-8):	Pliki rozwojowe wiązań Avahi dla MONO
 Group:		Development/Libraries
 Requires:	dotnet-avahi = %{version}-%{release}
-Requires:	monodoc
+Requires:	monodoc >= 2.6
 
 %description -n dotnet-avahi-devel
 Development files for MONO Avahi bindings.
@@ -459,7 +459,7 @@ Summary:	Development files for MONO Avahi UI bindings
 Summary(pl.UTF-8):	Pliki rozwojowe wiązań Avahi UI dla MONO
 Group:		X11/Development/Libraries
 Requires:	dotnet-avahi-ui = %{version}-%{release}
-Requires:	monodoc
+Requires:	monodoc >= 2.6
 
 %description -n dotnet-avahi-ui-devel
 Development files for MONO Avahi UI bindings.
