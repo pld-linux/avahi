@@ -543,7 +543,10 @@ Narzędzia linii poleceń korzystające z avahi-client.
 	%{!?with_qt3:--disable-qt3} \
 	%{!?with_qt4:--disable-qt4} \
 	%{!?with_dotnet:--disable-mono} \
-	%{!?with_dotnet:--disable-monodoc}
+	%{!?with_dotnet:--disable-monodoc} \
+	--with-avahi-priv-access-group=adm \
+	--with-autoipd-user=avahi \
+	--with-autoipd-group=avahi 
 %{__make}
 
 %install
