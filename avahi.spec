@@ -1,6 +1,3 @@
-# TODO:
-# - autoip subpackage ?
-# - autoip start script ?
 #
 # Conditional build:
 %bcond_without	dotnet		# build without dotnet bindings
@@ -21,11 +18,11 @@
 %endif
 
 %{?with_dotnet:%include /usr/lib/rpm/macros.mono}
-Summary:	Free mDNS/DNS-SD implementation
-Summary(pl.UTF-8):	Wolna implementacja mDNS/DNS-SD
+Summary:	Free mDNS/DNS-SD/Zeroconf implementation
+Summary(pl.UTF-8):	Wolna implementacja mDNS/DNS-SD/Zeroconf
 Name:		avahi
 Version:	0.6.25
-Release:	4
+Release:	5
 License:	LGPL v2.1+
 Group:		Applications
 Source0:	http://avahi.org/download/%{name}-%{version}.tar.gz
@@ -89,6 +86,28 @@ between user applications and a system daemon.
 Avahi jest implementacją specyfikacji DNS Service Discovery i
 Multicast DNS dla Zeroconf Computing. Używa D-BUSa dla komunikacji
 pomiędzy programami użytkownika a demonem systemowym.
+
+%package autoipd
+Summary:	IPv4LL network address configuration daemon
+Summary(pl.UTF-8):	Demon configurujący adresy IPv4LL
+Group:		Networking/Daemons
+
+%description autoipd
+avahi-autoipd  implements  IPv4LL, "Dynamic Configuration of IPv4 Link- Local
+Addresses" (IETF RFC3927), a protocol for  automatic  IP  address configuration
+from the link-local 169.254.0.0/16 range without the need for a central server.
+It is primarily intended to  be  used  in  ad-hoc networks which lack a DHCP
+server.
+
+IPv4LL is part of the Zeroconf stack.
+
+%description autoipd -l pl.UTF-8
+avahi-autoipd jest implementacją IPv4LL, protokołu umożliwiającego
+automatyczną konfigurację adresu z zakresu 169.254.0.0/16 bez potrzeby
+użycia centralnego serwera. Jego głównym zastosowaniem są sieci ad-hoc, 
+w których brakuje serwera DHCP.
+
+IPv4LL jest częścią stosu Zeroconf.
 
 %package libs
 Summary:	Avahi client, common and core libraries
@@ -666,6 +685,10 @@ fi
 %attr(754,root,root) /etc/rc.d/init.d/%{name}-daemon
 %attr(754,root,root) /etc/rc.d/init.d/%{name}-dnsconfd
 
+
+%files autoipd
+%defattr(644,root,root,755)
+%dir %{_sysconfdir}/avahi
 %attr(755,root,root) %{_sysconfdir}/%{name}/avahi-autoipd.action
 %attr(755,root,root) %{_sbindir}/avahi-autoipd
 %{_mandir}/man8/avahi-autoipd.8*
