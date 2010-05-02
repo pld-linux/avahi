@@ -75,6 +75,7 @@ Requires(post,preun):	/sbin/chkconfig
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	dbus >= 0.92
 Requires:	libdaemon >= 0.11
+Suggests:	nss_mdns >= 0.10-2
 Provides:	group(avahi)
 Provides:	user(avahi)
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
