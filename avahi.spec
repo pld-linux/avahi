@@ -93,23 +93,29 @@ pomiędzy programami użytkownika a demonem systemowym.
 Summary:	IPv4LL network address configuration daemon
 Summary(pl.UTF-8):	Demon configurujący adresy IPv4LL
 Group:		Networking/Daemons
+Requires(postun):	/usr/sbin/groupdel
+Requires(postun):	/usr/sbin/userdel
+Requires(pre):	/bin/id
+Requires(pre):	/usr/bin/getgid
+Requires(pre):	/usr/sbin/groupadd
+Requires(pre):	/usr/sbin/useradd
 Provides:	group(avahi)
 Provides:	user(avahi)
 
 %description autoipd
-avahi-autoipd  implements  IPv4LL, "Dynamic Configuration of IPv4 Link- Local
-Addresses" (IETF RFC3927), a protocol for  automatic  IP  address configuration
-from the link-local 169.254.0.0/16 range without the need for a central server.
-It is primarily intended to  be  used  in  ad-hoc networks which lack a DHCP
-server.
+avahi-autoipd implements IPv4LL, "Dynamic Configuration of IPv4 Link-
+Local Addresses" (IETF RFC3927), a protocol for automatic IP address
+configuration from the link-local 169.254.0.0/16 range without the
+need for a central server. It is primarily intended to be used in
+ad-hoc networks which lack a DHCP server.
 
 IPv4LL is part of the Zeroconf stack.
 
 %description autoipd -l pl.UTF-8
 avahi-autoipd jest implementacją IPv4LL, protokołu umożliwiającego
 automatyczną konfigurację adresu z zakresu 169.254.0.0/16 bez potrzeby
-użycia centralnego serwera. Jego głównym zastosowaniem są sieci ad-hoc, 
-w których brakuje serwera DHCP.
+użycia centralnego serwera. Jego głównym zastosowaniem są sieci
+ad-hoc, w których brakuje serwera DHCP.
 
 IPv4LL jest częścią stosu Zeroconf.
 
@@ -571,7 +577,7 @@ Narzędzia linii poleceń korzystające z avahi-client.
 	%{!?with_dotnet:--disable-monodoc} \
 	--with-avahi-priv-access-group=adm \
 	--with-autoipd-user=avahi \
-	--with-autoipd-group=avahi 
+	--with-autoipd-group=avahi
 %{__make}
 
 %install
@@ -631,7 +637,13 @@ fi
 
 %postun
 if [ "$1" = "0" ]; then
-        %userremove avahi
+	%userremove avahi
+	%groupremove avahi
+fi
+
+%postun autoipd
+if [ "$1" = "0" ]; then
+	%userremove avahi
 	%groupremove avahi
 fi
 
