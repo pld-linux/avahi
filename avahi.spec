@@ -699,7 +699,9 @@ fi
 %defattr(644,root,root,755)
 %dir %{_sysconfdir}/avahi
 %attr(755,root,root) %{_sysconfdir}/%{name}/avahi-autoipd.action
+%dir %{_sysconfdir}/dhclient-enter-hooks.d
 %config(noreplace) %verify(not md5 mtime size) /etc/dhclient-enter-hooks.d/avahi-autoipd
+%dir %{_sysconfdir}/dhclient-exit-hooks.d
 %config(noreplace) %verify(not md5 mtime size) /etc/dhclient-exit-hooks.d/avahi-autoipd
 %attr(755,root,root) %{_sbindir}/avahi-autoipd
 %{_mandir}/man8/avahi-autoipd.8*
