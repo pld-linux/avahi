@@ -91,6 +91,8 @@ pomiędzy programami użytkownika a demonem systemowym.
 Summary:	IPv4LL network address configuration daemon
 Summary(pl.UTF-8):	Demon configurujący adresy IPv4LL
 Group:		Networking/Daemons
+Provides:	group(avahi)
+Provides:	user(avahi)
 
 %description autoipd
 avahi-autoipd  implements  IPv4LL, "Dynamic Configuration of IPv4 Link- Local
@@ -602,6 +604,10 @@ echo '.so bssh.1' > $RPM_BUILD_ROOT%{_mandir}/man1/bvnc.1
 rm -rf $RPM_BUILD_ROOT
 
 %pre
+%groupadd -g 165 -r -f avahi
+%useradd -u 165 -r -d /usr/share/empty -s /bin/false -c "Avahi daemon" -g avahi avahi
+
+%pre autoipd
 %groupadd -g 165 -r -f avahi
 %useradd -u 165 -r -d /usr/share/empty -s /bin/false -c "Avahi daemon" -g avahi avahi
 
