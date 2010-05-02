@@ -1,0 +1,30 @@
+--- avahi-0.6.25/avahi-autoipd/Makefile.am.orig	2008-06-18 01:13:44.000000000 +0200
++++ avahi-0.6.25/avahi-autoipd/Makefile.am	2010-05-02 15:03:02.000000000 +0200
+@@ -60,8 +60,6 @@
+ 	cp $< $@
+ endif
+ 
+-if TARGET_DEBIAN
+-
+ noinst_SCRIPTS = dhclient-enter-hook dhclient-exit-hook
+ 
+ dhclient-enter-hook: dhclient-enter-hook.in
+@@ -74,8 +72,8 @@
+ 
+ BUILD = dhclient-exit-hook dhclient-enter-hook
+ 
+-dhcliententerdir = $(sysconfdir)/dhcp3/dhclient-enter-hooks.d
+-dhclientexitdir = $(sysconfdir)/dhcp3/dhclient-exit-hooks.d
++dhcliententerdir = $(sysconfdir)/dhclient-enter-hooks.d
++dhclientexitdir = $(sysconfdir)/dhclient-exit-hooks.d
+ 
+ install-exec-hook: dhclient-exit-hook dhclient-enter-hook
+ 	$(mkdir_p) $(DESTDIR)$(dhcliententerdir) $(DESTDIR)$(dhclientexitdir)
+@@ -85,7 +83,6 @@
+ uninstall-hook:
+ 	rm -f $(DESTDIR)$(dhcliententerdir)/avahi-autoipd $(DESTDIR)$(dhclientexitdir)/avahi-autoipd
+ 
+-endif
+ 
+ 
+ endif

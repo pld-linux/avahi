@@ -1,0 +1,23 @@
+--- avahi-0.6.25/avahi-autoipd/avahi-autoipd.action.linux.orig	2010-05-02 15:05:38.000000000 +0200
++++ avahi-0.6.25/avahi-autoipd/avahi-autoipd.action.linux	2010-05-02 15:14:46.000000000 +0200
+@@ -30,17 +30,17 @@
+ #   $2 interface name
+ #   $3 IP adddress
+ 
+-if [ -x /bin/ip -o -x /sbin/ip ] ; then
++if [ -x /sbin/ip ] ; then
+ 
+     # We have the Linux ip tool from the iproute package
+ 
+     case "$1" in
+         BIND)
+-            ip addr add "$3"/16 brd 169.254.255.255 label "$2:avahi" scope link dev "$2" 
++            /sbin/ip addr add "$3"/16 brd 169.254.255.255 label "$2:avahi" scope link dev "$2" 
+             ;;
+ 
+         CONFLICT|UNBIND|STOP)
+-            ip addr del "$3"/16 brd 169.254.255.255 label "$2:avahi" scope link dev "$2" 
++            /sbin/ip addr del "$3"/16 brd 169.254.255.255 label "$2:avahi" scope link dev "$2" 
+             ;;
+ 
+         *)

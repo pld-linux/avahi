@@ -35,6 +35,8 @@ Patch1:		%{name}-glade.patch
 Patch2:		%{name}-destdir.patch
 Patch3:		%{name}-mono-dir.patch
 Patch4:		nss-mdns-package.patch
+Patch5:		%{name}-dhclient_hooks.patch
+Patch6:		%{name}-autoipd-sbin_ip.patch
 URL:		http://avahi.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -549,6 +551,8 @@ Narzędzia linii poleceń korzystające z avahi-client.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
+%patch6 -p1
 
 %build
 %{__intltoolize}
@@ -691,11 +695,12 @@ fi
 %attr(754,root,root) /etc/rc.d/init.d/%{name}-daemon
 %attr(754,root,root) /etc/rc.d/init.d/%{name}-dnsconfd
 
-
 %files autoipd
 %defattr(644,root,root,755)
 %dir %{_sysconfdir}/avahi
 %attr(755,root,root) %{_sysconfdir}/%{name}/avahi-autoipd.action
+%config(noreplace) %verify(not md5 mtime size) /etc/dhclient-enter-hooks.d/avahi-autoipd
+%config(noreplace) %verify(not md5 mtime size) /etc/dhclient-exit-hooks.d/avahi-autoipd
 %attr(755,root,root) %{_sbindir}/avahi-autoipd
 %{_mandir}/man8/avahi-autoipd.8*
 %{_mandir}/man8/avahi-autoipd.action.8*
