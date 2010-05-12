@@ -11,6 +11,6 @@
 -Icon=network-wired
 -Categories=GNOME;System;
 +Icon=avahi
-+Categories=GTK;System;Utility;
++Categories=GTK;System;Utility;Network;
  StartupNotify=false
  GenericName=
