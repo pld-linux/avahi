@@ -48,7 +48,6 @@ BuildRequires:	expat-devel
 BuildRequires:	gdbm-devel
 BuildRequires:	gettext-devel
 BuildRequires:	glib2-devel >= 1:2.12.2
-BuildRequires:	graphviz
 BuildRequires:	gtk+2-devel >= 2:2.10.2
 BuildRequires:	intltool >= 0.35
 BuildRequires:	libcap-devel
