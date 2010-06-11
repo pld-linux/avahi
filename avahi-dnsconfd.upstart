@@ -10,7 +10,7 @@ console output
 pre-start script
 	if [ ! -f /etc/avahi/dnsconfd.action ] ; then
 		logger -t 'init/avahi-dnsconfd' "Not configured - not starting"
-		/sbin/initctl stop
+		/sbin/initctl -q stop
 	fi
 end script
 
