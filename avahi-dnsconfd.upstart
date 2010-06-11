@@ -1,0 +1,19 @@
+description "Starts the Avahi DNS conf daemon"
+
+start on started avahi-daemon
+stop on pld.shutdown-started
+
+respawn
+
+console output
+
+pre-start script
+	if [ ! -f /etc/avahi/dnsconfd.action ] ; then
+		logger -t 'init/avahi-dnsconfd' "Not configured - not starting"
+		/sbin/initctl stop
+	fi
+end script
+
+exec /usr/sbin/avahi-dnsconfd
+
+# vi: ft=upstart

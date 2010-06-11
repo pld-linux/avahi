@@ -76,6 +76,7 @@ condrestart() {
 	start
 }
 
+upstart_controlled
 
 # See how we were called.
 case "$1" in

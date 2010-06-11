@@ -22,7 +22,7 @@ Summary:	Free mDNS/DNS-SD/Zeroconf implementation
 Summary(pl.UTF-8):	Wolna implementacja mDNS/DNS-SD/Zeroconf
 Name:		avahi
 Version:	0.6.25
-Release:	6
+Release:	7
 License:	LGPL v2.1+
 Group:		Applications
 Source0:	http://avahi.org/download/%{name}-%{version}.tar.gz
@@ -30,6 +30,8 @@ Source0:	http://avahi.org/download/%{name}-%{version}.tar.gz
 Source1:	%{name}-daemon
 Source2:	%{name}-dnsconfd
 Source3:	%{name}.png
+Source4:	%{name}-daemon.upstart
+Source5:	%{name}-dnsconfd.upstart
 Patch0:		%{name}-desktop.patch
 Patch1:		%{name}-glade.patch
 Patch2:		%{name}-destdir.patch
@@ -70,11 +72,12 @@ BuildRequires:	QtCore-devel
 BuildRequires:	qt4-build
 %endif
 BuildRequires:	rpm-pythonprov
-BuildRequires:	rpmbuild(macros) >= 1.228
+BuildRequires:	rpmbuild(macros) >= 1.561
 Requires(post,preun):	/sbin/chkconfig
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	dbus >= 0.92
 Requires:	libdaemon >= 0.11
+Requires:	rc-scripts >= 0.4.3
 Suggests:	nss_mdns >= 0.10-2
 Provides:	group(avahi)
 Provides:	user(avahi)
@@ -89,6 +92,19 @@ between user applications and a system daemon.
 Avahi jest implementacją specyfikacji DNS Service Discovery i
 Multicast DNS dla Zeroconf Computing. Używa D-BUSa dla komunikacji
 pomiędzy programami użytkownika a demonem systemowym.
+
+%package upstart
+Summary:	Upstart jobs description for Avahi daemons
+Summary(pl.UTF-8):	Opis zadań Upstart dla demonów Avahi
+Group:		Daemons
+Requires:	%{name} = %{version}-%{release}
+Requires:	upstart >= 0.6
+
+%description upstart
+Upstart jobs description for Avahi daemons.
+
+%description upstart -l pl.UTF-8
+Opis zadań Upstart dla demonów Avahi.
 
 %package autoipd
 Summary:	IPv4LL network address configuration daemon
@@ -583,7 +599,7 @@ Narzędzia linii poleceń korzystające z avahi-client.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_pixmapsdir},/etc/rc.d/init.d}
+install -d $RPM_BUILD_ROOT{%{_pixmapsdir},/etc/rc.d/init.d,/etc/init}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT \
@@ -592,14 +608,18 @@ install -d $RPM_BUILD_ROOT{%{_pixmapsdir},/etc/rc.d/init.d}
 install -p %{SOURCE1} %{SOURCE2} $RPM_BUILD_ROOT/etc/rc.d/init.d
 cp -a %{SOURCE3} $RPM_BUILD_ROOT%{_pixmapsdir}
 
+install %{SOURCE4} $RPM_BUILD_ROOT/etc/init/avahi-daemon.conf
+install %{SOURCE5} $RPM_BUILD_ROOT/etc/init/avahi-dnsconfd.conf
+
 ln -sf %{_includedir}/avahi-compat-libdns_sd/dns_sd.h \
 	$RPM_BUILD_ROOT%{_includedir}/dns_sd.h
 
 ln -sf %{_pkgconfigdir}/avahi-compat-howl.pc \
 	$RPM_BUILD_ROOT%{_pkgconfigdir}/howl.pc
 
-rm -f $RPM_BUILD_ROOT%{py_sitedir}/avahi/{__init__,SimpleGladeApp}.py \
-	$RPM_BUILD_ROOT%{py_sitedir}/avahi_discover/*.py
+%py_ocomp $RPM_BUILD_ROOT%{py_sitedir}
+%py_comp $RPM_BUILD_ROOT%{py_sitedir}
+%py_postclean
 
 rm -f $RPM_BUILD_ROOT%{_mandir}/man1/{avahi-{browse-domains,publish-address,publish-service,resolve-address,resolve-host-name},bvnc}.1
 echo '.so avahi-browse.1' > $RPM_BUILD_ROOT%{_mandir}/man1/avahi-browse-domains.1
@@ -647,6 +667,14 @@ if [ "$1" = "0" ]; then
 	%userremove avahi
 	%groupremove avahi
 fi
+
+%post upstart
+%upstart_post avahi-daemon
+%upstart_post avahi-dnsconfd
+
+%postun upstart
+%upstart_postun avahi-daemon
+%upstart_postun avahi-dnsconfd
 
 %post	libs -p /sbin/ldconfig
 %postun	libs -p /sbin/ldconfig
@@ -707,6 +735,10 @@ fi
 
 %attr(754,root,root) /etc/rc.d/init.d/%{name}-daemon
 %attr(754,root,root) /etc/rc.d/init.d/%{name}-dnsconfd
+
+%files upstart
+%defattr(644,root,root,755)
+%config(noreplace) %verify(not md5 mtime size) /etc/init/*.conf
 
 %files autoipd
 %defattr(644,root,root,755)

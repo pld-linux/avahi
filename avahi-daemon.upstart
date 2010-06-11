@@ -1,0 +1,16 @@
+description "Starts the Avahi daemon"
+
+start on pld.network-started and started SERVICE=syslog and started messagebus
+stop on pld.shutdown-started
+
+respawn
+
+console output
+
+pre-start script
+	modprobe capability || :
+end script
+
+exec /usr/sbin/avahi-daemon --syslog
+
+# vi: ft=upstart
