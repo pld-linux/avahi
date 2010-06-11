@@ -1,6 +1,12 @@
 #
+# TODO:
+#	- finish with_apidocs
+#
 # Conditional build:
+%bcond_with	apidocs		# build API documentation
 %bcond_without	dotnet		# build without dotnet bindings
+%bcond_without	gtk		# build without GTK+
+%bcond_without	pygtk		# build without PyGTK
 %bcond_without	qt		# build without (any) qt bindings
 %bcond_without	qt3		# build without qt3 bindings
 %bcond_without	qt4		# build without qt4 bindings
@@ -43,16 +49,22 @@ URL:		http://avahi.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	dbus-devel >= 0.92
+%if %{with apidocs}
 BuildRequires:	doxygen
+# for the 'dot' tool used by doxygen
+BuildRequires:	graphviz
+%endif
 BuildRequires:	expat-devel
 BuildRequires:	gdbm-devel
 BuildRequires:	gettext-devel
+%if %{with gtk}
 BuildRequires:	glib2-devel >= 1:2.12.2
 BuildRequires:	gtk+2-devel >= 2:2.10.2
+BuildRequires:	libglade2-devel >= 1:2.6.0
+%endif
 BuildRequires:	intltool >= 0.35
 BuildRequires:	libcap-devel
 BuildRequires:	libdaemon-devel >= 0.11
-BuildRequires:	libglade2-devel >= 1:2.6.0
 BuildRequires:	libtool
 %if %{with dotnet}
 BuildRequires:	dotnet-gtk-sharp2-devel >= 2.10
@@ -62,7 +74,7 @@ BuildRequires:	monodoc >= 2.6
 BuildRequires:	pkgconfig
 BuildRequires:	python >= 1:2.4
 BuildRequires:	python-dbus >= 0.71
-BuildRequires:	python-pygtk-devel >= 2:2.9.6
+%{?with_pygtk:BuildRequires:	python-pygtk-devel >= 2:2.9.6}
 %if %{with qt3}
 BuildRequires:	qt-devel >= 1:3.0
 %endif
@@ -587,6 +599,9 @@ Narzędzia linii poleceń korzystające z avahi-client.
 	--enable-compat-libdns_sd \
 	--enable-compat-howl \
 	--with-distro=none \
+	%{!?with_apidocs:--disable-doxygen-doc} \
+	%{!?with_gtk:--disable-gtk} \
+	%{!?with_pygtk:--disable-pygtk} \
 	%{!?with_qt3:--disable-qt3} \
 	%{!?with_qt4:--disable-qt4} \
 	%{!?with_dotnet:--disable-mono} \
@@ -784,6 +799,7 @@ fi
 %{_libdir}/libavahi-common.a
 %{_libdir}/libavahi-core.a
 
+%if %{with gtk}
 %files ui
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/bshell
@@ -806,6 +822,7 @@ fi
 %files ui-static
 %defattr(644,root,root,755)
 %{_libdir}/libavahi-ui.a
+%endif
 
 %files compat-libdns_sd
 %defattr(644,root,root,755)
@@ -940,6 +957,7 @@ fi
 %attr(755,root,root) %{_bindir}/avahi-bookmarks
 %{_mandir}/man1/avahi-bookmarks.1*
 
+%if %{with pygtk}
 %files discover
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/avahi-discover
@@ -948,11 +966,14 @@ fi
 %{_desktopdir}/avahi-discover.desktop
 %{_pixmapsdir}/avahi.png
 %{_mandir}/man1/avahi-discover.1*
+%endif
 
+%if %{with gtk}
 %files discover-standalone
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/avahi-discover-standalone
 %{_datadir}/%{name}/interfaces/avahi-discover-standalone.glade
+%endif
 
 %files utils
 %defattr(644,root,root,755)
