@@ -1,11 +1,15 @@
 #
 # TODO:
 #	- finish with_apidocs
+#	- check BRs for gtk+3
+#	- make gtk3 bcond enabled by default when gtk+3 will be stable
+#	- files
 #
 # Conditional build:
 %bcond_with	apidocs		# build API documentation
 %bcond_without	dotnet		# build without dotnet bindings
 %bcond_without	gtk		# build without GTK+
+%bcond_with	gtk3		# build without GTK+3
 %bcond_without	pygtk		# build without PyGTK
 %bcond_without	qt		# build without (any) qt bindings
 %bcond_without	qt3		# build without qt3 bindings
@@ -27,12 +31,12 @@
 Summary:	Free mDNS/DNS-SD/Zeroconf implementation
 Summary(pl.UTF-8):	Wolna implementacja mDNS/DNS-SD/Zeroconf
 Name:		avahi
-Version:	0.6.25
-Release:	7
+Version:	0.6.26
+Release:	0.1
 License:	LGPL v2.1+
 Group:		Applications
 Source0:	http://avahi.org/download/%{name}-%{version}.tar.gz
-# Source0-md5:	a83155a6e29e3988f07e5eea3287b21e
+# Source0-md5:	2b2b1899fcec5ae74e92f111598913a1
 Source1:	%{name}-daemon
 Source2:	%{name}-dnsconfd
 Source3:	%{name}.png
@@ -61,6 +65,11 @@ BuildRequires:	gettext-devel
 BuildRequires:	glib2-devel >= 1:2.12.2
 BuildRequires:	gtk+2-devel >= 2:2.10.2
 BuildRequires:	libglade2-devel >= 1:2.6.0
+%endif
+%if %{with gtk3}
+BuildRequires:	glib2-devel
+BuildRequires:	gtk+3-devel
+BuildRequires:	libglade2-devel
 %endif
 BuildRequires:	intltool >= 0.35
 BuildRequires:	libcap-devel
@@ -601,6 +610,7 @@ Narzędzia linii poleceń korzystające z avahi-client.
 	--with-distro=none \
 	%{!?with_apidocs:--disable-doxygen-doc} \
 	%{!?with_gtk:--disable-gtk} \
+	%{!?with_gtk3:--disable-gtk3} \
 	%{!?with_pygtk:--disable-pygtk} \
 	%{!?with_qt3:--disable-qt3} \
 	%{!?with_qt4:--disable-qt4} \
@@ -732,8 +742,8 @@ fi
 %attr(755,root,root) %{_sbindir}/avahi-daemon
 %attr(755,root,root) %{_sbindir}/avahi-dnsconfd
 
-%dir %{_datadir}/%{name}/introspection
-%{_datadir}/%{name}/introspection/*.introspect
+#%%dir %{_datadir}/%{name}/introspection
+#%%{_datadir}/%{name}/introspection/*.introspect
 %{_datadir}/%{name}/avahi-service.dtd
 %{_datadir}/%{name}/service-types
 %dir %{_libdir}/%{name}
@@ -773,7 +783,7 @@ fi
 %attr(755,root,root) %{_libdir}/libavahi-common.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libavahi-common.so.3
 %attr(755,root,root) %{_libdir}/libavahi-core.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libavahi-core.so.6
+%attr(755,root,root) %ghost %{_libdir}/libavahi-core.so.7
 # common for -discover*
 %dir %{_datadir}/%{name}
 %dir %{_datadir}/%{name}/interfaces
@@ -802,26 +812,26 @@ fi
 %if %{with gtk}
 %files ui
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/bshell
-%attr(755,root,root) %{_bindir}/bssh
-%attr(755,root,root) %{_bindir}/bvnc
-%attr(755,root,root) %{_libdir}/libavahi-ui.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libavahi-ui.so.0
+#%%attr(755,root,root) %{_bindir}/bshell
+#%%attr(755,root,root) %{_bindir}/bssh
+#%%attr(755,root,root) %{_bindir}/bvnc
+#%%attr(755,root,root) %{_libdir}/libavahi-ui.so.*.*.*
+#%%attr(755,root,root) %ghost %{_libdir}/libavahi-ui.so.0
 %{_mandir}/man1/bssh.1*
 %{_mandir}/man1/bvnc.1*
-%{_desktopdir}/bssh.desktop
-%{_desktopdir}/bvnc.desktop
+#%%{_desktopdir}/bssh.desktop
+#%%{_desktopdir}/bvnc.desktop
 
 %files ui-devel
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libavahi-ui.so
-%{_libdir}/libavahi-ui.la
-%{_includedir}/avahi-ui
+#%%attr(755,root,root) %{_libdir}/libavahi-ui.so
+#%%{_libdir}/libavahi-ui.la
+#%%{_includedir}/avahi-ui
 %{_pkgconfigdir}/avahi-ui.pc
 
 %files ui-static
 %defattr(644,root,root,755)
-%{_libdir}/libavahi-ui.a
+#%%{_libdir}/libavahi-ui.a
 %endif
 
 %files compat-libdns_sd
@@ -962,7 +972,7 @@ fi
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/avahi-discover
 %{py_sitedir}/avahi_discover
-%{_datadir}/%{name}/interfaces/avahi-discover.glade
+#%%{_datadir}/%{name}/interfaces/avahi-discover.glade
 %{_desktopdir}/avahi-discover.desktop
 %{_pixmapsdir}/avahi.png
 %{_mandir}/man1/avahi-discover.1*
@@ -971,8 +981,8 @@ fi
 %if %{with gtk}
 %files discover-standalone
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/avahi-discover-standalone
-%{_datadir}/%{name}/interfaces/avahi-discover-standalone.glade
+#%%attr(755,root,root) %{_bindir}/avahi-discover-standalone
+#%%{_datadir}/%{name}/interfaces/avahi-discover-standalone.glade
 %endif
 
 %files utils
