@@ -1,14 +1,13 @@
-diff -aurN avahi-0.6.5.orig/avahi-discover-standalone/Makefile.am avahi-0.6.5/avahi-discover-standalone/Makefile.am
---- avahi-0.6.5.orig/avahi-discover-standalone/Makefile.am	2005-09-25 22:34:48.000000000 +0200
-+++ avahi-0.6.5/avahi-discover-standalone/Makefile.am	2006-01-26 16:41:42.000341000 +0100
-@@ -20,7 +20,8 @@
+--- avahi-0.6.26/avahi-discover-standalone/Makefile.am~ 2010-06-25 05:25:11.000000000 +0200
++++ avahi-0.6.26/avahi-discover-standalone/Makefile.am  2010-07-07 11:03:44.306813189 +0200
+@@ -18,7 +18,8 @@
  AM_CFLAGS=-I$(top_srcdir)
- 
+
  interfaces = \
--        avahi-discover.glade
-+	avahi-discover.glade \
-+	avahi-discover-standalone.glade
- 
+-        avahi-discover.ui
++        avahi-discover.ui \
++       avahi-discover-standalone.glade
+
  # This cool debug trap works on i386/gcc only
  AM_CFLAGS+='-DDEBUG_TRAP=__asm__("int $$3")'
 diff -aurN avahi-0.6.5.orig/avahi-discover-standalone/avahi-discover-standalone.glade avahi-0.6.5/avahi-discover-standalone/avahi-discover-standalone.glade
@@ -106,15 +105,13 @@ diff -aurN avahi-0.6.5.orig/avahi-discover-standalone/avahi-discover-standalone.
 +</widget>
 +
 +</glade-interface>
-diff -aurN avahi-0.6.5.orig/avahi-discover-standalone/main.c avahi-0.6.5/avahi-discover-standalone/main.c
---- avahi-0.6.5.orig/avahi-discover-standalone/main.c	2005-11-04 00:36:41.000000000 +0100
-+++ avahi-0.6.5/avahi-discover-standalone/main.c	2006-01-26 16:35:46.100341000 +0100
-@@ -333,7 +333,7 @@
- 
+--- avahi-0.6.26/avahi-discover-standalone/main.c~      2010-06-25 02:41:25.000000000 +0200
++++ avahi-0.6.26/avahi-discover-standalone/main.c       2010-07-07 11:06:22.006805326 +0200
+@@ -330,7 +330,7 @@
      poll_api = avahi_glib_poll_new(NULL, G_PRIORITY_DEFAULT);
- 
--    xml = glade_xml_new(AVAHI_INTERFACES_DIR"avahi-discover.glade", NULL, NULL);
-+    xml = glade_xml_new(AVAHI_INTERFACES_DIR"avahi-discover-standalone.glade", NULL, NULL);
-     main_window = glade_xml_get_widget(xml, "main_window");
+
+     ui = gtk_builder_new();
+-    gtk_builder_add_from_file(ui, AVAHI_INTERFACES_DIR"avahi-discover.ui", NULL);
++    gtk_builder_add_from_file(ui, AVAHI_INTERFACES_DIR"avahi-discover-standalone.glade", NULL);
+     main_window = GTK_WIDGET(gtk_builder_get_object(ui, "main_window"));
      g_signal_connect(main_window, "delete-event", (GCallback) main_window_on_delete_event, NULL);
-     
