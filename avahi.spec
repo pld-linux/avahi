@@ -4,6 +4,7 @@
 #	- check BRs for gtk+3
 #	- make gtk3 bcond enabled by default when gtk+3 will be stable
 #	- introspection files
+#       - dbus files
 #
 # Conditional build:
 %bcond_with	apidocs		# build API documentation
@@ -32,7 +33,7 @@ Summary:	Free mDNS/DNS-SD/Zeroconf implementation
 Summary(pl.UTF-8):	Wolna implementacja mDNS/DNS-SD/Zeroconf
 Name:		avahi
 Version:	0.6.26
-Release:	1
+Release:	2
 License:	LGPL v2.1+
 Group:		Applications
 Source0:	http://avahi.org/download/%{name}-%{version}.tar.gz
@@ -50,6 +51,7 @@ Patch4:		nss-mdns-package.patch
 Patch5:		%{name}-dhclient_hooks.patch
 Patch6:		%{name}-autoipd-sbin_ip.patch
 Patch7:		%{name}-gtk_detect.patch
+Patch8:		gir.patch
 URL:		http://avahi.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -598,6 +600,7 @@ Narzędzia linii poleceń korzystające z avahi-client.
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
+%patch8 -p1
 
 %build
 %{__intltoolize}
@@ -607,6 +610,7 @@ Narzędzia linii poleceń korzystające z avahi-client.
 %{__autoheader}
 %{__automake}
 %configure \
+	--disable-silent-rules \
 	--enable-compat-libdns_sd \
 	--enable-compat-howl \
 	--with-distro=none \
