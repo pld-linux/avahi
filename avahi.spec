@@ -3,7 +3,7 @@
 #	- finish with_apidocs
 #	- check BRs for gtk+3
 #	- make gtk3 bcond enabled by default when gtk+3 will be stable
-#	- files
+#	- introspection files
 #
 # Conditional build:
 %bcond_with	apidocs		# build API documentation
@@ -32,7 +32,7 @@ Summary:	Free mDNS/DNS-SD/Zeroconf implementation
 Summary(pl.UTF-8):	Wolna implementacja mDNS/DNS-SD/Zeroconf
 Name:		avahi
 Version:	0.6.26
-Release:	0.1
+Release:	1
 License:	LGPL v2.1+
 Group:		Applications
 Source0:	http://avahi.org/download/%{name}-%{version}.tar.gz
@@ -49,6 +49,7 @@ Patch3:		%{name}-mono-dir.patch
 Patch4:		nss-mdns-package.patch
 Patch5:		%{name}-dhclient_hooks.patch
 Patch6:		%{name}-autoipd-sbin_ip.patch
+Patch7:		%{name}-gtk_detect.patch
 URL:		http://avahi.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -596,6 +597,7 @@ Narzędzia linii poleceń korzystające z avahi-client.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
 
 %build
 %{__intltoolize}
@@ -812,26 +814,26 @@ fi
 %if %{with gtk}
 %files ui
 %defattr(644,root,root,755)
-#%%attr(755,root,root) %{_bindir}/bshell
-#%%attr(755,root,root) %{_bindir}/bssh
-#%%attr(755,root,root) %{_bindir}/bvnc
-#%%attr(755,root,root) %{_libdir}/libavahi-ui.so.*.*.*
-#%%attr(755,root,root) %ghost %{_libdir}/libavahi-ui.so.0
+%attr(755,root,root) %{_bindir}/bshell
+%attr(755,root,root) %{_bindir}/bssh
+%attr(755,root,root) %{_bindir}/bvnc
+%attr(755,root,root) %{_libdir}/libavahi-ui.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libavahi-ui.so.0
 %{_mandir}/man1/bssh.1*
 %{_mandir}/man1/bvnc.1*
-#%%{_desktopdir}/bssh.desktop
-#%%{_desktopdir}/bvnc.desktop
+%{_desktopdir}/bssh.desktop
+%{_desktopdir}/bvnc.desktop
 
 %files ui-devel
 %defattr(644,root,root,755)
-#%%attr(755,root,root) %{_libdir}/libavahi-ui.so
-#%%{_libdir}/libavahi-ui.la
-#%%{_includedir}/avahi-ui
+%attr(755,root,root) %{_libdir}/libavahi-ui.so
+%{_libdir}/libavahi-ui.la
+%{_includedir}/avahi-ui
 %{_pkgconfigdir}/avahi-ui.pc
 
 %files ui-static
 %defattr(644,root,root,755)
-#%%{_libdir}/libavahi-ui.a
+%{_libdir}/libavahi-ui.a
 %endif
 
 %files compat-libdns_sd
@@ -972,7 +974,7 @@ fi
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/avahi-discover
 %{py_sitedir}/avahi_discover
-#%%{_datadir}/%{name}/interfaces/avahi-discover.glade
+%{_datadir}/%{name}/interfaces/avahi-discover.ui
 %{_desktopdir}/avahi-discover.desktop
 %{_pixmapsdir}/avahi.png
 %{_mandir}/man1/avahi-discover.1*
@@ -981,8 +983,8 @@ fi
 %if %{with gtk}
 %files discover-standalone
 %defattr(644,root,root,755)
-#%%attr(755,root,root) %{_bindir}/avahi-discover-standalone
-#%%{_datadir}/%{name}/interfaces/avahi-discover-standalone.glade
+%attr(755,root,root) %{_bindir}/avahi-discover-standalone
+%{_datadir}/%{name}/interfaces/avahi-discover-standalone.glade
 %endif
 
 %files utils
