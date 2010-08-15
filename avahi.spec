@@ -537,7 +537,7 @@ Pliki rozwojowe wiązań Avahi UI dla MONO.
 
 %package bookmarks
 Summary:	Miniature web server
-Summary(pl.UTF-8):	Miniaturowy serwer web
+Summary(pl.UTF-8):	Miniaturowy serwer WWW
 Group:		Applications
 
 %description bookmarks
@@ -745,13 +745,13 @@ fi
 
 %attr(755,root,root) %{_sbindir}/avahi-daemon
 %attr(755,root,root) %{_sbindir}/avahi-dnsconfd
-
+%dir %{_libdir}/%{name}
+%{_libdir}/%{name}/service-types.db
 #%%dir %{_datadir}/%{name}/introspection
 #%%{_datadir}/%{name}/introspection/*.introspect
 %{_datadir}/%{name}/avahi-service.dtd
 %{_datadir}/%{name}/service-types
-%dir %{_libdir}/%{name}
-%{_libdir}/%{name}/service-types.db
+%{_datadir}/dbus-1/interfaces/org.freedesktop.Avahi.*.xml
 
 %{_mandir}/man1/avahi-set-host-name.1*
 %{_mandir}/man5/avahi-daemon.conf.5*
@@ -918,6 +918,8 @@ fi
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libavahi-gobject.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libavahi-gobject.so.0
+%{_libdir}/girepository-1.0/Avahi-0.6.typelib
+%{_libdir}/girepository-1.0/AvahiCore-0.6.typelib
 
 %files gobject-devel
 %defattr(644,root,root,755)
@@ -925,6 +927,8 @@ fi
 %{_libdir}/libavahi-gobject.la
 %{_includedir}/avahi-gobject
 %{_pkgconfigdir}/avahi-gobject.pc
+%{_datadir}/gir-1.0/Avahi-0.6.gir
+%{_datadir}/gir-1.0/AvahiCore-0.6.gir
 
 %files gobject-static
 %defattr(644,root,root,755)
