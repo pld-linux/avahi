@@ -32,12 +32,12 @@
 Summary:	Free mDNS/DNS-SD/Zeroconf implementation
 Summary(pl.UTF-8):	Wolna implementacja mDNS/DNS-SD/Zeroconf
 Name:		avahi
-Version:	0.6.27
-Release:	3
+Version:	0.6.28
+Release:	1
 License:	LGPL v2.1+
 Group:		Applications
 Source0:	http://avahi.org/download/%{name}-%{version}.tar.gz
-# Source0-md5:	74b40f87aeab07fc77af25f725b32f04
+# Source0-md5:	d0143a5aa3265019072e53ab497818d0
 Source1:	%{name}-daemon
 Source2:	%{name}-dnsconfd
 Source3:	%{name}.png
@@ -50,8 +50,6 @@ Patch3:		%{name}-mono-dir.patch
 Patch4:		nss-mdns-package.patch
 Patch5:		%{name}-dhclient_hooks.patch
 Patch6:		%{name}-autoipd-sbin_ip.patch
-Patch7:		gir.patch
-Patch8:		%{name}-client.patch
 URL:		http://avahi.org/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -599,8 +597,6 @@ Narzędzia linii poleceń korzystające z avahi-client.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
-%patch7 -p1
-%patch8 -p1
 
 %build
 %{__intltoolize}
