@@ -51,8 +51,8 @@ Patch4:		nss-mdns-package.patch
 Patch5:		%{name}-dhclient_hooks.patch
 Patch6:		%{name}-autoipd-sbin_ip.patch
 URL:		http://avahi.org/
-BuildRequires:	autoconf
-BuildRequires:	automake
+BuildRequires:	autoconf >= 2.63
+BuildRequires:	automake >= 1:1.11
 BuildRequires:	dbus-devel >= 0.92
 %if %{with apidocs}
 BuildRequires:	doxygen
@@ -62,9 +62,10 @@ BuildRequires:	graphviz
 BuildRequires:	expat-devel
 BuildRequires:	gdbm-devel
 BuildRequires:	gettext-devel
+BuildRequires:	gobject-introspection-devel >= 0.9.5
 %if %{with gtk}
 BuildRequires:	glib2-devel >= 1:2.12.2
-BuildRequires:	gtk+2-devel >= 2:2.10.2
+BuildRequires:	gtk+2-devel >= 2:2.14.0
 BuildRequires:	libglade2-devel >= 1:2.6.0
 %endif
 %if %{with gtk3}
@@ -74,7 +75,7 @@ BuildRequires:	libglade2-devel
 %endif
 BuildRequires:	intltool >= 0.35
 BuildRequires:	libcap-devel
-BuildRequires:	libdaemon-devel >= 0.11
+BuildRequires:	libdaemon-devel >= 0.14
 BuildRequires:	libtool
 %if %{with dotnet}
 BuildRequires:	dotnet-gtk-sharp2-devel >= 2.10
@@ -89,7 +90,7 @@ BuildRequires:	python-dbus >= 0.71
 BuildRequires:	qt-devel >= 1:3.0
 %endif
 %if %{with qt4}
-BuildRequires:	QtCore-devel
+BuildRequires:	QtCore-devel >= 4.0.0
 BuildRequires:	qt4-build
 %endif
 BuildRequires:	rpm-pythonprov
@@ -97,7 +98,7 @@ BuildRequires:	rpmbuild(macros) >= 1.561
 Requires(post,preun):	/sbin/chkconfig
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	dbus >= 0.92
-Requires:	libdaemon >= 0.11
+Requires:	libdaemon >= 0.14
 Requires:	rc-scripts >= 0.4.3
 Suggests:	nss_mdns >= 0.10-2
 Provides:	group(avahi)
@@ -199,7 +200,7 @@ Summary:	Avahi UI library
 Summary(pl.UTF-8):	Biblioteka Avahi UI
 Group:		X11/Libraries
 Requires:	%{name}-libs = %{version}-%{release}
-Requires:	gtk+2 >= 2:2.10.2
+Requires:	gtk+2 >= 2:2.14.0
 
 %description ui
 Common GTK+ UI support library for Avahi.
@@ -213,7 +214,7 @@ Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki Avahi UI
 Group:		X11/Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 Requires:	%{name}-ui = %{version}-%{release}
-Requires:	gtk+2-devel >= 2:2.10.2
+Requires:	gtk+2-devel >= 2:2.14.0
 
 %description ui-devel
 Header files for Avahi UI library.
