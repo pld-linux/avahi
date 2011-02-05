@@ -33,7 +33,7 @@ Summary:	Free mDNS/DNS-SD/Zeroconf implementation
 Summary(pl.UTF-8):	Wolna implementacja mDNS/DNS-SD/Zeroconf
 Name:		avahi
 Version:	0.6.28
-Release:	4
+Release:	5
 License:	LGPL v2.1+
 Group:		Applications
 Source0:	http://avahi.org/download/%{name}-%{version}.tar.gz
@@ -214,6 +214,7 @@ Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki Avahi UI
 Group:		X11/Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 Requires:	%{name}-ui = %{version}-%{release}
+Requires:	%{name}-ui-devel-common = %{version}-%{release}
 Requires:	gtk+2-devel >= 2:2.14.0
 
 %description ui-devel
@@ -233,6 +234,56 @@ Static Avahi UI library.
 
 %description ui-static -l pl.UTF-8
 Statyczna biblioteka Avahi UI.
+
+%package ui-devel-common
+Summary:	Header files for Avahi UI library
+Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki Avahi UI
+Group:		X11/Development/Libraries
+Requires:	%{name}-devel = %{version}-%{release}
+
+%description ui-devel-common
+Header files for Avahi UI library.
+
+%description ui-devel-common -l pl.UTF-8
+Pliki nagłówkowe biblioteki Avahi GTK+ UI.
+
+%package ui-gtk3
+Summary:	Avahi UI library - GTK+ 3.x version
+Summary(pl.UTF-8):	Biblioteka Avahi UI - wersja dla GTK+ 3.x
+Group:		X11/Libraries
+Requires:	%{name}-libs = %{version}-%{release}
+
+%description ui-gtk3
+Common GTK+ 3.x UI support library for Avahi.
+
+%description ui-gtk3 -l pl.UTF-8
+Biblioteka wspólnego interfejsu użytkownika GTK+ 3.x dla Avahi.
+
+%package ui-gtk3-devel
+Summary:	Header files for Avahi UI library - GTK+ 3.x version
+Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki Avahi UI - wersja dla GTK+ 3.x
+Group:		X11/Development/Libraries
+Requires:	%{name}-devel = %{version}-%{release}
+Requires:	%{name}-ui-devel-common = %{version}-%{release}
+Requires:	%{name}-ui-gtk3 = %{version}-%{release}
+
+%description ui-gtk3-devel
+Header files for Avahi GTK+ 3.x UI library.
+
+%description ui-devel -l pl.UTF-8
+Pliki nagłówkowe biblioteki Avahi GTK+ 3.x UI.
+
+%package ui-gtk3-static
+Summary:	Static Avahi UI library - GTK+ 3.x version
+Summary(pl.UTF-8):	Statyczna biblioteka Avahi UI - wersja GTK+ 3.x
+Group:		X11/Development/Libraries
+Requires:	%{name}-ui-gtk3-devel = %{version}-%{release}
+
+%description ui-gtk3-static
+Static Avahi GTK+ 3.x UI library.
+
+%description ui-gtk3-static -l pl.UTF-8
+Statyczna biblioteka Avahi GTK+ 3.x UI.
 
 %package compat-libdns_sd
 Summary:	Avahi Bonjour compat library
@@ -648,13 +699,16 @@ ln -sf %{_pkgconfigdir}/avahi-compat-howl.pc \
 %py_comp $RPM_BUILD_ROOT%{py_sitedir}
 %py_postclean
 
-rm -f $RPM_BUILD_ROOT%{_mandir}/man1/{avahi-{browse-domains,publish-address,publish-service,resolve-address,resolve-host-name},bvnc}.1
+%{__rm} $RPM_BUILD_ROOT%{_mandir}/man1/{avahi-{browse-domains,publish-address,publish-service,resolve-address,resolve-host-name},bvnc}.1
 echo '.so avahi-browse.1' > $RPM_BUILD_ROOT%{_mandir}/man1/avahi-browse-domains.1
 echo '.so avahi-publish.1' > $RPM_BUILD_ROOT%{_mandir}/man1/avahi-publish-address.1
 echo '.so avahi-publish.1' > $RPM_BUILD_ROOT%{_mandir}/man1/avahi-publish-service.1
 echo '.so avahi-resolve.1' > $RPM_BUILD_ROOT%{_mandir}/man1/avahi-resolve-address.1
 echo '.so avahi-resolve.1' > $RPM_BUILD_ROOT%{_mandir}/man1/avahi-resolve-host-name.1
 echo '.so bssh.1' > $RPM_BUILD_ROOT%{_mandir}/man1/bvnc.1
+echo '.so bssh.1' > $RPM_BUILD_ROOT%{_mandir}/man1/bshell.1
+
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/*.la
 
 %find_lang %{name}
 
@@ -708,6 +762,9 @@ fi
 
 %post	ui -p /sbin/ldconfig
 %postun	ui -p /sbin/ldconfig
+
+%post	ui-gtk3 -p /sbin/ldconfig
+%postun	ui-gtk3 -p /sbin/ldconfig
 
 %post	compat-libdns_sd -p /sbin/ldconfig
 %postun	compat-libdns_sd -p /sbin/ldconfig
@@ -797,9 +854,6 @@ fi
 %attr(755,root,root) %{_libdir}/libavahi-client.so
 %attr(755,root,root) %{_libdir}/libavahi-common.so
 %attr(755,root,root) %{_libdir}/libavahi-core.so
-%{_libdir}/libavahi-client.la
-%{_libdir}/libavahi-common.la
-%{_libdir}/libavahi-core.la
 %{_includedir}/avahi-client
 %{_includedir}/avahi-common
 %{_includedir}/avahi-core
@@ -815,26 +869,57 @@ fi
 %if %{with gtk}
 %files ui
 %defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libavahi-ui.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libavahi-ui.so.0
+%if %{without gtk3}
 %attr(755,root,root) %{_bindir}/bshell
 %attr(755,root,root) %{_bindir}/bssh
 %attr(755,root,root) %{_bindir}/bvnc
-%attr(755,root,root) %{_libdir}/libavahi-ui.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libavahi-ui.so.0
+%{_mandir}/man1/bshell.1*
 %{_mandir}/man1/bssh.1*
 %{_mandir}/man1/bvnc.1*
 %{_desktopdir}/bssh.desktop
 %{_desktopdir}/bvnc.desktop
+%endif
 
 %files ui-devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libavahi-ui.so
-%{_libdir}/libavahi-ui.la
-%{_includedir}/avahi-ui
 %{_pkgconfigdir}/avahi-ui.pc
 
 %files ui-static
 %defattr(644,root,root,755)
 %{_libdir}/libavahi-ui.a
+%endif
+
+%if %{with gtk} || %{with gtk3}
+%files ui-devel-common
+%defattr(644,root,root,755)
+%{_includedir}/avahi-ui
+%endif
+
+%if %{with gtk3}
+%files ui-gtk3
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/bshell
+%attr(755,root,root) %{_bindir}/bssh
+%attr(755,root,root) %{_bindir}/bvnc
+%attr(755,root,root) %{_libdir}/libavahi-ui-gtk3.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libavahi-ui-gtk3.so.0
+%{_mandir}/man1/bshell.1*
+%{_mandir}/man1/bssh.1*
+%{_mandir}/man1/bvnc.1*
+%{_desktopdir}/bssh.desktop
+%{_desktopdir}/bvnc.desktop
+
+%files ui-gtk3-devel
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libavahi-ui-gtk3.so
+%{_pkgconfigdir}/avahi-ui-gtk3.pc
+
+%files ui-gtk3-static
+%defattr(644,root,root,755)
+%{_libdir}/libavahi-ui-gtk3.a
 %endif
 
 %files compat-libdns_sd
@@ -845,7 +930,6 @@ fi
 %files compat-libdns_sd-devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libdns_sd.so
-%{_libdir}/libdns_sd.la
 %{_includedir}/avahi-compat-libdns_sd
 %{_includedir}/dns_sd.h
 %{_pkgconfigdir}/avahi-compat-libdns_sd.pc
@@ -862,7 +946,6 @@ fi
 %files compat-howl-devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libhowl.so
-%{_libdir}/libhowl.la
 %{_includedir}/avahi-compat-howl
 %{_pkgconfigdir}/avahi-compat-howl.pc
 %{_pkgconfigdir}/howl.pc
@@ -905,7 +988,6 @@ fi
 %files glib-devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libavahi-glib.so
-%{_libdir}/libavahi-glib.la
 %{_includedir}/avahi-glib
 %{_pkgconfigdir}/avahi-glib.pc
 
@@ -923,7 +1005,6 @@ fi
 %files gobject-devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libavahi-gobject.so
-%{_libdir}/libavahi-gobject.la
 %{_includedir}/avahi-gobject
 %{_pkgconfigdir}/avahi-gobject.pc
 %{_datadir}/gir-1.0/Avahi-0.6.gir
@@ -942,7 +1023,6 @@ fi
 %files qt-devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libavahi-qt3.so
-%{_libdir}/libavahi-qt3.la
 %{_includedir}/avahi-qt3
 %{_pkgconfigdir}/avahi-qt3.pc
 
@@ -960,7 +1040,6 @@ fi
 %files Qt-devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libavahi-qt4.so
-%{_libdir}/libavahi-qt4.la
 %{_includedir}/avahi-qt4
 %{_pkgconfigdir}/avahi-qt4.pc
 
