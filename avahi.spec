@@ -1,8 +1,6 @@
 #
 # TODO:
 #	- finish with_apidocs
-#	- check BRs for gtk+3
-#	- make gtk3 bcond enabled by default when gtk+3 will be stable
 #	- introspection files
 #       - dbus files
 #
@@ -10,7 +8,7 @@
 %bcond_with	apidocs		# build API documentation
 %bcond_without	dotnet		# build without dotnet bindings
 %bcond_without	gtk		# build without GTK+
-%bcond_with	gtk3		# build without GTK+3
+%bcond_without	gtk3		# build without GTK+3
 %bcond_without	pygtk		# build without PyGTK
 %bcond_without	qt		# build without (any) qt bindings
 %bcond_without	qt3		# build without qt3 bindings
@@ -33,7 +31,7 @@ Summary:	Free mDNS/DNS-SD/Zeroconf implementation
 Summary(pl.UTF-8):	Wolna implementacja mDNS/DNS-SD/Zeroconf
 Name:		avahi
 Version:	0.6.28
-Release:	5
+Release:	6
 License:	LGPL v2.1+
 Group:		Applications
 Source0:	http://avahi.org/download/%{name}-%{version}.tar.gz
@@ -66,12 +64,10 @@ BuildRequires:	gobject-introspection-devel >= 0.9.5
 %if %{with gtk}
 BuildRequires:	glib2-devel >= 1:2.12.2
 BuildRequires:	gtk+2-devel >= 2:2.14.0
-BuildRequires:	libglade2-devel >= 1:2.6.0
 %endif
 %if %{with gtk3}
-BuildRequires:	glib2-devel
-BuildRequires:	gtk+3-devel
-BuildRequires:	libglade2-devel
+BuildRequires:	glib2-devel >= 2:2.28.0
+BuildRequires:	gtk+3-devel >= 3.0.0
 %endif
 BuildRequires:	intltool >= 0.35
 BuildRequires:	libcap-devel
