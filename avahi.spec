@@ -31,7 +31,7 @@ Summary:	Free mDNS/DNS-SD/Zeroconf implementation
 Summary(pl.UTF-8):	Wolna implementacja mDNS/DNS-SD/Zeroconf
 Name:		avahi
 Version:	0.6.28
-Release:	6
+Release:	7
 License:	LGPL v2.1+
 Group:		Applications
 Source0:	http://avahi.org/download/%{name}-%{version}.tar.gz
@@ -66,7 +66,7 @@ BuildRequires:	glib2-devel >= 1:2.12.2
 BuildRequires:	gtk+2-devel >= 2:2.14.0
 %endif
 %if %{with gtk3}
-BuildRequires:	glib2-devel >= 2:2.28.0
+BuildRequires:	glib2-devel >= 1:2.28.0
 BuildRequires:	gtk+3-devel >= 3.0.0
 %endif
 BuildRequires:	intltool >= 0.35
