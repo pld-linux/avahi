@@ -695,7 +695,8 @@ ln -sf %{_pkgconfigdir}/avahi-compat-howl.pc \
 %py_comp $RPM_BUILD_ROOT%{py_sitedir}
 %py_postclean
 
-%{__rm} $RPM_BUILD_ROOT%{_mandir}/man1/{avahi-{browse-domains,publish-address,publish-service,resolve-address,resolve-host-name},bvnc}.1
+%{__rm} $RPM_BUILD_ROOT%{_mandir}/man1/avahi-{browse-domains,publish-address,publish-service,resolve-address,resolve-host-name}.1
+%{?with_gtk:%{__rm} $RPM_BUILD_ROOT%{_mandir}/man1/bvnc.1}
 echo '.so avahi-browse.1' > $RPM_BUILD_ROOT%{_mandir}/man1/avahi-browse-domains.1
 echo '.so avahi-publish.1' > $RPM_BUILD_ROOT%{_mandir}/man1/avahi-publish-address.1
 echo '.so avahi-publish.1' > $RPM_BUILD_ROOT%{_mandir}/man1/avahi-publish-service.1
