@@ -31,7 +31,7 @@ Summary:	Free mDNS/DNS-SD/Zeroconf implementation
 Summary(pl.UTF-8):	Wolna implementacja mDNS/DNS-SD/Zeroconf
 Name:		avahi
 Version:	0.6.30
-Release:	1
+Release:	2
 License:	LGPL v2.1+
 Group:		Applications
 Source0:	http://avahi.org/download/%{name}-%{version}.tar.gz
@@ -117,6 +117,7 @@ Summary(pl.UTF-8):	Opis zadań Upstart dla demonów Avahi
 Group:		Daemons
 Requires:	%{name} = %{version}-%{release}
 Requires:	upstart >= 0.6
+Conflicts:	syslog-ng-upstart < 3.2.4-1
 
 %description upstart
 Upstart jobs description for Avahi daemons.
