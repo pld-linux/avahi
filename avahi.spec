@@ -1,8 +1,9 @@
-#
-# TODO:
+# TODO
 #	- finish with_apidocs
 #	- introspection files
 #       - dbus files
+# - qt and Qt packages make file collisions on case insensitive filesystems,
+#   consider adding version suffix to either of the pckages
 #
 # Conditional build:
 %bcond_with	apidocs		# build API documentation
