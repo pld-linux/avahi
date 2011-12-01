@@ -32,7 +32,7 @@ Summary:	Free mDNS/DNS-SD/Zeroconf implementation
 Summary(pl.UTF-8):	Wolna implementacja mDNS/DNS-SD/Zeroconf
 Name:		avahi
 Version:	0.6.30
-Release:	2
+Release:	3
 License:	LGPL v2.1+
 Group:		Applications
 Source0:	http://avahi.org/download/%{name}-%{version}.tar.gz
@@ -125,6 +125,14 @@ Upstart jobs description for Avahi daemons.
 
 %description upstart -l pl.UTF-8
 Opis zadań Upstart dla demonów Avahi.
+
+%package systemd
+Summary:	systemd units for avahi
+Group:		Base
+Requires:	%{name} = %{version}-%{release}
+
+%description systemd
+systemd units for avahi.
 
 %package autoipd
 Summary:	IPv4LL network address configuration daemon
@@ -668,6 +676,7 @@ Narzędzia linii poleceń korzystające z avahi-client.
 	%{!?with_qt4:--disable-qt4} \
 	%{!?with_dotnet:--disable-mono} \
 	%{!?with_dotnet:--disable-monodoc} \
+	--with-systemdsystemunitdir=/lib/systemd/system \
 	--with-avahi-priv-access-group=adm \
 	--with-autoipd-user=avahi \
 	--with-autoipd-group=avahi
@@ -807,6 +816,7 @@ fi
 %{_datadir}/%{name}/avahi-service.dtd
 %{_datadir}/%{name}/service-types
 %{_datadir}/dbus-1/interfaces/org.freedesktop.Avahi.*.xml
+%{_datadir}/dbus-1/system-services/org.freedesktop.Avahi.service
 
 %{_mandir}/man1/avahi-set-host-name.1*
 %{_mandir}/man5/avahi-daemon.conf.5*
@@ -824,6 +834,12 @@ fi
 %defattr(644,root,root,755)
 %config(noreplace) %verify(not md5 mtime size) /etc/init/*.conf
 %endif
+
+%files systemd
+%defattr(644,root,root,755)
+%config(noreplace) %verify(not md5 mtime size) /lib/systemd/system/avahi-daemon.service
+%config(noreplace) %verify(not md5 mtime size) /lib/systemd/system/avahi-daemon.socket
+%config(noreplace) %verify(not md5 mtime size) /lib/systemd/system/avahi-dnsconfd.service
 
 %files autoipd
 %defattr(644,root,root,755)
