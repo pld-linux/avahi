@@ -816,7 +816,6 @@ fi
 %{_datadir}/%{name}/avahi-service.dtd
 %{_datadir}/%{name}/service-types
 %{_datadir}/dbus-1/interfaces/org.freedesktop.Avahi.*.xml
-%{_datadir}/dbus-1/system-services/org.freedesktop.Avahi.service
 
 %{_mandir}/man1/avahi-set-host-name.1*
 %{_mandir}/man5/avahi-daemon.conf.5*
@@ -840,6 +839,7 @@ fi
 %config(noreplace) %verify(not md5 mtime size) /lib/systemd/system/avahi-daemon.service
 %config(noreplace) %verify(not md5 mtime size) /lib/systemd/system/avahi-daemon.socket
 %config(noreplace) %verify(not md5 mtime size) /lib/systemd/system/avahi-dnsconfd.service
+%{_datadir}/dbus-1/system-services/org.freedesktop.Avahi.service
 
 %files autoipd
 %defattr(644,root,root,755)
