@@ -32,7 +32,7 @@ Summary:	Free mDNS/DNS-SD/Zeroconf implementation
 Summary(pl.UTF-8):	Wolna implementacja mDNS/DNS-SD/Zeroconf
 Name:		avahi
 Version:	0.6.30
-Release:	3
+Release:	4
 License:	LGPL v2.1+
 Group:		Applications
 Source0:	http://avahi.org/download/%{name}-%{version}.tar.gz
@@ -91,7 +91,7 @@ BuildRequires:	QtCore-devel >= 4.0.0
 BuildRequires:	qt4-build
 %endif
 BuildRequires:	rpm-pythonprov
-BuildRequires:	rpmbuild(macros) >= 1.561
+BuildRequires:	rpmbuild(macros) >= 1.626
 Requires(post,preun):	/sbin/chkconfig
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	dbus >= 0.92
@@ -127,12 +127,17 @@ Upstart jobs description for Avahi daemons.
 Opis zadań Upstart dla demonów Avahi.
 
 %package systemd
-Summary:	systemd units for avahi
-Group:		Base
+Summary:	systemd units for Avahi daemons
+Summary(pl.UTF-8):	Pliki systemd dla demonów Avahi
+Group:		Daemons
 Requires:	%{name} = %{version}-%{release}
+Requires:	systemd-units >= 37-0.10
 
 %description systemd
-systemd units for avahi.
+systemd units for Avahi daemons.
+
+%description systemd -l pl.UTF-8
+Pliki systemd dla demonów Avahi.
 
 %package autoipd
 Summary:	IPv4LL network address configuration daemon
@@ -676,7 +681,7 @@ Narzędzia linii poleceń korzystające z avahi-client.
 	%{!?with_qt4:--disable-qt4} \
 	%{!?with_dotnet:--disable-mono} \
 	%{!?with_dotnet:--disable-monodoc} \
-	--with-systemdsystemunitdir=/lib/systemd/system \
+	--with-systemdsystemunitdir=%{systemdunitdir} \
 	--with-avahi-priv-access-group=adm \
 	--with-autoipd-user=avahi \
 	--with-autoipd-group=avahi
@@ -765,6 +770,15 @@ fi
 %upstart_postun avahi-daemon
 %upstart_postun avahi-dnsconfd
 
+%post systemd
+%systemd_post avahi-daemon.service avahi-dnsconfd.service avahi-daemon.socket
+
+%preun systemd
+%systemd_preun avahi-daemon.service avahi-dnsconfd.service avahi-daemon.socket
+
+%postun systemd
+%systemd_reload
+
 %post	libs -p /sbin/ldconfig
 %postun	libs -p /sbin/ldconfig
 
@@ -836,9 +850,9 @@ fi
 
 %files systemd
 %defattr(644,root,root,755)
-%config(noreplace) %verify(not md5 mtime size) /lib/systemd/system/avahi-daemon.service
-%config(noreplace) %verify(not md5 mtime size) /lib/systemd/system/avahi-daemon.socket
-%config(noreplace) %verify(not md5 mtime size) /lib/systemd/system/avahi-dnsconfd.service
+%{systemdunitdir}/avahi-daemon.service
+%{systemdunitdir}/avahi-daemon.socket
+%{systemdunitdir}/avahi-dnsconfd.service
 %{_datadir}/dbus-1/system-services/org.freedesktop.Avahi.service
 
 %files autoipd
