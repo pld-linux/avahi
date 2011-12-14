@@ -8,7 +8,7 @@ respawn
 console output
 
 pre-start script
-	if [ ! -f /etc/avahi/dnsconfd.action ] ; then
+	if [ ! -f /etc/avahi/avahi-dnsconfd.action ]; then
 		logger -t 'init/avahi-dnsconfd' "Not configured - not starting"
 		/sbin/initctl -q stop
 	fi
