@@ -32,7 +32,7 @@ Summary:	Free mDNS/DNS-SD/Zeroconf implementation
 Summary(pl.UTF-8):	Wolna implementacja mDNS/DNS-SD/Zeroconf
 Name:		avahi
 Version:	0.6.30
-Release:	4
+Release:	5
 License:	LGPL v2.1+
 Group:		Applications
 Source0:	http://avahi.org/download/%{name}-%{version}.tar.gz
@@ -696,10 +696,10 @@ install -d $RPM_BUILD_ROOT{%{_pixmapsdir},/etc/rc.d/init.d,/etc/init}
 	pythondir=%{py_sitedir}
 
 install -p %{SOURCE1} %{SOURCE2} $RPM_BUILD_ROOT/etc/rc.d/init.d
-cp -a %{SOURCE3} $RPM_BUILD_ROOT%{_pixmapsdir}
+cp -p %{SOURCE3} $RPM_BUILD_ROOT%{_pixmapsdir}
 
-install %{SOURCE4} $RPM_BUILD_ROOT/etc/init/avahi-daemon.conf
-install %{SOURCE5} $RPM_BUILD_ROOT/etc/init/avahi-dnsconfd.conf
+cp -p %{SOURCE4} $RPM_BUILD_ROOT/etc/init/avahi-daemon.conf
+cp -p %{SOURCE5} $RPM_BUILD_ROOT/etc/init/avahi-dnsconfd.conf
 
 ln -sf %{_includedir}/avahi-compat-libdns_sd/dns_sd.h \
 	$RPM_BUILD_ROOT%{_includedir}/dns_sd.h
@@ -812,8 +812,8 @@ fi
 
 %dir %{_sysconfdir}/avahi
 %dir %{_sysconfdir}/avahi/services
+%attr(755,root,root) %{_sysconfdir}/avahi/avahi-dnsconfd.action
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/avahi/avahi-daemon.conf
-%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/avahi/avahi-dnsconfd.action
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/avahi/hosts
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/avahi/services/ssh.service
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/avahi/services/sftp-ssh.service
