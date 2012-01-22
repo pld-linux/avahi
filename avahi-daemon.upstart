@@ -13,4 +13,9 @@ end script
 
 exec /usr/sbin/avahi-daemon --syslog
 
-# vi: ft=upstart
+# somewhy avahi does not remove pid itself which causes it to report on startup:
+# + exec /usr/sbin/avahi-daemon --syslog
+# Process 3383 died: No such process; trying to remove PID file. (/var/run/avahi-daemon//pid)
+post-stop script
+	rm -f /var/run/avahi-daemon/pid
+end script
