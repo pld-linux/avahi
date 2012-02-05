@@ -32,7 +32,7 @@ Summary:	Free mDNS/DNS-SD/Zeroconf implementation
 Summary(pl.UTF-8):	Wolna implementacja mDNS/DNS-SD/Zeroconf
 Name:		avahi
 Version:	0.6.30
-Release:	6
+Release:	7
 License:	LGPL v2.1+
 Group:		Applications
 Source0:	http://avahi.org/download/%{name}-%{version}.tar.gz
@@ -97,6 +97,7 @@ Requires:	%{name}-libs = %{version}-%{release}
 Requires:	dbus >= 0.92
 Requires:	libdaemon >= 0.14
 Requires:	rc-scripts >= 0.4.3
+Requires:	systemd-units >= 37-0.10
 Suggests:	nss_mdns >= 0.10-2
 Provides:	group(avahi)
 Provides:	user(avahi)
@@ -125,19 +126,6 @@ Upstart jobs description for Avahi daemons.
 
 %description upstart -l pl.UTF-8
 Opis zadań Upstart dla demonów Avahi.
-
-%package systemd
-Summary:	systemd units for Avahi daemons
-Summary(pl.UTF-8):	Pliki systemd dla demonów Avahi
-Group:		Daemons
-Requires:	%{name} = %{version}-%{release}
-Requires:	systemd-units >= 37-0.10
-
-%description systemd
-systemd units for Avahi daemons.
-
-%description systemd -l pl.UTF-8
-Pliki systemd dla demonów Avahi.
 
 %package autoipd
 Summary:	IPv4LL network address configuration daemon
@@ -741,6 +729,7 @@ rm -rf $RPM_BUILD_ROOT
 %service %{name}-daemon restart
 /sbin/chkconfig --add %{name}-dnsconfd
 %service %{name}-dnsconfd restart
+%systemd_post avahi-daemon.service avahi-dnsconfd.service avahi-daemon.socket
 
 %preun
 if [ "$1" = "0" ]; then
@@ -749,12 +738,17 @@ if [ "$1" = "0" ]; then
 	%service -q %{name}-daemon stop
 	/sbin/chkconfig --del %{name}-daemon
 fi
+%systemd_preun avahi-daemon.service avahi-dnsconfd.service avahi-daemon.socket
 
 %postun
 if [ "$1" = "0" ]; then
 	%userremove avahi
 	%groupremove avahi
 fi
+%systemd_reload
+
+%triggerpostun -- avahi < 0.6.30-7
+%systemd_trigger avahi-daemon.service avahi-dnsconfd.service avahi-daemon.socket
 
 %postun autoipd
 if [ "$1" = "0" ]; then
@@ -769,15 +763,6 @@ fi
 %postun upstart
 %upstart_postun avahi-daemon
 %upstart_postun avahi-dnsconfd
-
-%post systemd
-%systemd_post avahi-daemon.service avahi-dnsconfd.service avahi-daemon.socket
-
-%preun systemd
-%systemd_preun avahi-daemon.service avahi-dnsconfd.service avahi-daemon.socket
-
-%postun systemd
-%systemd_reload
 
 %post	libs -p /sbin/ldconfig
 %postun	libs -p /sbin/ldconfig
@@ -819,6 +804,11 @@ fi
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/avahi/services/sftp-ssh.service
 %config(noreplace) %verify(not md5 mtime size) /etc/dbus-1/system.d/*
 
+%{systemdunitdir}/avahi-daemon.service
+%{systemdunitdir}/avahi-daemon.socket
+%{systemdunitdir}/avahi-dnsconfd.service
+%{_datadir}/dbus-1/system-services/org.freedesktop.Avahi.service
+
 %attr(755,root,root) %{_bindir}/avahi-set-host-name
 
 %attr(755,root,root) %{_sbindir}/avahi-daemon
@@ -847,13 +837,6 @@ fi
 %defattr(644,root,root,755)
 %config(noreplace) %verify(not md5 mtime size) /etc/init/*.conf
 %endif
-
-%files systemd
-%defattr(644,root,root,755)
-%{systemdunitdir}/avahi-daemon.service
-%{systemdunitdir}/avahi-daemon.socket
-%{systemdunitdir}/avahi-dnsconfd.service
-%{_datadir}/dbus-1/system-services/org.freedesktop.Avahi.service
 
 %files autoipd
 %defattr(644,root,root,755)
