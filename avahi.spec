@@ -1,7 +1,5 @@
 # TODO
-#	- finish with_apidocs
-#	- introspection files
-#       - dbus files
+# - finish with_apidocs
 # - qt and Qt packages make file collisions on case insensitive filesystems,
 #   consider adding version suffix to either of the pckages
 #
@@ -31,12 +29,12 @@
 Summary:	Free mDNS/DNS-SD/Zeroconf implementation
 Summary(pl.UTF-8):	Wolna implementacja mDNS/DNS-SD/Zeroconf
 Name:		avahi
-Version:	0.6.30
-Release:	7
+Version:	0.6.31
+Release:	1
 License:	LGPL v2.1+
 Group:		Applications
 Source0:	http://avahi.org/download/%{name}-%{version}.tar.gz
-# Source0-md5:	e4db89a2a403ff4c47d66ac66fad1f43
+# Source0-md5:	2f22745b8f7368ad5a0a3fddac343f2d
 Source1:	%{name}-daemon
 Source2:	%{name}-dnsconfd
 Source3:	%{name}.png
@@ -802,7 +800,7 @@ fi
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/avahi/hosts
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/avahi/services/ssh.service
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/avahi/services/sftp-ssh.service
-%config(noreplace) %verify(not md5 mtime size) /etc/dbus-1/system.d/*
+%config(noreplace) %verify(not md5 mtime size) /etc/dbus-1/system.d/avahi-dbus.conf
 
 %{systemdunitdir}/avahi-daemon.service
 %{systemdunitdir}/avahi-daemon.socket
@@ -815,8 +813,6 @@ fi
 %attr(755,root,root) %{_sbindir}/avahi-dnsconfd
 %dir %{_libdir}/%{name}
 %{_libdir}/%{name}/service-types.db
-#%%dir %{_datadir}/%{name}/introspection
-#%%{_datadir}/%{name}/introspection/*.introspect
 %{_datadir}/%{name}/avahi-service.dtd
 %{_datadir}/%{name}/service-types
 %{_datadir}/dbus-1/interfaces/org.freedesktop.Avahi.*.xml
