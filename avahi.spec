@@ -30,7 +30,7 @@ Summary:	Free mDNS/DNS-SD/Zeroconf implementation
 Summary(pl.UTF-8):	Wolna implementacja mDNS/DNS-SD/Zeroconf
 Name:		avahi
 Version:	0.6.31
-Release:	1
+Release:	2
 License:	LGPL v2.1+
 Group:		Applications
 Source0:	http://avahi.org/download/%{name}-%{version}.tar.gz
@@ -99,6 +99,7 @@ Requires:	systemd-units >= 37-0.10
 Suggests:	nss_mdns >= 0.10-2
 Provides:	group(avahi)
 Provides:	user(avahi)
+Obsoletes:	avahi-systemd
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
