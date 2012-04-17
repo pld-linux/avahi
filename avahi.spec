@@ -30,7 +30,7 @@ Summary:	Free mDNS/DNS-SD/Zeroconf implementation
 Summary(pl.UTF-8):	Wolna implementacja mDNS/DNS-SD/Zeroconf
 Name:		avahi
 Version:	0.6.31
-Release:	2
+Release:	3
 License:	LGPL v2.1+
 Group:		Applications
 Source0:	http://avahi.org/download/%{name}-%{version}.tar.gz
@@ -91,11 +91,12 @@ BuildRequires:	qt4-build
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.626
 Requires(post,preun):	/sbin/chkconfig
+Requires(post,preun,postun):	systemd-units >= 38
 Requires:	%{name}-libs = %{version}-%{release}
 Requires:	dbus >= 0.92
 Requires:	libdaemon >= 0.14
 Requires:	rc-scripts >= 0.4.3
-Requires:	systemd-units >= 37-0.10
+Requires:	systemd-units >= 38
 Suggests:	nss_mdns >= 0.10-2
 Provides:	group(avahi)
 Provides:	user(avahi)
