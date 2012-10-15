@@ -25,12 +25,15 @@
 %undefine	with_qt4
 %endif
 
+# see http://lists.pld-linux.org/mailman/pipermail/pld-devel-pl/2012-October/155984.html
+%undefine _ssp_cflags
+
 %{?with_dotnet:%include /usr/lib/rpm/macros.mono}
 Summary:	Free mDNS/DNS-SD/Zeroconf implementation
 Summary(pl.UTF-8):	Wolna implementacja mDNS/DNS-SD/Zeroconf
 Name:		avahi
 Version:	0.6.31
-Release:	4
+Release:	5
 License:	LGPL v2.1+
 Group:		Applications
 Source0:	http://avahi.org/download/%{name}-%{version}.tar.gz
@@ -661,6 +664,7 @@ Narzędzia linii poleceń korzystające z avahi-client.
 %{__autoheader}
 %{__automake}
 %configure \
+	--disable-stack-protector \
 	--disable-silent-rules \
 	--enable-compat-libdns_sd \
 	--enable-compat-howl \
