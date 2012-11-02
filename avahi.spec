@@ -33,7 +33,7 @@ Summary:	Free mDNS/DNS-SD/Zeroconf implementation
 Summary(pl.UTF-8):	Wolna implementacja mDNS/DNS-SD/Zeroconf
 Name:		avahi
 Version:	0.6.31
-Release:	5
+Release:	6
 License:	LGPL v2.1+
 Group:		Applications
 Source0:	http://avahi.org/download/%{name}-%{version}.tar.gz
@@ -50,8 +50,8 @@ Patch3:		%{name}-mono-dir.patch
 Patch4:		nss-mdns-package.patch
 Patch5:		%{name}-dhclient_hooks.patch
 Patch6:		%{name}-autoipd-sbin_ip.patch
-Patch7:		01_avahi-daemon.conf.patch
-Patch8:		avahi-core-reserve-space-for-record-data-when-size-estimate.patch
+Patch7:		01_%{name}-daemon.conf.patch
+Patch8:		%{name}-core-reserve-space-for-record-data-when-size-estimate.patch
 URL:		http://avahi.org/
 BuildRequires:	autoconf >= 2.63
 BuildRequires:	automake >= 1:1.11
@@ -293,6 +293,7 @@ Statyczna biblioteka Avahi GTK+ 3.x UI.
 Summary:	Avahi Bonjour compat library
 Summary(pl.UTF-8):	Biblioteka Avahi zgodna z Bonjour
 Group:		Libraries
+Requires:	%{name}-libs = %{version}-%{release}
 Provides:	mdns-bonjour
 Obsoletes:	mDNSResponder-libs
 
