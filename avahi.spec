@@ -52,6 +52,7 @@ Patch5:		%{name}-dhclient_hooks.patch
 Patch6:		%{name}-autoipd-sbin_ip.patch
 Patch7:		01_%{name}-daemon.conf.patch
 Patch8:		%{name}-core-reserve-space-for-record-data-when-size-estimate.patch
+Patch9:		%{name}-gtk3.patch
 URL:		http://avahi.org/
 BuildRequires:	autoconf >= 2.63
 BuildRequires:	automake >= 1:1.11
@@ -656,6 +657,7 @@ Narzędzia linii poleceń korzystające z avahi-client.
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
+%patch9 -p1
 
 %build
 %{__intltoolize}
