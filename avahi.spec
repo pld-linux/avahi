@@ -717,8 +717,10 @@ echo '.so avahi-publish.1' > $RPM_BUILD_ROOT%{_mandir}/man1/avahi-publish-addres
 echo '.so avahi-publish.1' > $RPM_BUILD_ROOT%{_mandir}/man1/avahi-publish-service.1
 echo '.so avahi-resolve.1' > $RPM_BUILD_ROOT%{_mandir}/man1/avahi-resolve-address.1
 echo '.so avahi-resolve.1' > $RPM_BUILD_ROOT%{_mandir}/man1/avahi-resolve-host-name.1
+%if %{with gtk}
 echo '.so bssh.1' > $RPM_BUILD_ROOT%{_mandir}/man1/bvnc.1
 echo '.so bssh.1' > $RPM_BUILD_ROOT%{_mandir}/man1/bshell.1
+%endif
 
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/*.la
 
