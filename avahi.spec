@@ -64,7 +64,7 @@ BuildRequires:	graphviz
 %endif
 BuildRequires:	expat-devel
 BuildRequires:	gdbm-devel
-BuildRequires:	gettext-devel
+BuildRequires:	gettext-tools
 BuildRequires:	gobject-introspection-devel >= 0.9.5
 %if %{with gtk}
 BuildRequires:	glib2-devel >= 1:2.12.2
