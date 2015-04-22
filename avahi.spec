@@ -33,7 +33,7 @@ Summary:	Free mDNS/DNS-SD/Zeroconf implementation
 Summary(pl.UTF-8):	Wolna implementacja mDNS/DNS-SD/Zeroconf
 Name:		avahi
 Version:	0.6.31
-Release:	8
+Release:	9
 License:	LGPL v2.1+
 Group:		Applications
 Source0:	http://avahi.org/download/%{name}-%{version}.tar.gz
@@ -41,8 +41,6 @@ Source0:	http://avahi.org/download/%{name}-%{version}.tar.gz
 Source1:	%{name}-daemon
 Source2:	%{name}-dnsconfd
 Source3:	%{name}.png
-Source4:	%{name}-daemon.upstart
-Source5:	%{name}-dnsconfd.upstart
 Patch0:		%{name}-desktop.patch
 Patch1:		%{name}-glade.patch
 Patch2:		%{name}-destdir.patch
@@ -118,20 +116,6 @@ between user applications and a system daemon.
 Avahi jest implementacją specyfikacji DNS Service Discovery i
 Multicast DNS dla Zeroconf Computing. Używa D-BUSa dla komunikacji
 pomiędzy programami użytkownika a demonem systemowym.
-
-%package upstart
-Summary:	Upstart jobs description for Avahi daemons
-Summary(pl.UTF-8):	Opis zadań Upstart dla demonów Avahi
-Group:		Daemons
-Requires:	%{name} = %{version}-%{release}
-Requires:	upstart >= 0.6
-Conflicts:	syslog-ng-upstart < 3.2.4-1
-
-%description upstart
-Upstart jobs description for Avahi daemons.
-
-%description upstart -l pl.UTF-8
-Opis zadań Upstart dla demonów Avahi.
 
 %package autoipd
 Summary:	IPv4LL network address configuration daemon
@@ -688,7 +672,7 @@ Narzędzia linii poleceń korzystające z avahi-client.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_pixmapsdir},/etc/rc.d/init.d,/etc/init}
+install -d $RPM_BUILD_ROOT{%{_pixmapsdir},/etc/rc.d/init.d}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT \
@@ -696,9 +680,6 @@ install -d $RPM_BUILD_ROOT{%{_pixmapsdir},/etc/rc.d/init.d,/etc/init}
 
 install -p %{SOURCE1} %{SOURCE2} $RPM_BUILD_ROOT/etc/rc.d/init.d
 cp -p %{SOURCE3} $RPM_BUILD_ROOT%{_pixmapsdir}
-
-cp -p %{SOURCE4} $RPM_BUILD_ROOT/etc/init/avahi-daemon.conf
-cp -p %{SOURCE5} $RPM_BUILD_ROOT/etc/init/avahi-dnsconfd.conf
 
 ln -sf %{_includedir}/avahi-compat-libdns_sd/dns_sd.h \
 	$RPM_BUILD_ROOT%{_includedir}/dns_sd.h
@@ -769,14 +750,6 @@ if [ "$1" = "0" ]; then
 	%groupremove avahi
 fi
 
-%post upstart
-%upstart_post avahi-daemon
-%upstart_post avahi-dnsconfd
-
-%postun upstart
-%upstart_postun avahi-daemon
-%upstart_postun avahi-dnsconfd
-
 %post	libs -p /sbin/ldconfig
 %postun	libs -p /sbin/ldconfig
 
@@ -842,12 +815,6 @@ fi
 
 %attr(754,root,root) /etc/rc.d/init.d/%{name}-daemon
 %attr(754,root,root) /etc/rc.d/init.d/%{name}-dnsconfd
-
-%if "%{pld_release}" != "ti"
-%files upstart
-%defattr(644,root,root,755)
-%config(noreplace) %verify(not md5 mtime size) /etc/init/*.conf
-%endif
 
 %files autoipd
 %defattr(644,root,root,755)
