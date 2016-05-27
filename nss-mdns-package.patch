@@ -1,7 +1,8 @@
---- avahi-0.6.25/avahi-daemon/main.c~	2008-12-12 23:36:15.000000000 +0200
-+++ avahi-0.6.25/avahi-daemon/main.c	2010-02-28 00:58:01.846880027 +0200
-@@ -986,7 +986,7 @@
-     assert(c);
+diff -urN avahi-0.6.32.org/avahi-daemon/main.c avahi-0.6.32/avahi-daemon/main.c
+--- avahi-0.6.32.org/avahi-daemon/main.c	2016-02-16 03:13:45.000000000 +0100
++++ avahi-0.6.32/avahi-daemon/main.c	2016-05-27 01:47:37.741433179 +0200
+@@ -1141,7 +1141,7 @@
+     ignore_signal(SIGPIPE);
  
      if (!(nss_support = avahi_nss_support()))
 -        avahi_log_warn("WARNING: No NSS support for mDNS detected, consider installing nss-mdns!");
@@ -9,31 +10,10 @@
  
      if (!(simple_poll_api = avahi_simple_poll_new())) {
          avahi_log_error("Failed to create main loop object.");
---- avahi-0.6.25/man/avahi-daemon.8.xml.in~	2008-06-18 02:13:44.000000000 +0300
-+++ avahi-0.6.25/man/avahi-daemon.8.xml.in	2010-02-28 00:58:25.183544394 +0200
-@@ -40,7 +40,7 @@
-       use of the mDNS record cache the avahi-daemon maintains. First
-       there is the so called "simple protocol" which is used
-       exclusively by avahi-dnsconfd (a daemon which configures unicast
--      DNS servers using server info published via mDNS) and nss-mdns
-+      DNS servers using server info published via mDNS) and nss_mdns
-       (a libc NSS plugin, providing name resolution via mDNS). Finally
-       there is the D-Bus interface which provides a rich object
-       oriented interface to D-Bus enabled applications.</p>
---- avahi-0.6.25/man/avahi-daemon.8~	2009-04-14 04:57:47.000000000 +0300
-+++ avahi-0.6.25/man/avahi-daemon.8	2010-02-28 00:58:37.027084926 +0200
-@@ -11,7 +11,7 @@
- avahi-daemon --check\fB
- \f1
- .SH DESCRIPTION
--The Avahi mDNS/DNS-SD daemon implements Apple's Zeroconf architecture (also known as "Rendezvous" or "Bonjour"). The daemon registers local IP addresses and static services using mDNS/DNS-SD and provides two IPC APIs for local programs to make use of the mDNS record cache the avahi-daemon maintains. First there is the so called "simple protocol" which is used exclusively by avahi-dnsconfd (a daemon which configures unicast DNS servers using server info published via mDNS) and nss-mdns (a libc NSS plugin, providing name resolution via mDNS). Finally there is the D-Bus interface which provides a rich object oriented interface to D-Bus enabled applications.
-+The Avahi mDNS/DNS-SD daemon implements Apple's Zeroconf architecture (also known as "Rendezvous" or "Bonjour"). The daemon registers local IP addresses and static services using mDNS/DNS-SD and provides two IPC APIs for local programs to make use of the mDNS record cache the avahi-daemon maintains. First there is the so called "simple protocol" which is used exclusively by avahi-dnsconfd (a daemon which configures unicast DNS servers using server info published via mDNS) and nss_mdns (a libc NSS plugin, providing name resolution via mDNS). Finally there is the D-Bus interface which provides a rich object oriented interface to D-Bus enabled applications.
- 
- Upon startup avahi-daemon interprets its configuration file \fI/etc/avahi/avahi-daemon.conf\f1 and reads XML fragments from \fI/etc/avahi/services/*.service\f1 which may define static DNS-SD services. If you enable \fBpublish-resolv-conf-dns-servers\f1 in \fIavahi-daemon.conf\f1 the file \fI/etc/resolv.conf\f1 will be read, too.
- .SH OPTIONS
---- avahi-0.6.25/man/avahi-bookmarks.1.xml.in~	2008-06-18 02:13:44.000000000 +0300
-+++ avahi-0.6.25/man/avahi-bookmarks.1.xml.in	2010-02-28 00:58:45.089793513 +0200
-@@ -55,7 +55,7 @@
+diff -urN avahi-0.6.32.org/man/avahi-bookmarks.1.xml.in avahi-0.6.32/man/avahi-bookmarks.1.xml.in
+--- avahi-0.6.32.org/man/avahi-bookmarks.1.xml.in	2016-02-16 03:13:45.000000000 +0100
++++ avahi-0.6.32/man/avahi-bookmarks.1.xml.in	2016-05-27 01:47:37.738099757 +0200
+@@ -53,7 +53,7 @@
          <optdesc><p>Create links pointing to mDNS host names instead
          of resolved IP addreses. This is only compatible with your
          browser if you run some kind of local NSS module to resolve
@@ -42,14 +22,15 @@
          avahi-bookmarks detects whether NSS support is available
          locally. This option conflicts with -A.</p></optdesc>
        </option>
---- avahi-0.6.25/man/avahi-bookmarks.1~	2009-04-14 04:57:48.000000000 +0300
-+++ avahi-0.6.25/man/avahi-bookmarks.1	2010-02-28 00:58:54.383125793 +0200
-@@ -15,7 +15,7 @@
- Specify an IP address to listen on. If omitted defaults to 127.0.0.1. Specify 0.0.0.0 if you want to allow remote access.
- .TP
- \fB-H | --host-names\f1
--Create links pointing to mDNS host names instead of resolved IP addreses. This is only compatible with your browser if you run some kind of local NSS module to resolve mDNS host names (e.g. nss-mdns). If both -A and -H are ommited avahi-bookmarks detects whether NSS support is available locally. This option conflicts with -A.
-+Create links pointing to mDNS host names instead of resolved IP addreses. This is only compatible with your browser if you run some kind of local NSS module to resolve mDNS host names (e.g. nss_mdns). If both -A and -H are ommited avahi-bookmarks detects whether NSS support is available locally. This option conflicts with -A.
- .TP
- \fB-A | --addresses\f1
- Create links pointing to numeric IP addresses instead of mDNS host names. This will break access to hosts running virtual servers. If both -A and -H are ommited avahi-bookmarks detects whether NSS support is available locally. This option conflicts with -H.
+diff -urN avahi-0.6.32.org/man/avahi-daemon.8.xml.in avahi-0.6.32/man/avahi-daemon.8.xml.in
+--- avahi-0.6.32.org/man/avahi-daemon.8.xml.in	2016-02-16 03:13:45.000000000 +0100
++++ avahi-0.6.32/man/avahi-daemon.8.xml.in	2016-05-27 01:47:37.738099757 +0200
+@@ -38,7 +38,7 @@
+       use of the mDNS record cache the avahi-daemon maintains. First
+       there is the so called "simple protocol" which is used
+       exclusively by avahi-dnsconfd (a daemon which configures unicast
+-      DNS servers using server info published via mDNS) and nss-mdns
++      DNS servers using server info published via mDNS) and nss_mdns
+       (a libc NSS plugin, providing name resolution via mDNS). Finally
+       there is the D-Bus interface which provides a rich object
+       oriented interface to D-Bus enabled applications.</p>

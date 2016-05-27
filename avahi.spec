@@ -32,25 +32,22 @@
 Summary:	Free mDNS/DNS-SD/Zeroconf implementation
 Summary(pl.UTF-8):	Wolna implementacja mDNS/DNS-SD/Zeroconf
 Name:		avahi
-Version:	0.6.31
-Release:	11
+Version:	0.6.32
+Release:	1
 License:	LGPL v2.1+
 Group:		Applications
-Source0:	http://avahi.org/download/%{name}-%{version}.tar.gz
-# Source0-md5:	2f22745b8f7368ad5a0a3fddac343f2d
+Source0:	https://github.com/lathiat/avahi/archive/v%{version}.tar.gz
+# Source0-md5:	0c408c4baa330e751d8731038ca43db0
 Source1:	%{name}-daemon
 Source2:	%{name}-dnsconfd
 Source3:	%{name}.png
 Patch0:		%{name}-desktop.patch
-Patch1:		%{name}-glade.patch
+
 Patch2:		%{name}-destdir.patch
 Patch3:		%{name}-mono-dir.patch
 Patch4:		nss-mdns-package.patch
 Patch5:		%{name}-dhclient_hooks.patch
 Patch6:		%{name}-autoipd-sbin_ip.patch
-Patch7:		01_%{name}-daemon.conf.patch
-Patch8:		%{name}-core-reserve-space-for-record-data-when-size-estimate.patch
-Patch9:		%{name}-gtk3.patch
 URL:		http://avahi.org/
 BuildRequires:	autoconf >= 2.63
 BuildRequires:	automake >= 1:1.11
@@ -94,6 +91,7 @@ BuildRequires:	qt4-build
 %endif
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.626
+BuildRequires:	xmltoman
 Requires(post,preun):	/sbin/chkconfig
 Requires(post,preun,postun):	systemd-units >= 38
 Requires:	%{name}-libs = %{version}-%{release}
@@ -633,15 +631,12 @@ Narzędzia linii poleceń korzystające z avahi-client.
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p1
+
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
-%patch7 -p1
-%patch8 -p1
-%patch9 -p1
 
 %build
 %{__intltoolize}
@@ -1058,7 +1053,6 @@ fi
 %files discover-standalone
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/avahi-discover-standalone
-%{_datadir}/%{name}/interfaces/avahi-discover-standalone.glade
 %endif
 
 %files utils
