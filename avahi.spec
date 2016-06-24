@@ -1,7 +1,8 @@
 # TODO
 # - finish with_apidocs
 # - qt and Qt packages make file collisions on case insensitive filesystems,
-#   consider adding version suffix to either of the pckages
+#   consider adding version suffix to either of the packages
+#   (or both, -qt3 and -qt4 would be consistent and make place for future -qt5)
 #
 # Conditional build:
 %bcond_with	apidocs		# build API documentation
@@ -35,7 +36,7 @@ Name:		avahi
 Version:	0.6.32
 Release:	1
 License:	LGPL v2.1+
-Group:		Applications
+Group:		Applications/Networking
 Source0:	https://github.com/lathiat/avahi/archive/v%{version}.tar.gz
 # Source0-md5:	0c408c4baa330e751d8731038ca43db0
 Source1:	%{name}-daemon
@@ -60,9 +61,9 @@ BuildRequires:	graphviz
 BuildRequires:	expat-devel
 BuildRequires:	gdbm-devel
 BuildRequires:	gettext-tools
+BuildRequires:	glib2-devel >= 1:2.12.2
 BuildRequires:	gobject-introspection-devel >= 0.9.5
 %if %{with gtk}
-BuildRequires:	glib2-devel >= 1:2.12.2
 BuildRequires:	gtk+2-devel >= 2:2.14.0
 %endif
 %if %{with gtk3}
@@ -360,6 +361,7 @@ Statyczna biblioteka Avahi zgodna z Howl.
 Summary:	Avahi GLib library bindings
 Summary(pl.UTF-8):	Wiązania Avahi dla bibioteki GLib
 Group:		Libraries
+Requires:	glib2 >= 1:2.12.2
 
 %description glib
 Avahi GLib library bindings.
@@ -398,6 +400,7 @@ Statyczna biblioteka Avahi GLib.
 Summary:	Avahi GObject interface
 Summary(pl.UTF-8):	Interfejs GObject do Avahi
 Group:		Libraries
+Requires:	glib2 >= 1:2.12.2
 
 %description gobject
 Avahi GObject interface.
