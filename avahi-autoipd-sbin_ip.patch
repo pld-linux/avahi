@@ -1,6 +1,6 @@
---- avahi-0.6.26/avahi-autoipd/avahi-autoipd.action.linux~	2010-06-25 20:50:59.000000000 +0200
-+++ avahi-0.6.26/avahi-autoipd/avahi-autoipd.action.linux	2010-07-07 11:18:35.704019843 +0200
-@@ -35,19 +35,19 @@
+--- avahi-0.7/avahi-autoipd/avahi-autoipd.action.linux~	2017-07-10 12:12:38.000000000 +0200
++++ avahi-0.7/avahi-autoipd/avahi-autoipd.action.linux	2017-10-26 09:10:43.453751871 +0200
+@@ -35,20 +35,20 @@ PATH="$PATH:/usr/bin:/usr/sbin:/bin:/sbi
  
  METRIC=$((1000 + `cat "/sys/class/net/$2/ifindex" 2>/dev/null || echo 0`))
  
@@ -11,8 +11,10 @@
  
      case "$1" in
          BIND)
+-            ip addr flush dev "$2" label "$2:avahi"
 -            ip addr add "$3"/16 brd 169.254.255.255 label "$2:avahi" scope link dev "$2"
 -            ip route add default dev "$2" metric "$METRIC" scope link ||:
++            /sbin/ip addr flush dev "$2" label "$2:avahi"
 +            /sbin/ip addr add "$3"/16 brd 169.254.255.255 label "$2:avahi" scope link dev "$2"
 +            /sbin/ip route add default dev "$2" metric "$METRIC" scope link ||:
              ;;

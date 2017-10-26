@@ -33,12 +33,12 @@
 Summary:	Free mDNS/DNS-SD/Zeroconf implementation
 Summary(pl.UTF-8):	Wolna implementacja mDNS/DNS-SD/Zeroconf
 Name:		avahi
-Version:	0.6.32
+Version:	0.7
 Release:	1
 License:	LGPL v2.1+
 Group:		Applications/Networking
 Source0:	https://github.com/lathiat/avahi/archive/v%{version}.tar.gz
-# Source0-md5:	0c408c4baa330e751d8731038ca43db0
+# Source0-md5:	cf4c062467098b42106ca2a9c0c39fa5
 Source1:	%{name}-daemon
 Source2:	%{name}-dnsconfd
 Source3:	%{name}.png
@@ -800,7 +800,6 @@ fi
 %dir %{_libdir}/%{name}
 %{_libdir}/%{name}/service-types.db
 %{_datadir}/%{name}/avahi-service.dtd
-%{_datadir}/%{name}/service-types
 %{_datadir}/dbus-1/interfaces/org.freedesktop.Avahi.*.xml
 
 %{_mandir}/man1/avahi-set-host-name.1*
