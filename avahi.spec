@@ -80,7 +80,7 @@ BuildRequires:	mono-csharp
 BuildRequires:	monodoc >= 2.6
 %endif
 BuildRequires:	pkgconfig
-BuildRequires:	python >= 1:2.4
+BuildRequires:	python >= 1:2.6
 BuildRequires:	python-dbus >= 0.71
 %{?with_pygtk:BuildRequires:	python-pygtk-devel >= 2:2.9.6}
 %if %{with qt3}
@@ -88,7 +88,7 @@ BuildRequires:	qt-devel >= 1:3.0
 %endif
 %if %{with qt4}
 BuildRequires:	QtCore-devel >= 4.0.0
-BuildRequires:	qt4-build
+BuildRequires:	qt4-build >= 4.0.0
 %endif
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.626
