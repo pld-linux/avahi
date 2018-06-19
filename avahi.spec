@@ -34,9 +34,11 @@ Summary:	Free mDNS/DNS-SD/Zeroconf implementation
 Summary(pl.UTF-8):	Wolna implementacja mDNS/DNS-SD/Zeroconf
 Name:		avahi
 Version:	0.7
-Release:	1
+Release:	2
 License:	LGPL v2.1+
 Group:		Applications/Networking
+#Source0Download: https://github.com/lathiat/avahi/releases
+#FIXME: when updating, use release tarballs: https://github.com/lathiat/avahi/releases/download/v%{version}/%{name}-%{version}.tar.gz
 Source0:	https://github.com/lathiat/avahi/archive/v%{version}.tar.gz
 # Source0-md5:	cf4c062467098b42106ca2a9c0c39fa5
 Source1:	%{name}-daemon
