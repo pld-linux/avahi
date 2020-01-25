@@ -29,7 +29,6 @@
 # see http://lists.pld-linux.org/mailman/pipermail/pld-devel-pl/2012-October/155984.html
 %undefine _ssp_cflags
 
-%{?with_dotnet:%include /usr/lib/rpm/macros.mono}
 Summary:	Free mDNS/DNS-SD/Zeroconf implementation
 Summary(pl.UTF-8):	Wolna implementacja mDNS/DNS-SD/Zeroconf
 Name:		avahi
