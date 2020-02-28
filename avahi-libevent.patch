@@ -1,0 +1,10 @@
+--- avahi-0.8/avahi-libevent.pc.in.orig	2018-09-14 07:31:35.089936663 +0200
++++ avahi-0.8/avahi-libevent.pc.in	2020-02-27 20:47:50.760954424 +0100
+@@ -6,6 +6,6 @@
+ Name: avahi-libevent
+ Description: Avahi Multicast DNS Responder (libevent Support)
+ Version: @PACKAGE_VERSION@
+-Requires: libevent-2.1.5
++Requires: libevent
+ Libs: -L${libdir} -lavahi-libevent
+ Cflags: -D_REENTRANT -I${includedir}

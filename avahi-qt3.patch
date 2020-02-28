@@ -1,0 +1,11 @@
+Makefile defines QT5 for qt5, QT4 for qt4 and nothing for qt3.
+--- avahi-0.8/avahi-qt/qt-watch.cpp.orig	2018-09-14 07:31:28.490023071 +0200
++++ avahi-0.8/avahi-qt/qt-watch.cpp	2020-02-27 19:04:41.371151893 +0100
+@@ -195,6 +195,6 @@
+ #include "qt-watch.moc5"
+ #elif defined(QT4)
+ #include "qt-watch.moc4"
+-#elif defined(QT3)
++#else
+ #include "qt-watch.moc3"
+ #endif

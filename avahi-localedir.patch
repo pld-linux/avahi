@@ -1,0 +1,11 @@
+--- avahi-0.8/configure.ac.orig	2020-02-27 21:01:37.216477131 +0100
++++ avahi-0.8/configure.ac	2020-02-27 21:01:41.553120304 +0100
+@@ -421,7 +421,7 @@
+ AM_GNU_GETTEXT_VERSION([0.19.8])
+ AM_GNU_GETTEXT([external])
+ 
+-avahilocaledir='${prefix}/${DATADIRNAME}/locale'
++avahilocaledir='${localedir}'
+ AC_SUBST(avahilocaledir)
+ 
+ # Check for pkg-config manually first, as if its not installed the

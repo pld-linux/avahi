@@ -1,0 +1,36 @@
+--- avahi-0.8/man/Makefile.am.orig	2015-04-01 06:58:14.161726826 +0200
++++ avahi-0.8/man/Makefile.am	2020-02-27 16:14:12.743231790 +0100
+@@ -56,7 +56,7 @@
+ 	avahi-publish.1 \
+ 	avahi-set-host-name.1
+ 
+-if HAVE_GTK
++if HAVE_GTK2OR3
+ man_MANS += \
+ 	bssh.1
+ endif
+@@ -64,12 +64,14 @@
+ if HAVE_PYTHON
+ man_MANS += \
+ 	avahi-bookmarks.1
+-if HAVE_GTK
++if HAVE_PYTHON_DBUS
++if HAVE_PYGOBJECT
+ man_MANS += \
+ 	avahi-discover.1
+ endif
+ endif
+ endif
++endif
+ 
+ if ENABLE_AUTOIPD
+ if HAVE_LIBDAEMON
+@@ -134,7 +136,7 @@
+ if HAVE_DBUS
+ 
+ BSSH_LN =
+-if HAVE_GTK
++if HAVE_GTK2OR3
+ if HAVE_GLIB
+ BSSH_LN += $(LN_S) bssh.1 bvnc.1 &&
+ endif
