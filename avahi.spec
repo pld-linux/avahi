@@ -1,20 +1,19 @@
 # TODO
 # - finish with_apidocs
-# - qt and Qt packages make file collisions on case insensitive filesystems,
-#   consider adding version suffix to either of the packages
-#   (or both, -qt3 and -qt4 would be consistent and make place for future -qt5)
 #
 # Conditional build:
-%bcond_with	apidocs		# build API documentation
-%bcond_without	dotnet		# build without dotnet bindings
-%bcond_without	gtk		# build without GTK+
-%bcond_without	gtk3		# build without GTK+3
-%bcond_without	pygtk		# build without PyGTK
-%bcond_without	qt		# build without (any) qt bindings
-%bcond_without	qt3		# build without qt3 bindings
-%bcond_without	qt4		# build without qt4 bindings
+%bcond_with	apidocs		# API documentation
+%bcond_without	dotnet		# .NET (mono) bindings
+%bcond_without	gtk2		# GTK+ 2 UI (+ bshell and avahi-discover-standalone utilities if no gtk3)
+%bcond_without	gtk3		# GTK+ 3 UI (+ bshell and avahi-discover-standalone utilities)
+%bcond_without	pygobject	# PyGObject based avahi-discover utility
+%bcond_without	libevent	# libevent main loop integration
+%bcond_without	qt		# (any) Qt main loop integration
+%bcond_without	qt3		# Qt 3 main loop integration
+%bcond_without	qt4		# Qt 4 main loop integration
+%bcond_without	qt5		# Qt 5 main loop integration
 
-%ifnarch %{ix86} %{x8664} alpha arm hppa ia64 mips ppc s390 s390x sparc sparcv9
+%ifnarch %{ix86} %{x8664} alpha %{arm} hppa ia64 mips ppc s390 s390x sparc sparcv9
 %undefine with_dotnet
 %endif
 %ifarch i386
@@ -24,6 +23,7 @@
 %if %{without qt}
 %undefine	with_qt3
 %undefine	with_qt4
+%undefine	with_qt5
 %endif
 
 # see http://lists.pld-linux.org/mailman/pipermail/pld-devel-pl/2012-October/155984.html
@@ -32,24 +32,27 @@
 Summary:	Free mDNS/DNS-SD/Zeroconf implementation
 Summary(pl.UTF-8):	Wolna implementacja mDNS/DNS-SD/Zeroconf
 Name:		avahi
-Version:	0.7
-Release:	2
+Version:	0.8
+Release:	1
 License:	LGPL v2.1+
 Group:		Applications/Networking
 #Source0Download: https://github.com/lathiat/avahi/releases
-#FIXME: when updating, use release tarballs: https://github.com/lathiat/avahi/releases/download/v%{version}/%{name}-%{version}.tar.gz
-Source0:	https://github.com/lathiat/avahi/archive/v%{version}.tar.gz
-# Source0-md5:	cf4c062467098b42106ca2a9c0c39fa5
+Source0:	https://github.com/lathiat/avahi/releases/download/v%{version}/%{name}-%{version}.tar.gz
+# Source0-md5:	229c6aa30674fc43c202b22c5f8c2be7
 Source1:	%{name}-daemon
 Source2:	%{name}-dnsconfd
 Source3:	%{name}.png
 Patch0:		%{name}-desktop.patch
-
+Patch1:		%{name}-missing.patch
 Patch2:		%{name}-destdir.patch
 Patch3:		%{name}-mono-dir.patch
 Patch4:		nss-mdns-package.patch
 Patch5:		%{name}-dhclient_hooks.patch
 Patch6:		%{name}-autoipd-sbin_ip.patch
+Patch7:		%{name}-man-conditions.patch
+Patch8:		%{name}-qt3.patch
+Patch9:		%{name}-libevent.patch
+Patch10:	%{name}-localedir.patch
 URL:		http://avahi.org/
 BuildRequires:	autoconf >= 2.63
 BuildRequires:	automake >= 1:1.11
@@ -61,19 +64,19 @@ BuildRequires:	graphviz
 %endif
 BuildRequires:	expat-devel
 BuildRequires:	gdbm-devel
-BuildRequires:	gettext-tools
+BuildRequires:	gettext-tools >= 0.19.8
 BuildRequires:	glib2-devel >= 1:2.12.2
 BuildRequires:	gobject-introspection-devel >= 0.9.5
-%if %{with gtk}
+%if %{with gtk2}
 BuildRequires:	gtk+2-devel >= 2:2.14.0
 %endif
 %if %{with gtk3}
 BuildRequires:	glib2-devel >= 1:2.28.0
 BuildRequires:	gtk+3-devel >= 3.0.0
 %endif
-BuildRequires:	intltool >= 0.35
 BuildRequires:	libcap-devel
 BuildRequires:	libdaemon-devel >= 0.14
+%{?with_libevent:BuildRequires:	libevent-devel >= 2.0.21}
 BuildRequires:	libtool
 %if %{with dotnet}
 BuildRequires:	dotnet-gtk-sharp2-devel >= 2.10
@@ -83,13 +86,17 @@ BuildRequires:	monodoc >= 2.6
 BuildRequires:	pkgconfig
 BuildRequires:	python >= 1:2.6
 BuildRequires:	python-dbus >= 0.71
-%{?with_pygtk:BuildRequires:	python-pygtk-devel >= 2:2.9.6}
+%{?with_pygobject:BuildRequires:	python-pygobject3-devel >= 3.0}
 %if %{with qt3}
 BuildRequires:	qt-devel >= 1:3.0
 %endif
 %if %{with qt4}
 BuildRequires:	QtCore-devel >= 4.0.0
 BuildRequires:	qt4-build >= 4.0.0
+%endif
+%if %{with qt5}
+BuildRequires:	Qt5Core-devel >= 5.0.0
+BuildRequires:	qt5-build >= 5.0.0
 %endif
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.626
@@ -241,6 +248,8 @@ Summary:	Avahi UI library - GTK+ 3.x version
 Summary(pl.UTF-8):	Biblioteka Avahi UI - wersja dla GTK+ 3.x
 Group:		X11/Libraries
 Requires:	%{name}-libs = %{version}-%{release}
+Requires:	glib2 >= 1:2.28.0
+Requires:	gtk+3 >= 3.0.0
 
 %description ui-gtk3
 Common GTK+ 3.x UI support library for Avahi.
@@ -255,6 +264,8 @@ Group:		X11/Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 Requires:	%{name}-ui-devel-common = %{version}-%{release}
 Requires:	%{name}-ui-gtk3 = %{version}-%{release}
+Requires:	glib2-devel >= 1:2.28.0
+Requires:	gtk+3-devel >= 3.0.0
 
 %description ui-gtk3-devel
 Header files for Avahi GTK+ 3.x UI library.
@@ -362,6 +373,7 @@ Statyczna biblioteka Avahi zgodna z Howl.
 Summary:	Avahi GLib library bindings
 Summary(pl.UTF-8):	Wiązania Avahi dla bibioteki GLib
 Group:		Libraries
+Requires:	%{name}-libs = %{version}-%{release}
 Requires:	glib2 >= 1:2.12.2
 
 %description glib
@@ -401,7 +413,7 @@ Statyczna biblioteka Avahi GLib.
 Summary:	Avahi GObject interface
 Summary(pl.UTF-8):	Interfejs GObject do Avahi
 Group:		Libraries
-Requires:	glib2 >= 1:2.12.2
+Requires:	%{name}-glib = %{version}-%{release}
 
 %description gobject
 Avahi GObject interface.
@@ -413,9 +425,8 @@ Interfejs GObject do Avahi.
 Summary:	Header files for Avahi GObject interface
 Summary(pl.UTF-8):	Pliki nagłówkowe interfejsu GObject do Avahi
 Group:		Development/Libraries
-Requires:	%{name}-devel = %{version}-%{release}
+Requires:	%{name}-glib-devel = %{version}-%{release}
 Requires:	%{name}-gobject = %{version}-%{release}
-Requires:	glib2-devel >= 1:2.12.2
 
 %description gobject-devel
 This is the package containing the header files for Avahi GObject
@@ -436,83 +447,171 @@ Static Avahi GObject library.
 %description gobject-static -l pl.UTF-8
 Statyczna biblioteka Avahi GObject.
 
-%package qt
+%package libevent
+Summary:	Avahi libevent support library
+Summary(pl.UTF-8):	Wiązania Avahi obsługująca libevent
+Group:		Libraries
+Requires:	%{name}-libs = %{version}-%{release}
+Requires:	libevent >= 2.0.21
+
+%description libevent
+Avahi libevent support library.
+
+%description libevent -l pl.UTF-8
+Biblioteka Avahi obsługująca libevent.
+
+%package libevent-devel
+Summary:	Header files for Avahi libevent support library
+Summary(pl.UTF-8):	Pliki nagłówkowe Avahi dla biblioteki obsługującej libevent
+Group:		Development/Libraries
+Requires:	%{name}-devel = %{version}-%{release}
+Requires:	%{name}-libevent = %{version}-%{release}
+Requires:	libevent-devel >= 2.0.21
+
+%description libevent-devel
+This is the package containing the header files for Avahi libevent
+library.
+
+%description libevent-devel -l pl.UTF-8
+Ten pakiet zawiera pliki nagłówkowe biblioteki Avahi libevent.
+
+%package libevent-static
+Summary:	Static Avahi libevent library
+Summary(pl.UTF-8):	Statyczna biblioteka Avahi libevent
+Group:		Development/Libraries
+Requires:	%{name}-libevent-devel = %{version}-%{release}
+
+%description libevent-static
+Static Avahi libevent library.
+
+%description libevent-static -l pl.UTF-8
+Statyczna biblioteka Avahi libevent.
+
+%package qt3
 Summary:	Avahi Qt 3 library bindings
 Summary(pl.UTF-8):	Wiązania Avahi dla biblioteki Qt 3
 Group:		Libraries
 Requires:	%{name}-libs = %{version}-%{release}
-Obsoletes:	avahi-qt3
+Provides:	avahi-qt = %{version}-%{release}
+Obsoletes:	avahi-qt < 0.8
 
-%description qt
+%description qt3
 Avahi Qt 3 library bindings.
 
-%description qt -l pl.UTF-8
+%description qt3 -l pl.UTF-8
 Wiązania Avahi dla biblioteki Qt 3.
 
-%package qt-devel
+%package qt3-devel
 Summary:	Header files for Avahi Qt 3 library bindings
 Summary(pl.UTF-8):	Pliki nagłówkowe wiązań Avahi dla biblioteki Qt 3
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
-Requires:	%{name}-qt = %{version}-%{release}
-Requires:	qt-devel >= 1:3.0
-Obsoletes:	avahi-qt3-devel
+Requires:	%{name}-qt3 = %{version}-%{release}
+Requires:	qt3-devel >= 1:3.0
+Provides:	avahi-qt-devel = %{version}-%{release}
+Obsoletes:	avahi-qt-devel < 0.8
 
-%description qt-devel
+%description qt3-devel
 Header files for Avahi Qt 3 library bindings.
 
-%description qt-devel -l pl.UTF-8
+%description qt3-devel -l pl.UTF-8
 Pliki nagłówkowe wiązań Avahi dla biblioteki Qt 3.
 
-%package qt-static
+%package qt3-static
 Summary:	Static Avahi Qt 3 library
 Summary(pl.UTF-8):	Statyczna biblioteka Avahi Qt 3
 Group:		Development/Libraries
-Requires:	%{name}-qt-devel = %{version}-%{release}
-Obsoletes:	avahi-qt3-static
+Requires:	%{name}-qt3-devel = %{version}-%{release}
+Provides:	avahi-qt-static = %{version}-%{release}
+Obsoletes:	avahi-qt-static < 0.8
 
-%description qt-static
+%description qt3-static
 Static Avahi Qt 3 library.
 
-%description qt-static -l pl.UTF-8
+%description qt3-static -l pl.UTF-8
 Statyczna biblioteka Avahi Qt 3.
 
-%package Qt
+%package qt4
 Summary:	Avahi Qt 4 library bindings
 Summary(pl.UTF-8):	Wiązania Avahi dla biblioteki Qt 4
 Group:		Libraries
 Requires:	%{name}-libs = %{version}-%{release}
+Provides:	avahi-Qt = %{version}-%{release}
+Obsoletes:	avahi-Qt < 0.8
 
-%description Qt
+%description qt4
 Avahi Qt 4 library bindings.
 
-%description Qt -l pl.UTF-8
+%description qt4 -l pl.UTF-8
 Wiązania Avahi dla biblioteki Qt 4.
 
-%package Qt-devel
+%package qt4-devel
 Summary:	Header files for Avahi Qt 4 library bindings
 Summary(pl.UTF-8):	Pliki nagłówkowe wiązań Avahi dla biblioteki Qt 4
 Group:		Development/Libraries
-Requires:	%{name}-Qt = %{version}-%{release}
+Requires:	%{name}-qt4 = %{version}-%{release}
 Requires:	%{name}-devel = %{version}-%{release}
+Requires:	QtCore-devel >= 4.0.0
+Provides:	avahi-Qt-devel = %{version}-%{release}
+Obsoletes:	avahi-Qt-devel < 0.8
 
-%description Qt-devel
+%description qt4-devel
 Header files for Avahi Qt 4 library bindings.
 
-%description Qt-devel -l pl.UTF-8
+%description qt4-devel -l pl.UTF-8
 Pliki nagłówkowe wiązań Avahi dla biblioteki Qt 4.
 
-%package Qt-static
+%package qt4-static
 Summary:	Static Avahi Qt 4 library
 Summary(pl.UTF-8):	Statyczna biblioteka Avahi Qt 4
 Group:		Development/Libraries
-Requires:	%{name}-Qt-devel = %{version}-%{release}
+Requires:	%{name}-qt4-devel = %{version}-%{release}
+Provides:	avahi-Qt-static = %{version}-%{release}
+Obsoletes:	avahi-Qt-static < 0.8
 
-%description Qt-static
+%description qt4-static
 Static Avahi Qt 4 library.
 
-%description Qt-static -l pl.UTF-8
+%description qt4-static -l pl.UTF-8
 Statyczna biblioteka Avahi Qt 4.
+
+%package qt5
+Summary:	Avahi Qt 5 library bindings
+Summary(pl.UTF-8):	Wiązania Avahi dla biblioteki Qt 5
+Group:		Libraries
+Requires:	%{name}-libs = %{version}-%{release}
+
+%description qt5
+Avahi Qt 5 library bindings.
+
+%description qt5 -l pl.UTF-8
+Wiązania Avahi dla biblioteki Qt 5.
+
+%package qt5-devel
+Summary:	Header files for Avahi Qt 5 library bindings
+Summary(pl.UTF-8):	Pliki nagłówkowe wiązań Avahi dla biblioteki Qt 5
+Group:		Development/Libraries
+Requires:	%{name}-qt5 = %{version}-%{release}
+Requires:	%{name}-devel = %{version}-%{release}
+Requires:	Qt5Core-devel >= 5.0.0
+
+%description qt5-devel
+Header files for Avahi Qt 5 library bindings.
+
+%description qt5-devel -l pl.UTF-8
+Pliki nagłówkowe wiązań Avahi dla biblioteki Qt 5.
+
+%package qt5-static
+Summary:	Static Avahi Qt 5 library
+Summary(pl.UTF-8):	Statyczna biblioteka Avahi Qt 5
+Group:		Development/Libraries
+Requires:	%{name}-qt5-devel = %{version}-%{release}
+
+%description qt5-static
+Static Avahi Qt 5 library.
+
+%description qt5-static -l pl.UTF-8
+Statyczna biblioteka Avahi Qt 5.
 
 %package -n python-avahi
 Summary:	Avahi Python bindings
@@ -581,7 +680,7 @@ Pliki rozwojowe wiązań Avahi UI dla MONO.
 %package bookmarks
 Summary:	Miniature web server
 Summary(pl.UTF-8):	Miniaturowy serwer WWW
-Group:		Applications
+Group:		Applications/Networking
 
 %description bookmarks
 A Python based miniature web server that browses for mDNS/DNS-SD
@@ -596,23 +695,29 @@ je jako odnośniki HTML na http://localhost:8080/.
 %package discover
 Summary:	Avahi Zeroconf browser
 Summary(pl.UTF-8):	Przeglądarka Zeroconf Avahi
-Group:		Applications
+Group:		X11/Applications/Networking
+Requires:	gtk+3 >= 3.0
 Requires:	python-avahi = %{version}-%{release}
-Requires:	python-pygtk-glade >= 2:2.9.6
+Requires:	python-pygobject3 >= 3.0
 
 %description discover
 A tool for enumerating all available services on the local LAN
-(python-pygtk implementation).
+(Python/PyGObject implementation).
 
 %description discover -l pl.UTF-8
 Narzędzie wymieniające wszystkie dostępne usługi w sieci lokalnej LAN
-(implementacja w python-pygtk).
+(implementacja oparta na szkielecie Python/PyGObject).
 
 %package discover-standalone
 Summary:	Avahi Zeroconf browser
 Summary(pl.UTF-8):	Przeglądarka Zeroconf Avahi
-Group:		Applications
+Group:		X11/Applications/Networking
 Requires:	%{name}-glib = %{version}-%{release}
+%if %{with gtk3}
+Requires:	gtk+3 >= 3.0.0
+%else
+Requires:	gtk+2 >= 2:2.14.0
+%endif
 
 %description discover-standalone
 GTK+ tool for enumerating all available services on the local LAN.
@@ -621,10 +726,30 @@ GTK+ tool for enumerating all available services on the local LAN.
 Narzędzie GTK+ wymieniające wszystkie dostępne usługi w sieci lokalnej
 LAN.
 
+%package bshell
+Summary:	Avahi SSH/VNC servers browser
+Summary(pl.UTF-8):	Przeglądarka serwerów SSH/VNC oparta na Avahi
+Group:		X11/Applications/Networking
+%if %{with gtk3}
+Requires:	%{name}-ui-gtk3 = %{version}-%{release}
+%else
+Requires:	%{name}-ui = %{version}-%{release}
+%endif
+
+%description bshell
+bshell/bssh/bvnc browses for SSH/VNC servers on the local network,
+shows them in a GUI for the user to select one and finally calls
+ssh/vncviewer after a selection was made.
+
+%description bshell -l pl.UTF-8
+bshell/bssh/bvnc pozwala przeglądać serwery SSH/VNC w sieci lokalnej,
+pokazywać je w graficznym interfejsie, aby któryś wybrać i wywołać
+dla niego ssh/vncviewer.
+
 %package utils
 Summary:	Avahi CLI utilities
 Summary(pl.UTF-8):	Narzędzia CLI Avahi
-Group:		Applications
+Group:		Applications/Networking
 
 %description utils
 Command line utilities using avahi-client.
@@ -635,38 +760,45 @@ Narzędzia linii poleceń korzystające z avahi-client.
 %prep
 %setup -q
 %patch0 -p1
-
+%patch1 -p1
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
+%patch8 -p1
+%patch9 -p1
+%patch10 -p1
 
 %build
-%{__intltoolize}
 %{__libtoolize}
 %{__aclocal} -I common
 %{__autoconf}
 %{__autoheader}
 %{__automake}
 %configure \
-	--disable-stack-protector \
-	--disable-silent-rules \
+	PYTHON=%{__python} \
 	--enable-compat-libdns_sd \
 	--enable-compat-howl \
-	--with-distro=none \
 	%{!?with_apidocs:--disable-doxygen-doc} \
-	%{!?with_gtk:--disable-gtk} \
+	%{?with_gtk2:--enable-gtk} \
 	%{!?with_gtk3:--disable-gtk3} \
-	%{!?with_pygtk:--disable-pygtk} \
-	%{!?with_qt3:--disable-qt3} \
-	%{!?with_qt4:--disable-qt4} \
+	%{!?with_pygobject:--disable-pygobject} \
+	%{!?with_libevent:--disable-libevent} \
 	%{!?with_dotnet:--disable-mono} \
 	%{!?with_dotnet:--disable-monodoc} \
-	--with-systemdsystemunitdir=%{systemdunitdir} \
-	--with-avahi-priv-access-group=adm \
+	%{?with_qt3:--enable-qt3} \
+	%{?with_qt4:--enable-qt4} \
+	%{!?with_qt5:--disable-qt5} \
+	--disable-silent-rules \
+	--disable-stack-protector \
 	--with-autoipd-user=avahi \
-	--with-autoipd-group=avahi
+	--with-autoipd-group=avahi \
+	--with-avahi-priv-access-group=adm \
+	--with-distro=none \
+	--with-systemdsystemunitdir=%{systemdunitdir}
+
 %{__make}
 
 %install
@@ -691,13 +823,13 @@ ln -sf %{_pkgconfigdir}/avahi-compat-howl.pc \
 %py_postclean
 
 %{__rm} $RPM_BUILD_ROOT%{_mandir}/man1/avahi-{browse-domains,publish-address,publish-service,resolve-address,resolve-host-name}.1
-%{?with_gtk:%{__rm} $RPM_BUILD_ROOT%{_mandir}/man1/bvnc.1}
 echo '.so avahi-browse.1' > $RPM_BUILD_ROOT%{_mandir}/man1/avahi-browse-domains.1
 echo '.so avahi-publish.1' > $RPM_BUILD_ROOT%{_mandir}/man1/avahi-publish-address.1
 echo '.so avahi-publish.1' > $RPM_BUILD_ROOT%{_mandir}/man1/avahi-publish-service.1
 echo '.so avahi-resolve.1' > $RPM_BUILD_ROOT%{_mandir}/man1/avahi-resolve-address.1
 echo '.so avahi-resolve.1' > $RPM_BUILD_ROOT%{_mandir}/man1/avahi-resolve-host-name.1
-%if %{with gtk}
+%if %{with gtk2} || %{with gtk3}
+%{__rm} $RPM_BUILD_ROOT%{_mandir}/man1/bvnc.1
 echo '.so bssh.1' > $RPM_BUILD_ROOT%{_mandir}/man1/bvnc.1
 echo '.so bssh.1' > $RPM_BUILD_ROOT%{_mandir}/man1/bshell.1
 %endif
@@ -770,11 +902,17 @@ fi
 %post	gobject -p /sbin/ldconfig
 %postun	gobject -p /sbin/ldconfig
 
-%post	qt -p /sbin/ldconfig
-%postun	qt -p /sbin/ldconfig
+%post	libevent -p /sbin/ldconfig
+%postun	libevent -p /sbin/ldconfig
 
-%post	Qt -p /sbin/ldconfig
-%postun	Qt -p /sbin/ldconfig
+%post	qt3 -p /sbin/ldconfig
+%postun	qt3 -p /sbin/ldconfig
+
+%post	qt4 -p /sbin/ldconfig
+%postun	qt4 -p /sbin/ldconfig
+
+%post	qt5 -p /sbin/ldconfig
+%postun	qt5 -p /sbin/ldconfig
 
 %files
 %defattr(644,root,root,755)
@@ -854,21 +992,11 @@ fi
 %{_libdir}/libavahi-common.a
 %{_libdir}/libavahi-core.a
 
-%if %{with gtk}
+%if %{with gtk2}
 %files ui
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libavahi-ui.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libavahi-ui.so.0
-%if %{without gtk3}
-%attr(755,root,root) %{_bindir}/bshell
-%attr(755,root,root) %{_bindir}/bssh
-%attr(755,root,root) %{_bindir}/bvnc
-%{_mandir}/man1/bshell.1*
-%{_mandir}/man1/bssh.1*
-%{_mandir}/man1/bvnc.1*
-%{_desktopdir}/bssh.desktop
-%{_desktopdir}/bvnc.desktop
-%endif
 
 %files ui-devel
 %defattr(644,root,root,755)
@@ -880,7 +1008,7 @@ fi
 %{_libdir}/libavahi-ui.a
 %endif
 
-%if %{with gtk} || %{with gtk3}
+%if %{with gtk2} || %{with gtk3}
 %files ui-devel-common
 %defattr(644,root,root,755)
 %{_includedir}/avahi-ui
@@ -889,16 +1017,8 @@ fi
 %if %{with gtk3}
 %files ui-gtk3
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/bshell
-%attr(755,root,root) %{_bindir}/bssh
-%attr(755,root,root) %{_bindir}/bvnc
 %attr(755,root,root) %{_libdir}/libavahi-ui-gtk3.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libavahi-ui-gtk3.so.0
-%{_mandir}/man1/bshell.1*
-%{_mandir}/man1/bssh.1*
-%{_mandir}/man1/bvnc.1*
-%{_desktopdir}/bssh.desktop
-%{_desktopdir}/bvnc.desktop
 
 %files ui-gtk3-devel
 %defattr(644,root,root,755)
@@ -1002,38 +1122,72 @@ fi
 %defattr(644,root,root,755)
 %{_libdir}/libavahi-gobject.a
 
+%if %{with libevent}
+%files libevent
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libavahi-libevent.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libavahi-libevent.so.1
+
+%files libevent-devel
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libavahi-libevent.so
+%{_includedir}/avahi-libevent
+%{_pkgconfigdir}/avahi-libevent.pc
+
+%files libevent-static
+%defattr(644,root,root,755)
+%{_libdir}/libavahi-libevent.a
+%endif
+
 %if %{with qt3}
-%files qt
+%files qt3
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libavahi-qt3.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libavahi-qt3.so.1
 
-%files qt-devel
+%files qt3-devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libavahi-qt3.so
 %{_includedir}/avahi-qt3
 %{_pkgconfigdir}/avahi-qt3.pc
 
-%files qt-static
+%files qt3-static
 %defattr(644,root,root,755)
 %{_libdir}/libavahi-qt3.a
 %endif
 
 %if %{with qt4}
-%files Qt
+%files qt4
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libavahi-qt4.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libavahi-qt4.so.1
 
-%files Qt-devel
+%files qt4-devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libavahi-qt4.so
 %{_includedir}/avahi-qt4
 %{_pkgconfigdir}/avahi-qt4.pc
 
-%files Qt-static
+%files qt4-static
 %defattr(644,root,root,755)
 %{_libdir}/libavahi-qt4.a
+%endif
+
+%if %{with qt5}
+%files qt5
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libavahi-qt5.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libavahi-qt5.so.1
+
+%files qt5-devel
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/libavahi-qt5.so
+%{_includedir}/avahi-qt5
+%{_pkgconfigdir}/avahi-qt5.pc
+
+%files qt5-static
+%defattr(644,root,root,755)
+%{_libdir}/libavahi-qt5.a
 %endif
 
 %files bookmarks
@@ -1041,21 +1195,31 @@ fi
 %attr(755,root,root) %{_bindir}/avahi-bookmarks
 %{_mandir}/man1/avahi-bookmarks.1*
 
-%if %{with pygtk}
+%if %{with pygobject}
 %files discover
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/avahi-discover
-%{py_sitedir}/avahi_discover
 %{_datadir}/%{name}/interfaces/avahi-discover.ui
 %{_desktopdir}/avahi-discover.desktop
 %{_pixmapsdir}/avahi.png
 %{_mandir}/man1/avahi-discover.1*
 %endif
 
-%if %{with gtk}
+%if %{with gtk2} || %{with gtk3}
 %files discover-standalone
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/avahi-discover-standalone
+
+%files bshell
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/bshell
+%attr(755,root,root) %{_bindir}/bssh
+%attr(755,root,root) %{_bindir}/bvnc
+%{_mandir}/man1/bshell.1*
+%{_mandir}/man1/bssh.1*
+%{_mandir}/man1/bvnc.1*
+%{_desktopdir}/bssh.desktop
+%{_desktopdir}/bvnc.desktop
 %endif
 
 %files utils
