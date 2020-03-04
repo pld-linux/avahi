@@ -33,7 +33,7 @@ Summary:	Free mDNS/DNS-SD/Zeroconf implementation
 Summary(pl.UTF-8):	Wolna implementacja mDNS/DNS-SD/Zeroconf
 Name:		avahi
 Version:	0.8
-Release:	1
+Release:	2
 License:	LGPL v2.1+
 Group:		Applications/Networking
 #Source0Download: https://github.com/lathiat/avahi/releases
@@ -507,7 +507,7 @@ Summary(pl.UTF-8):	Pliki nagłówkowe wiązań Avahi dla biblioteki Qt 3
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 Requires:	%{name}-qt3 = %{version}-%{release}
-Requires:	qt3-devel >= 1:3.0
+Requires:	qt-devel >= 1:3.0
 Provides:	avahi-qt-devel = %{version}-%{release}
 Obsoletes:	avahi-qt-devel < 0.8
 
