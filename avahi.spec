@@ -33,7 +33,7 @@ Summary:	Free mDNS/DNS-SD/Zeroconf implementation
 Summary(pl.UTF-8):	Wolna implementacja mDNS/DNS-SD/Zeroconf
 Name:		avahi
 Version:	0.8
-Release:	2
+Release:	3
 License:	LGPL v2.1+
 Group:		Applications/Networking
 #Source0Download: https://github.com/lathiat/avahi/releases
@@ -84,9 +84,9 @@ BuildRequires:	mono-csharp
 BuildRequires:	monodoc >= 2.6
 %endif
 BuildRequires:	pkgconfig
-BuildRequires:	python >= 1:2.6
-BuildRequires:	python-dbus >= 0.71
-%{?with_pygobject:BuildRequires:	python-pygobject3-devel >= 3.0}
+BuildRequires:	python3 >= 1:2.6
+BuildRequires:	python3-dbus >= 0.71
+%{?with_pygobject:BuildRequires:	python3-pygobject3-devel >= 3.0}
 %if %{with qt3}
 BuildRequires:	qt-devel >= 1:3.0
 %endif
@@ -613,17 +613,17 @@ Static Avahi Qt 5 library.
 %description qt5-static -l pl.UTF-8
 Statyczna biblioteka Avahi Qt 5.
 
-%package -n python-avahi
+%package -n python3-avahi
 Summary:	Avahi Python bindings
 Summary(pl.UTF-8):	Wiązania Avahi dla Pythona
 Group:		Development/Languages/Python
 Requires:	%{name}-libs = %{version}-%{release}
-Requires:	python-dbus >= 0.71
+Requires:	python3-dbus >= 0.71
 
-%description -n python-avahi
+%description -n python3-avahi
 Avahi Python bindings.
 
-%description -n python-avahi -l pl.UTF-8
+%description -n python3-avahi -l pl.UTF-8
 Wiązania Avahi dla Pythona.
 
 %package -n dotnet-avahi
@@ -697,8 +697,8 @@ Summary:	Avahi Zeroconf browser
 Summary(pl.UTF-8):	Przeglądarka Zeroconf Avahi
 Group:		X11/Applications/Networking
 Requires:	gtk+3 >= 3.0
-Requires:	python-avahi = %{version}-%{release}
-Requires:	python-pygobject3 >= 3.0
+Requires:	python3-avahi = %{version}-%{release}
+Requires:	python3-pygobject3 >= 3.0
 
 %description discover
 A tool for enumerating all available services on the local LAN
@@ -778,7 +778,7 @@ Narzędzia linii poleceń korzystające z avahi-client.
 %{__autoheader}
 %{__automake}
 %configure \
-	PYTHON=%{__python} \
+	PYTHON=%{__python3} \
 	--enable-compat-libdns_sd \
 	--enable-compat-howl \
 	%{!?with_apidocs:--disable-doxygen-doc} \
@@ -807,7 +807,7 @@ install -d $RPM_BUILD_ROOT{%{_pixmapsdir},/etc/rc.d/init.d}
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT \
-	pythondir=%{py_sitedir}
+	pythondir=%{py3_sitedir}
 
 install -p %{SOURCE1} %{SOURCE2} $RPM_BUILD_ROOT/etc/rc.d/init.d
 cp -p %{SOURCE3} $RPM_BUILD_ROOT%{_pixmapsdir}
@@ -817,10 +817,6 @@ ln -sf %{_includedir}/avahi-compat-libdns_sd/dns_sd.h \
 
 ln -sf %{_pkgconfigdir}/avahi-compat-howl.pc \
 	$RPM_BUILD_ROOT%{_pkgconfigdir}/howl.pc
-
-%py_ocomp $RPM_BUILD_ROOT%{py_sitedir}
-%py_comp $RPM_BUILD_ROOT%{py_sitedir}
-%py_postclean
 
 %{__rm} $RPM_BUILD_ROOT%{_mandir}/man1/avahi-{browse-domains,publish-address,publish-service,resolve-address,resolve-host-name}.1
 echo '.so avahi-browse.1' > $RPM_BUILD_ROOT%{_mandir}/man1/avahi-browse-domains.1
@@ -1062,9 +1058,9 @@ fi
 %defattr(644,root,root,755)
 %{_libdir}/libhowl.a
 
-%files -n python-avahi
+%files -n python3-avahi
 %defattr(644,root,root,755)
-%{py_sitedir}/avahi
+%{py3_sitedir}/avahi
 
 %if %{with dotnet}
 %files -n dotnet-avahi
